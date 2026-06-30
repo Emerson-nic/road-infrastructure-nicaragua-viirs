@@ -4,3 +4,15 @@
 #R 
 .Rproj.user/
 actividad_economica_via.Rproj
+.RData
+.Rhistory
+
+#imagenes satelitales y rasters pesados de la NASA y WorldPop
+dataset/*.tif
+dataset/*.h5
+dataset/luces_nocturnas/
+
+#mapa original en formato comprimido o GeoJSON grande
+#porfavor instale los datos manualmente o use los csv
+dataset/*.geojson
+dataset/*.rds
