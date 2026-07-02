@@ -19,3 +19,10 @@ dataset/luces_nocturnas/
 #porfavor instale los datos manualmente o use los csv
 dataset/*.geojson
 dataset/*.rds
+
+#graficos
+anexo_verificacion_supuestos.pdf
+grafico_0_imae_nacional.pdf
+grafico_1_estrato_alto.pdf
+grafico_2_estrato_medio.pdf
+grafico_3_estrato_bajo.pdf
