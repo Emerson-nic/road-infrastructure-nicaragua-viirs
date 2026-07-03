@@ -36,6 +36,7 @@ pacman::p_load(usethis, #para .Renviron igual que .env de python
                terra, #para manejar raters poblacion
                exactextractr, #para resumir rasters 
                dplyr,
+               janitor,
                readxl,
                blackmarbler, #conectarse a la api de la nasa
                osmdata, #para las carreteras 
@@ -291,6 +292,44 @@ print(names(imae_ts_df))
 print("imae")
 print(head(imae_ts_df, 12))
 
+
+#imae degagregado ---- 
+imae_desagregado_raw <- readxl::read_excel(
+  ruta_imae_excel,
+  sheet = "Activ TC",
+  range = "B8:IK27",
+  col_names = FALSE   
+)
+
+nombres_sectores <- imae_desagregado_raw[[1]]
+datos_numericos <- imae_desagregado_raw[, -1]
+datos_t <- as.data.frame(t(datos_numericos))
+names(datos_t) <- nombres_sectores
+datos_t <- datos_t %>% select(-IMAE)
+datos_t <- datos_t %>%
+  mutate(fecha = seq.Date(from = as.Date("2006-01-01"), 
+                          by = "month", 
+                          length.out = nrow(datos_t))) %>%
+  relocate(fecha) %>%
+  clean_names()
+
+#crear variables 
+datos_t <- datos_t %>%
+  mutate(
+    # primario: 5 sectores
+    imae_primario = (agricultura + pecuario + silvicultura_y_extraccion_de_madera +
+                       pesca_y_acuicultura + explotacion_de_minas_y_canteras) / 5,
+    
+    # secundario: 3 sectores
+    imae_secundario = (industra_manufactura + construccion + energia_y_agua) / 3,
+    
+    # terciario: 9 sectores
+    imae_terciario = (comercio + hoteles_y_restaurantes + transporte_y_comunicaciones +
+                        intermediacion_financiera_y_servicios_conexos + propiedad_de_vivenda +
+                        administracion_publica_y_defensa + ensenanza + salud + otros_servicios) / 9
+  )
+
+
 #unirficar todo ----
 message("unificar todo dog")
 
@@ -313,6 +352,10 @@ panel_completo <- panel_acumulado %>%
   dplyr::left_join(imae_ts_df, by = "fecha") %>%
   tidyr::drop_na(imae) 
 
+panel_completo <- panel_completo %>%
+  dplyr::left_join(datos_t, by = "fecha") %>%
+  tidyr::drop_na()
+
 #multiplicar la densidad_vial fija por el IMAE  del mes correspondiente
 panel_completo <- panel_completo %>%
   dplyr::mutate(
@@ -331,7 +374,10 @@ panel_final <- panel_completo %>%
     densid_vial, #infraestructura 
     imae, #shock temporal (tendencia ciclo)
     interaccion_causal, #Tu variable de interés (densidad_vial)
-    area_km2 #control geografico
+    area_km2, #control geografico
+    imae_primario,
+    imae_secundario,
+    imae_terciario
   )
 
 print(names(panel_final))
