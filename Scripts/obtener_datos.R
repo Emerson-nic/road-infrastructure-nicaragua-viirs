@@ -230,6 +230,8 @@ if (!file.exists(ruta_vial_optimizada)) {
   rm(carreteras_raw) #borramos el pesado de la memoria RAM
 }
 
+
+message("este comando de abajo tarda bastante")
 carreteras_sf <- readRDS(ruta_vial_optimizada)
 
 #calcular densidad vial por municipio
@@ -237,23 +239,23 @@ carreteras_sf <- readRDS(ruta_vial_optimizada)
 carreteras_municipio <- sf::st_intersection(carreteras_sf, municipios_sf)
 
 #calcular longitud en km por segmento y luego sumar por municipio
+message("igual este tarda mucho")
 carreteras_resumen <- carreteras_municipio %>%
   dplyr::mutate(longitud_km = sf::st_length(.) / 1000) %>%
   sf::st_drop_geometry() %>% #borrar la geografia para que sea un dataframe plano
-  dplyr::group_by(shapeName) %>% # Usamos el nombre original que está en tu RAM ahorita
+  dplyr::group_by(shapeName) %>%
   dplyr::summarise(km_vial = sum(as.numeric(longitud_km)))
 
 #unir
 municipios_sf <- municipios_sf %>%
   dplyr::mutate(area_km2 = as.numeric(sf::st_area(.) / 1e6)) %>%
-  dplyr::left_join(carreteras_resumen, by = "shapeName") %>% # Unimos usando shapeName
+  dplyr::left_join(carreteras_resumen, by = "shapeName") %>%
   dplyr::mutate(densid_vial = km_vial / area_km2) %>%
   tidyr::replace_na(list(densid_vial = 0, km_vial = 0))
 
 #guardar
 densidad_vial_csv <- municipios_sf %>%
   sf::st_drop_geometry() %>%
-  # Aquí hacemos la magia: renombramos shapeName a "municipio" para que cruce perfecto con WorldPop
   dplyr::select(municipio = shapeName, area_km2, km_vial, densid_vial) 
 
 head(municipios_sf %>% dplyr::select(shapeName, densid_vial), 15)
@@ -334,18 +336,21 @@ datos_t <- datos_t %>%
 message("unificar todo dog")
 
 df_luces <- readr::read_csv("csv/luces_nocturnas_municipales.csv")
-df_vial  <- readr::read_csv("csv/densidad_vial_municipales.csv")
+df_vial <- readr::read_csv("csv/densidad_vial_municipales.csv")
 
 #convertir la variable luces a clase date
 df_luces <- df_luces %>% 
   dplyr::mutate(fecha = as.Date(date))
 
 #cruzar las luces con la densidad_vial 
-columna_llave_luces <- "NAME_2"
-columna_llave_vial  <- "shapeName"
-
 panel_acumulado <- df_luces %>%
-  dplyr::left_join(df_vial, by = setNames(columna_llave_vial, columna_llave_luces))
+  dplyr::left_join(df_vial, by = c("NAME_2" = "municipio"))
+
+panel_acumulado <- panel_acumulado %>%
+  dplyr::left_join(
+    dplyr::select(tabla_poblacion_municipal, municipio, poblacion_estimada),
+    by = c("NAME_2" = "municipio")
+  )
 
 #cruzar el panel 
 panel_completo <- panel_acumulado %>%
@@ -361,6 +366,7 @@ panel_completo <- panel_completo %>%
   dplyr::mutate(
     interaccion_causal = densid_vial * imae
   )
+
 readr::write_csv(panel_completo, "csv/panel_completo.csv")
 
 #cvs limpio ----
@@ -377,7 +383,8 @@ panel_final <- panel_completo %>%
     area_km2, #control geografico
     imae_primario,
     imae_secundario,
-    imae_terciario
+    imae_terciario,
+    poblacion_estimada
   )
 
 print(names(panel_final))
