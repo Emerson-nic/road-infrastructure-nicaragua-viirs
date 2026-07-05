@@ -76,7 +76,8 @@ pacman::p_load(fixest,
                viridis,
                readxl,
                stringr,
-               patchwork
+               patchwork,
+               car
                )
 
 # importar datos si no existen en el entorno ----
@@ -114,6 +115,8 @@ summary(modelo_twfe_log)
 
 #modelo poisson log-log 
 #recuerdase que la variable y poisoon lo hace log igualmente
+
+#### modelo principal ----
 modelo_twfe_poisson <- fixest::fepois(
   luces_nocturnas ~ interaccion_log + interaccion_area | municipio + fecha,
   data = panel_final,
@@ -122,6 +125,9 @@ modelo_twfe_poisson <- fixest::fepois(
 
 summary(modelo_twfe_poisson)
 
+####
+
+#demas modelos poisson ----
 #pisson como poblacion constante
 modelo_twfe_poisson_poblacion <- fixest::fepois(
   luces_nocturnas ~ interaccion_log + interaccion_area | municipio + fecha + poblacion_estimada,
@@ -485,12 +491,12 @@ p_placebo_poisson <- mean(abs(coefs_placebo_poisson) >= abs(coef_real))
 
 message("coeficiente real") 
 print(round(coef_real,4))
-message("media del placebo") 
-print(round(mean(coefs_placebo), 4))
+message("media del placebo_poisson") 
+print(round(mean(coefs_placebo_poisson), 4))
 message("desviacion (sd)")
-print(round(sd(coefs_placebo), 4))
+print(round(sd(coefs_placebo_poisson), 4))
 message("valor p-value")
-print(p_placebo)
+print(p_placebo_poisson)
 
 if(F){
   "
@@ -501,13 +507,13 @@ if(F){
   al azar carreteras y municipios equivocados (iteraciones igual a 1000)
   
   aqui se busca que los resultados del beta sean los mas cercanos a 0 en este
-  caso la media es de -0.0062 y una sd 0.34 
+  caso la media es de -0.0147 y una sd 0.19 
   
-  el p-value arroja 0.066 es decir el 6.6% de la iteraciones arrejo un valor
-  causal de beta de -0.8472, o de otra manera en 934 de cada 1,000 intentos el 
-  coeficiente falso cercana a cero
+  el p-value arroja 0.001 es decir el 0.1% de la iteraciones arrejo un valor
+  causal de beta de -0.8472, o de otra manera en 999 de cada 1,000 intentos el 
+  coeficiente falso es cercano a cero
   
-  el graifco solo es una distribucion de coeficientes tiene forma normal  
+  el graifco solo es una distribucion de coeficientes tiene forma casi normal  
   
   el test placebo se hizo con poisson
   
@@ -516,9 +522,9 @@ if(F){
 
 #grafico
 #calcular la altura maxima de la densidad 
-altura_texto <- max(density(coefs_placebo)$y) * 0.5
+altura_texto <- max(density(coefs_placebo_poisson)$y) * 0.5
 
-placebo_df <- data.frame(coef_placebo = coefs_placebo)
+placebo_df <- data.frame(coef_placebo = coefs_placebo_poisson)
 
 grafico_placebo <- ggplot(placebo_df, aes(x = coef_placebo)) +
   geom_histogram(aes(y = after_stat(density)), fill = "#94A3B8", color = "white", alpha = 0.85, bins = 30) +
@@ -529,7 +535,8 @@ grafico_placebo <- ggplot(placebo_df, aes(x = coef_placebo)) +
            color = "#DC2626", angle = 90, vjust = -0.5, fontface = "bold", size = 3.5) +
   labs(
     title = "Distribución del Coeficiente de Placebo vs. Efecto Real",
-    subtitle = paste0("Simulación de Monte Carlo con ", n_perm, " permutaciones espaciales de la Red Vial (p-valor = ", round(p_placebo, 4), ")"),
+    subtitle = paste0("Simulación de Monte Carlo con ", n_perm, " permutaciones espaciales de la Red Vial (p-valor = ", 
+                      round(p_placebo_poisson, 4), ")"),
     x = "Estimación del Coeficiente de Interacción Simulado",
     y = "Densidad"
   ) +
@@ -589,8 +596,49 @@ modelo_triple_poisson <- fixest::fepois(
 message("como referencia el estrato alto")
 summary(modelo_triple_poisson)
 
+matriz_vcov <- vcov(modelo_triple_poisson)
+names(coef(modelo_triple_poisson))
+
+car::linearHypothesis(
+  modelo_triple_poisson, 
+  hypothesis.matrix = c(1, 0, 0, 1, 0, 0), 
+  vcov. = matriz_vcov
+)
+
+#este test mira la covarianza (test de wald)
+#h0: los betas son distintos de 0
+
+#interpretacion mas directa
+fixest::etable(
+  modelos_estrato_poi[["Alto"]],
+  modelos_estrato_poi[["Medio"]],
+  modelos_estrato_poi[["Bajo"]],
+  headers = c("Estrato Alto", "Estrato Medio", "Estrato Bajo")
+)
+
 if(F){
   "
+  
+  usar la ultima tabla que es la interpretacion mas directa
+  
+  estrato alto:
+  solo la interaccion de la densidad vial es significativa al 5% es decir
+  municipios como nagagua tienen un valor beta de -0.6666 de amortiguador
+  causal pero aqui el area no importa mucho como motor economico
+  
+  estrato medio:
+  la densidad vial y el area son  no significativo indica neutralidad ciclica
+  ante los shocks del imae.
+  
+  estrato bajo:
+  ambas variables significativas la densiadad vial al 5% y el area al 1%,
+  las variables son positivas, la densidad vial tiene un efecto multiplicador
+  de 0.74%, encuanto el area tiene un efecto multiplicador de vulnerabilidad
+  de 0.79% por ejemplo su el imae sube ellos brillan un poco mas, pero si 
+  el imae cae (una crisis), ellos sufren un apagón económico mucho más severo 
+  y desproporcionado 
+  
+  
   
   "
 }
@@ -631,58 +679,119 @@ fixest::etable(
 )
 
 #mapa de coeficientes municipales (pendientes aleatorias) ----
+#nota: esto se hizo en python, la razon r es lento es mejor hacerlo en python
+#para obtener los coeficientes y aqui procesarlo
 
-message("mapa de coeficiente municipales")
-message("modelo de pendientes aleatorias con lme4...")
+resultados_poisson <- read.csv("csv/blups_poisson_municipales.csv")
 
-modelo_random <- lme4::lmer(
-  log_luces ~ interaccion_log + interaccion_area +
-    (1 + interaccion_log | municipio) + (1 | fecha),
-  data = panel_model,
-  control = lme4::lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e5))
-)
-
-#se extraye BLUPs
-
-#extraer pendientes aleatorias 
-blups_municipio <- lme4::ranef(modelo_random, condVar = TRUE)$municipio
-blups_municipio$municipio <- rownames(blups_municipio)
-
-efecto_fijo_interaccion <- lme4::fixef(modelo_random)["interaccion_log"]
-blups_municipio$coef_municipal <- efecto_fijo_interaccion +
-  blups_municipio$`interaccion_log`
-
-#cargar shapefile para el mapa
+#filtro de significancia
+mapa_data_vial <- resultados_poisson %>%
+  dplyr::mutate(
+    coef_vial_filtrado = dplyr::if_else(p_vial < 0.05, coef_vial, NA_real_),
+    coef_area_filtrado = dplyr::if_else(p_area < 0.05, coef_area, NA_real_)
+  )
+#mapa
 ruta_mapa <- here::here("dataset", "geoBoundaries-NIC-ADM2.geojson")
-nic_map <- sf::st_read(ruta_mapa, quiet = TRUE) %>%
+nic_map_raw <- sf::st_read(ruta_mapa, quiet = TRUE) %>% 
   dplyr::rename(municipio = shapeName)
 
-#unir coeficientes
-nic_map <- nic_map %>%
-  dplyr::left_join(
-    dplyr::select(blups_municipio, municipio, coef_municipal),
-    by = "municipio"
+#unir datos con el mapa
+nic_map_completo <- nic_map_raw %>%
+  dplyr::left_join(mapa_data_vial, by = "municipio")
+
+color_no_significativo <- "#D5D8DC" 
+color_bordes <- "#AEB6BF"
+
+#densidad vial
+p1 <- ggplot(nic_map_completo) +
+  geom_sf(fill = color_no_significativo, color = color_bordes, size = 0.08) +
+  geom_sf(aes(fill = coef_vial_filtrado), color = "white", size = 0.1) +
+  scale_fill_viridis_c(
+    option = "plasma", 
+    na.value = "transparent", 
+    name = expression(beta[vial])
+  ) +
+  labs(
+    title = "A. Canal Infraestructura Vial", 
+    subtitle = "Moderación del Escudo Carreteras"
+  ) +
+  theme_void(base_size = 9) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", color = "#1C2833"),
+    plot.subtitle = element_text(hjust = 0.5, size = 7, color = "#5D6D7E"),
+    legend.position = "bottom"
   )
 
-# Mapa coroplético
-mapa_coef <- ggplot(nic_map) +
-  geom_sf(aes(fill = coef_municipal), color = "white", size = 0.15) +
-  scale_fill_viridis_c(option = "plasma",
-                       name = expression(beta[1]~municipal)) +
-  labs(
-    title = "Sensibilidad municipal de luces al IMAE: efecto moderador vial",
-    subtitle = paste0(
-      "Coeficiente municipal de interaccion_log (EF fijo + BLUP). ",
-      "EF fijo global: ", round(efecto_fijo_interaccion, 3)
-    ),
-    caption = "Fuente: VIIRS-NASA, OSM, BCN. Modelo: lmer con pendiente aleatoria."
+#area
+p2 <- ggplot(nic_map_completo) +
+  geom_sf(fill = color_no_significativo, color = color_bordes, size = 0.08) +
+  geom_sf(aes(fill = coef_area_filtrado), color = "white", size = 0.1) +
+  scale_fill_viridis_c(
+    option = "viridis", 
+    na.value = "transparent", 
+    name = expression(beta[área])
   ) +
-  theme_void(base_size = 10) +
-  theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5, size = 8))
+  labs(
+    title = "B. Canal Dimensión Territorial", 
+    subtitle = "Multiplicador de Fricción Espacial"
+  ) +
+  theme_void(base_size = 9) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", color = "#1C2833"),
+    plot.subtitle = element_text(hjust = 0.5, size = 7, color = "#5D6D7E"),
+    legend.position = "bottom"
+  )
 
-ggsave(here::here("Graficos", "mapa_coeficientes_municipales.pdf"),
-       plot = mapa_coef, width = 8, height = 7, dpi = 300)
+mapa_panel_1x2 <- p1 + p2 + 
+  plot_layout(ncol = 2) +
+  plot_annotation(
+    title = "Heterogeneidad Espacial Continua de la Resiliencia Macroeconómica",
+    subtitle = "Efectos marginales específicos Poisson (GLMM). Municipios en Gris Claro denotan coeficientes estadísticamente no significativos (p > 0.05).",
+    caption = "Fuente: VIIRS-NASA, OpenStreetMap, Banco Central de Nicaragua. Procesamiento dual Python-R.",
+    theme = theme(
+      plot.title = element_text(hjust = 0.5, face = "bold", size = 11, color = "#17202A"),
+      plot.subtitle = element_text(hjust = 0.5, size = 8, color = "#566573"),
+      plot.background = element_rect(fill = "white", color = NA) 
+    )
+  )
+
+ggsave(
+  here::here("Graficos", "mapa_panel_heterogeneidad_poisson_1x2.pdf"),
+  plot = mapa_panel_1x2, 
+  width = 11, 
+  height = 6, 
+  dpi = 300
+)
+
+#resumen
+message("municipios con densidad Vial significativo (p < 0.05): ", sum(mapa_data_vial$p_vial < 0.05, na.rm=T), " de 153\n")
+message("municipios con area Significativo (p < 0.05): ", sum(mapa_data_vial$p_area < 0.05, na.rm=T), " de 153\n")
+
+#ver script en python ahi esta los que son significativos
+
+#aqui se ven las variables significativas desglosadas
+betas_municipales <- read.csv("csv/betas_municipales.csv")
+
+
+if(F){
+  "
+  
+  aqui se hizo un BLUPs (Best Linear Unbiased Predictors) que aplican 
+  shrinkage (contraccion), es la mejor forma de estimar betas que hacer
+  todas las regresiones 1 por municipio
+  
+  esto es util para politicas publicas lo mejor es ver la tabla pero de
+  manera general va de [-0.51, 2.1], es interesante porque solo hay 2 betas
+  negativas (efecto amortiguador) ambos son de la misma variable densidad vial
+  en lo municipios de Corinto (Municipio) y San Jorge (Municipio) con un beta de
+  -0.51 y -0.4 respectivamente ambos significativos al 1% 
+  
+  en el grafico del mapa se ve una tendencia de agrupamiento tipo cluster al 
+  oeste, es una macro-region en el pacifico de manera indirecta estos 
+  sectores a lo mejor son los que man aportan al imae y estan ultra conectados
+  
+  "
+}
 
 
 #sensibilidad a saturacion de luces (umbral percentil 95) ----
@@ -697,8 +806,8 @@ panel_nosat <- panel_model %>%
 message("observaciones eliminadas por saturacion: ",
         nrow(panel_model) - nrow(panel_nosat), " de ", nrow(panel_model))
 
-modelo_nosat <- fixest::feols(
-  log_luces ~ interaccion_log + interaccion_area | municipio + fecha,
+modelo_nosat <- fixest::fepois(
+  luces_nocturnas ~ interaccion_log + interaccion_area | municipio + fecha,
   data = panel_nosat,
   cluster = ~municipio
 )
@@ -707,11 +816,25 @@ summary(modelo_nosat)
 
 #tabla de robustez
 fixest::etable(
-  modelo_twfe_log,
+  modelo_twfe_poisson,
   modelo_nosat,
-  modelo_lead,
-  headers = c("Original", "Sin Saturación (P95)", "Placebo Lead (t+1)")
+  headers = c("Original Poisson", "Sin Saturación (P95) Poisson")
 )
+
+if(F){
+  "
+  
+  en esta seccion los resultados no se diferencian mucho densidad vial solo es
+  mas ancho pero con intervalo de confianza del 1% y el area entra al 10%
+  
+  resulatado possion: interaccion_log  -0.8472*** (0.1927) y interaccion_area 
+  0.0459 (0.0721)
+  
+  resultado possion sin saturacion p95: interaccion_log -0.8585*** (0.2599)
+  interaccion_area 0.2019. (0.1160)
+  
+  "
+}
 
 #analisis sectorial ----
 
@@ -742,27 +865,42 @@ panel_model <- panel_final %>%
   )
 
 #modelos
-modelo_primario <- feols(
-  log_luces ~ interaccion_log_primario + interaccion_area_primario | municipio + fecha,
+modelo_twfe_poisson <- fixest::fepois(
+  luces_nocturnas ~ interaccion_log + interaccion_area | municipio + fecha,
   data = panel_model, cluster = ~municipio
 )
 
-modelo_secundario <- feols(
-  log_luces ~ interaccion_log_secundario + interaccion_area_secundario | municipio + fecha,
+modelo_primario <- fixest::fepois(
+  luces_nocturnas ~ interaccion_log_primario + interaccion_area_primario | municipio + fecha,
   data = panel_model, cluster = ~municipio
 )
 
-modelo_terciario <- feols(
-  log_luces ~ interaccion_log_terciario + interaccion_area_terciario | municipio + fecha,
+modelo_secundario <- fixest::fepois(
+  luces_nocturnas ~ interaccion_log_secundario + interaccion_area_secundario | municipio + fecha,
+  data = panel_model, cluster = ~municipio
+)
+
+modelo_terciario <- fixest::fepois(
+  luces_nocturnas ~ interaccion_log_terciario + interaccion_area_terciario | municipio + fecha,
   data = panel_model, cluster = ~municipio
 )
 #tabla comparativa
-etable(modelo_twfe_log, #modelo con imae total
+fixest::etable(modelo_twfe_poisson, #modelo con imae total
        modelo_primario, 
        modelo_secundario, 
        modelo_terciario,
        headers = c("Total", "Primario", "Secundario", "Terciario"))
 
+if(F){
+  "
+  
+  se realizo regressiones poisson donde la densidad_vial es significativa y 
+  todas negativas, el area no es significativo, en el sector primario el beta
+  es de -1.14 el mas bajo de todos, en el secundario y terciario el valor 
+  es  muy similar -0.793 y -0.797 respectivamente
+  
+  "
+}
 
 
 #grafico
@@ -781,8 +919,8 @@ df_dual <- data.frame(
     "Interacción Vial (Densidad)", "Control de Escala (Área)"
   ),
   Coeficiente = c(
-    stats::coef(modelo_twfe_log)["interaccion_log"],
-    stats::coef(modelo_twfe_log)["interaccion_area"],
+    stats::coef(modelo_twfe_poisson)["interaccion_log"],
+    stats::coef(modelo_twfe_poisson)["interaccion_area"],
     stats::coef(modelo_primario)["interaccion_log_primario"],
     stats::coef(modelo_primario)["interaccion_area_primario"],
     stats::coef(modelo_secundario)["interaccion_log_secundario"],
