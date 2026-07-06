@@ -691,7 +691,7 @@ p2_forest <- ggplot(df_forest, aes(x = estimate, y = categoria)) +
   ) +
   theme_minimal(base_size = 9) +
   theme(
-    plot.title = element_text(face = "bold", color = "#1C2833", hjust = 0.5),      
+    plot.title = element_text(face = "bold", color = "#1C2833", hjust = 0.5),     
     plot.subtitle = element_text(size = 8, color = "#5D6D7E", hjust = 0.5),       
     panel.grid.minor = element_blank(),
     panel.grid.major.y = element_line(color = "#F2F4F4"),
