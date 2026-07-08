@@ -13,9 +13,6 @@ if(FALSE){
   z (control): poblacion_estimada 
   imae (tendencia ciclo): se utiliza para hacer una serie de tiempo la densidad_vial
   
-  con la densidad vial sera hara una interpolacion temporal se asume que la 
-  desidad_vial es una dosis estructural
-  
   para desindad_vial se usara OpenStreetMap (OSM) y su libreria
   luces_nocturnas se obtendra del paquete blackmarbler del satelite VIIRS 
   de la NASA
