@@ -78,7 +78,8 @@ pacman::p_load(fixest,
                stringr,
                patchwork,
                car,
-               purrr
+               purrr,
+               zoo
                )
 
 # importar datos si no existen en el entorno ----
@@ -378,7 +379,7 @@ if(F){
   "
 }
 
-# el mae afecta a las luces de nicaragua? ----
+# analisis imae y luces nocturnas ----
 
 #filtro para los inf
 panel_validacion <- panel_final %>%
@@ -436,10 +437,68 @@ if(F){
   las variables significativa al 1% entonces la tendencia es decreciente en la
   radiancia promedio 
   
+  por ejemplo si el imae tendencia ciclo crece un 10% el las luces deberias 
+  deberia aumentar un 61% en prmedio pero en el grafico se observa un desface
+  en el año 2020 y 2021, se deberia hacer un analisis mejor 
+  
   la intencion de esto era demostrar que es un buen proxy las luces_nocturnas
-  recuerde que esto solo es correlacion
+  recuerde que esto solo es correlacion, es mejor analizar mas afondo la 
+  este proxy para futuras investigaciones
   "
 }
+
+#graficos
+panel_stl <- panel_final %>%
+  dplyr::group_by(fecha) %>%
+  dplyr::summarise(
+    luz_nacional = mean(luces_nocturnas, na.rm = TRUE),
+    imae_nacional = mean(imae, na.rm = TRUE)
+  ) %>%
+  dplyr::arrange(fecha)
+
+luces_ts <- ts(panel_stl$luz_nacional, frequency = 12, start = c(2020, 1))
+
+# filtro STL (descomposicion por Loess)
+descomposicion_stl <- stl(luces_ts, s.window = "periodic")
+
+panel_stl$luz_tendencia_stl <- as.numeric(descomposicion_stl$time.series[, "trend"])
+
+coef_escala <- max(panel_stl$luz_tendencia_stl, na.rm = TRUE) / 
+  max(panel_stl$imae_nacional, na.rm = TRUE)
+
+imae_luces_stl <- ggplot(panel_stl, aes(x = fecha)) +
+  geom_line(aes(y = luz_tendencia_stl, color = "Luces (Tendencia STL)"), linewidth = 1.2) +
+  geom_line(aes(y = imae_nacional * coef_escala, color = "IMAE (Tendencia-Ciclo)"), linewidth = 1.2, linetype = "dashed") +
+  
+  scale_y_continuous(
+    name = "Radiancia Promedio (Luces Nocturnas)",
+    sec.axis = sec_axis(~ . / coef_escala, name = "Índice IMAE")
+  ) +
+  labs(
+    title = "Evolución Macroeconómica: IMAE vs Luces Nocturnas",
+    subtitle = "Serie de luces filtrada mediante Descomposición Estacional Loess (STL)",
+    x = "Año",
+    color = ""
+  ) +
+  theme_minimal(base_size = 14) +
+  scale_color_manual(values = c("Luces (Tendencia STL)" = "#d35400", 
+                                "IMAE (Tendencia-Ciclo)" = "#2980b9")) +
+  theme(
+    legend.position = "bottom", 
+    plot.title = element_text(face = "bold"),
+    axis.title.y.left = element_text(color = "#d35400", face = "bold"),
+    axis.title.y.right = element_text(color = "#2980b9", face = "bold")
+  )
+
+print(imae_luces_stl)
+
+ggplot2::ggsave(
+  filename = "Graficos/imae_luces_filtro_stl.pdf",
+  plot = imae_luces_stl,
+  width = 10,       
+  height = 6,       
+  dpi = 300         
+)
 
 
 #placebo permutacion de densid_vial entre municipios ----
@@ -871,16 +930,10 @@ ggsave(
   dpi = 300
 )
 
-
-
-#resumen
-message("municipios con densidad Vial significativo (p < 0.05): ", sum(mapa_data_vial$p_vial < 0.05, na.rm=T), " de 153\n")
-message("municipios con area Significativo (p < 0.05): ", sum(mapa_data_vial$p_area < 0.05, na.rm=T), " de 153\n")
-
 #ver script en python ahi esta los que son significativos
 
 #aqui se ven las variables significativas desglosadas
-betas_municipales <- read.csv("csv/betas_municipales.csv")
+betas_municipales <- read.csv("csv/bayes_mejorado_total.csv")
 
 
 if(F){
