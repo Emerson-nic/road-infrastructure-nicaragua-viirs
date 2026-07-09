@@ -106,19 +106,17 @@ A pesar de estos consensos metodológicos sobre los impactos heterogéneos a lar
 
 # Datos y Variables
 
-Para someter a prueba la dinámica espacial planteada, se estructuró un panel de datos multidimensional que integra microdatos satelitales, información geoespacial de infraestructura y series macroeconómicas oficiales. Esta aproximación se construye  cuatro variables fundamentales.
+Para someter a prueba la dinámica espacial planteada, se estructuró un panel de datos multidimensional que integra microdatos satelitales, información geoespacial de infraestructura y series macroeconómicas oficiales. Esta aproximación empírica se construye a partir de cuatro variables fundamentales.
 
-En primer lugar, la variable dependiente captura la actividad económica local mediante la radiancia promedio mensual de las luces nocturnas. A diferencia de los agregados monetarios tradicionales, esta métrica se fundamenta en unidades físicas de emisión lumínica, lo que permite observar las fluctuaciones reales en el consumo energético y la ocupación del territorio a nivel de polígono municipal. Operativamente, constituye el indicador de resultado micro-local frente a los choques económicos agregados.
+La variable dependiente captura la actividad económica local mediante la radiancia promedio mensual de las luces nocturnas. A diferencia de los agregados monetarios tradicionales, esta métrica se fundamenta en unidades físicas de emisión lumínica, lo que permite observar las fluctuaciones reales en el consumo energético y la ocupación del territorio a nivel de polígono municipal. Operativamente, constituye el indicador de resultado micro-local frente a los choques económicos agregados.
 
-En segundo lugar, la variable macro-temporal o de choque exógeno está representada por el Índice Mensual de Actividad Económica, IMAE (tendencia-ciclo). Adicionalmente, el índice se desagrega en sus componentes sectoriales, tales como el primario, secundario y terciario, con el fin de evaluar si los canales de transmisión lumínica difieren según la vocación productiva subyacente del territorio.
+Por su parte, la variable macro-temporal o de choque exógeno está representada por el Índice Mensual de Actividad Económica (IMAE) en su componente de tendencia-ciclo. Adicionalmente, el índice se desagrega en sus componentes sectoriales (primario, secundario y terciario) con el fin de evaluar si los canales de transmisión lumínica difieren según la vocación productiva subyacente del territorio.
 
-En tercer lugar, la exposición estructural de cada municipio a dichos choques se mide a través de la densidad vial. Esta variable espacial se define formalmente como la longitud lineal total de las carreteras transitables dividida por la superficie territorial del municipio. Al normalizar la red de infraestructura por el tamaño de la jurisdicción, se obtiene un indicador puro de interconectividad y capilaridad logística. Un índice alto refleja economías locales con menores costos de fricción espacial, característica teóricamente asociada a una mayor capacidad de transmisión cíclica.
+La exposición estructural de cada municipio a dichos choques se mide a través de la densidad vial. Esta variable espacial se define formalmente como la longitud lineal total de las carreteras transitables dividida por la superficie territorial del municipio. Al normalizar la red de infraestructura por el tamaño de la jurisdicción, se obtiene un indicador puro de interconectividad y capilaridad logística. Para los fines de la estimación econométrica, esta dotación estática se interactúa bajo transformación de logaritmo natural con el logaritmo del IMAE mensual.
 
-Finalmente, se incorpora el área municipal como una variable de control geométrico indispensable en econometría espacial. Dado que los territorios de mayor extensión tienden mecánicamente a poseer redes viales absolutas más largas y mayor luminosidad agregada por pura acumulación perimetral, el control por área territorial aísla matemáticamente el efecto de escala. Esto garantiza que las estimaciones econométricas reflejen el impacto de la conectividad intrínseca de los municipios y no simplemente varianzas derivadas de diferencias en su tamaño geográfico.
+Finalmente, se incorpora el área municipal como una variable de control geométrico indispensable en econometría espacial. Dado que los territorios de mayor extensión tienden mecánicamente a poseer redes viales absolutas más largas y mayor luminosidad agregada por pura acumulación perimetral, el control por el logaritmo del área territorial aísla matemáticamente el efecto de escala. Esto garantiza que las estimaciones econométricas reflejen el impacto de la conectividad intrínseca de los municipios y no simplemente varianzas derivadas de diferencias en su tamaño geográfico.
 
-La Tabla \ref{tab:variables} resume la descripción operativa, la unidad de medida y las fuentes institucionales de las variables que conforman el panel de datos analizado.
-
-La descripción operativa, las unidades de medida y las fuentes institucionales de las variables que conforman el panel de datos analizado se detallan en la \ref{tab:variables}.
+La descripción operativa, las unidades de medida y las fuentes institucionales de las variables que conforman el panel de datos analizado se detallan en la Tabla \ref{tab:variables}.
 
 \begin{table}[H]
 \centering
@@ -145,20 +143,187 @@ Densidad vial & Kilómetros de carreteras transitables por kilómetro cuadrado (
 \end{threeparttable}
 \end{table}
 
-# Estrategia Metodológica
+# Metodología
 
-Desde una perspectiva econométrica, la densidad vial y el área territorial son variables geográficas invariantes en el corto plazo. Si se incluyeran en niveles dentro de un modelo de datos de panel, su variabilidad sería absorbida por los efectos fijos municipales. Por tanto, se adopta un diseño empírico cuasi-experimental análogo a los enfoques Shift-Share \parencite{borusyak2022quasi}. La métrica de interés es el índice de exposición física, el cual se obtiene al interactuar la dotación estática local con el shock dinámico nacional del IMAE.
+La densidad vial y el área territorial son variables geográficas que no cambian en el corto plazo. Si se incluyeran solas en un modelo de datos de panel, los efectos fijos municipales las borrarían del análisis debido a la falta de variación temporal. Para solucionar esta restricción, se adopta un diseño empírico similar a los enfoques Shift-Share \parencite{borusyak2022quasi}. Las variables de interés se obtienen interactuando la dotación estática e inobservable de cada municipio con el shock dinámico mensual derivado del ciclo económico nacional.
 
-Dado que la variable de luces nocturnas es continua, estrictamente no negativa y presenta una fuerte concentración de valores cercanos a cero en zonas rurales, la estimación mediante Mínimos Cuadrados Ordinarios sobre una transformación logarítmica induciría estimadores sesgados. Siguiendo la solución metodológica de \textcite{silva2006log}, se estima un Modelo Pseudo-Máximo Verosímil de Poisson con Efectos Fijos Bidireccionales, cuya especificación log-lineal \parencite{correia2020fast} es la siguiente:
+## Modelo Principal Causal
 
-$$
-\mathbb{E}[Luces_{it} | X_{it}] = \exp \left( \beta_1 [\ln(Densidad\_Vial_i) \times \ln(IMAE_t)] + \beta_2 [\ln(Area_i) \times \ln(IMAE_t)] + \alpha_i + \tau_t \right)
-$$
+Siguiendo la solución metodológica de \textcite{silva2006log}, se estima un Modelo de Poisson por Pseudo-Máximo Verosímil con Efectos Fijos Bidireccionales. Usando la estrategia de linealización de \textcite{correia2020fast}, la especificación matemática general queda estructurada en la ecuación (\ref{eq:modelo_poisson}):
 
-En esta ecuación, el parámetro principal de interés capta la elasticidad neta de la actividad local ante el shock macroeconómico condicionada por la infraestructura vial. Se controla también por el efecto multiplicador de la escala geográfica, efectos fijos de municipio que absorben la heterogeneidad estructural inobservable, y efectos fijos de tiempo que neutralizan los choques agregados transversales.
+\begin{equation}
+\label{eq:modelo_poisson}
+\mathbb{E}[L_{it} | X_{it}] = \exp \left( \beta_1 [\ln(D_i) \times \ln(IMAE_t)] + \beta_2 [\ln(A_i) \times \ln(IMAE_t)] + \alpha_i + \tau_t \right)
+\end{equation}
 
-Para asegurar una inferencia válida frente a la presencia de autocorrelación serial y heterocedasticidad, los errores estándar son calculados de forma robusta y clusterizados a nivel municipal, cumpliendo con los lineamientos de la microeconometría aplicada \parencite{arellano1987computing, cameron2005microeconometrics}. Esta aproximación asegura que los estimadores reflejen mecanismos consistentes con los desarrollos recientes sobre modelos de diferencias en diferencias y paneles de múltiples períodos \parencite{callaway2021difference, wooldridge2021two}. Finalmente, para capturar la heterogeneidad espacial continua, la metodología se expande hacia un Modelo Poisson Jerárquico que permite estimar pendientes aleatorias mediante la contracción de la varianza hacia la media poblacional, otorgando mayor estabilidad a las estimaciones locales \parencite{gelman2006data}.
+En la ecuación (\ref{eq:modelo_poisson}), la expresión del lado izquierdo $\mathbb{E}[L_{it} | X_{it}]$ representa el promedio condicional de la luminosidad en el municipio $i$ durante el mes $t$, dado el conjunto de variables explicativas. La función exponencial ($\exp$) es el núcleo del estimador de Poisson y garantiza que los valores esperados de la variable dependiente sean estrictamente positivos, permitiendo procesar correctamente los valores en cero de las zonas rurales sin recurrir a transformaciones de la muestra que sesguen los datos.
+
+Los símbolos representan las variables del panel de la siguiente manera: $L_{it}$ corresponde a la radiancia mensual de las luces nocturnas; $D_i$ es la densidad vial estructural de la localidad; $A_i$ es el área territorial en kilómetros cuadrados; e $IMAE_t$ representa el Índice Mensual de Actividad Económica nacional en su componente de tendencia-ciclo. 
+
+El parámetro $\beta_1$ es el coeficiente causal clave de la investigación y mide el grado en que la infraestructura vial condiciona la sensibilidad de la economía local ante el shock macroeconómico del IMAE. Dado que el modelo utiliza una función de enlace exponencial y las variables independientes entran en logaritmos dentro de la interacción, este parámetro determina cómo cambia la elasticidad de la actividad local respecto al ciclo nacional ante variaciones en la densidad vial. Por su parte, el parámetro $\beta_2$ captura el efecto de la escala geométrica mediante la interacción del logaritmo del área; su función es controlar si los territorios responden con mayor intensidad al ciclo agregado debido a su tamaño físico, aislando este factor del impacto puro de las carreteras. Finalmente, el modelo incluye efectos fijos de municipio ($\alpha_i$) para absorber la heterogeneidad estructural inobservable de cada jurisdicción, y efectos fijos de tiempo ($\tau_t$) para neutralizar los choques mensuales comunes que afectan a todo el país simultáneamente.
+
+Para asegurar una inferencia estadística válida frente a problemas de heterocedasticidad y autocorrelación serial entre los meses de un mismo territorio, los errores estándar se calculan agrupados (clusterizados) a nivel municipal \parencite{arellano1987computing, cameron2005microeconometrics}. Esta técnica es consistente con los desarrollos recientes sobre modelos de diferencias en diferencias en paneles de períodos múltiples \parencite{callaway2021difference, wooldridge2021two}.
+
+### Modelo de Estratos Causal
+
+Para evaluar si el impacto de la infraestructura vial se encuentra condicionado por el nivel de desarrollo inicial de las localidades, la muestra se segmenta en tres grupos (Bajo, Medio y Alto) utilizando terciles calculados a partir de la emisión lumínica histórica promedio de cada jurisdicción. Metodológicamente, se estiman tres especificaciones independientes de forma paralela siguiendo la estructura de la ecuación (\ref{eq:modelo_estratos}):
+
+\begin{multline}
+\mathbb{E}[L_{it} \mid X_{it}, \text{Estrato}=s] = \\
+\exp \bigl( \beta_{1}^s [\ln(D_i) \times \ln(IMAE_t)] + \beta_{2}^s [\ln(A_i) \times \ln(IMAE_t)] + \alpha_i + \tau_t \bigr)
+\end{multline}
+
+Donde $s \in \{\text{Bajo}, \text{Medio}, \text{Alto}\}$ representa el estrato correspondiente. Esta estrategia permite testear de forma aislada si el parámetro $\beta_{1}^s$ difiere en magnitud, signo o significancia estadística entre grupos. Teóricamente, el diseño evalúa si la densidad vial opera como un mecanismo multiplicador de la actividad económica local en la periferia rural o si, por el contrario, actúa como un escudo o amortiguador cíclico que provee resiliencia en los nodos urbanos frente a las contracciones del mercado nacional.
+
+### Análisis de Heterogeneidad Sectorial Causal
+
+El ciclo macroeconómico nacional puede transmitir sus impulsos de manera diferenciada según la vocación productiva subyacente de cada territorio. Para aislar estos canales de transmisión específicos, el choque del IMAE total se sustituye por sus componentes sectoriales oficiales. Siguiendo este enfoque, se estiman tres especificaciones independientes, una para cada gran rama de la producción $k \in \{\text{Primario}, \text{Secundario}, \text{Terciario}\}$, estructuradas bajo la ecuación (\ref{eq:modelo_sectores}):
+
+\begin{equation}
+\label{eq:modelo_sectores}
+\mathbb{E}[L_{it} | X_{it}] = \exp \left( \beta_{1}^k [\ln(D_i) \times \ln(IMAE_{kt})] + \beta_{2}^k [\ln(A_i) \times \ln(IMAE_{kt})] + \alpha_i + \tau_t \right)
+\end{equation}
+
+Donde $IMAE_{kt}$ representa el índice de tendencia-ciclo correspondiente al sector primario (actividades agrícolas, ganaderas y extractivas), secundario (industria manufacturera y construcción) o terciario (comercio, transporte y servicios). 
+
+Metodológicamente, las estimaciones de los parámetros $\beta_{1}^k$ se consolidan en una única matriz comparativa junto al modelo general de la ecuación (\ref{eq:modelo_poisson}). Este diseño permite testear formalmente si la densidad vial opera como un canal de irrigación homogéneo para toda la economía nacional, o si la capacidad de absorción y respuesta local ante las fluctuaciones del ciclo se encuentra concentrada en sectores productivos específicos. Al igual que en las especificaciones previas, los modelos controlan por el efecto de escala del área geográfica e incluyen efectos fijos bidireccionales por municipio ($\alpha_i$) y tiempo ($\tau_t$) con errores estándar clusterizados a nivel municipal.
+
+## Modelado de Coeficientes Municipal no Causal
+
+Finalmente, con el objetivo de capturar el comportamiento particular de cada uno de los 153 municipios sin necesidad de fragmentar la muestra ni perder grados de libertad, la metodología se complementa con un Modelo Poisson Jerárquico multivariado estimado bajo inferencia bayesiana completa \parencite{gelman2006data}. A diferencia de las regresiones previas, esta aproximación no busca establecer relaciones de causalidad general, sino realizar una exploración descriptiva y exploratoria de la variación espacial continua de las elasticidades.
+
+Para garantizar la convergencia del algoritmo de muestreo MCMC y evitar problemas de inestabilidad computacional, se introduce un ajuste clave en la construcción de las variables. A diferencia de las especificaciones de efectos fijos globales, en este modelo jerárquico la densidad vial no se transforma a logaritmo natural, sino que entra de forma lineal a la interacción ($D_i \times \ln(IMAE_t)$). Esta decisión metodológica responde estrictamente a criterios de estabilidad numérica.
+
+Para facilitar el muestreo, ambas interacciones se estandarizan mediante la remoción de su media y división por su desviación estándar. La especificación formal en escala log-lineal sigue la estructura de la ecuación (\ref{eq:modelo_bayes}):
+
+\begin{equation}
+\label{eq:modelo_bayes}
+\ln(\mu_{it}) = \alpha_0 + \beta_{1} V_{it}^{\text{std}} + \beta_{2} A_{it}^{\text{std}} + u_{0t} + b_{0i} + b_{1i} V_{it}^{\text{std}} + b_{2i} A_{it}^{\text{std}}
+\end{equation}
+
+En la ecuación (\ref{eq:modelo_bayes}), $\mu_{it}$ representa el valor esperado de las luces nocturnas condicionada a los regresores. El término $\alpha_0$ es la intercepción global, mientras que $\beta_1$ y $\beta_2$ son los efectos fijos poblacionales promedio. Las variables explicativas corresponden a las interacciones estandarizadas de la densidad vial ($V_{it}^{\text{std}}$) y del logaritmo del área territorial ($A_{it}^{\text{std}}$), ambas cruzadas con el logaritmo natural del IMAE nacional.
+
+El modelo incorpora una intercepción aleatoria temporal ($u_{0t} \sim N(0, \sigma^2_{\text{fecha}})$) para neutralizar los shocks agregados comunes de cada mes. La estructura central del diseño radica en el vector de efectos aleatorios municipales $[b_{0i}, b_{1i}, b_{2i}]^T$, el cual sigue una distribución normal tridimensional con media cero y una matriz de covarianza estructural $\Sigma$. Este bloque permite que cada municipio posea su propia intercepción específica ($b_{0i}$), su propia sensibilidad vial ($b_{1i}$) y su propia sensibilidad de escala geográfica ($b_{2i}$). 
+
+Los coeficientes municipales finales en su escala original se recuperan de manera exacta post-estimación. Para ello, se extraen las distribuciones de los parámetros estandarizados sumando el efecto fijo con la desviación aleatoria de cada localidad (${\beta_1 + b_{1i}}$) y se dividen matemáticamente por la desviación estándar del regresor original obtenido antes de la regresión. Este procedimiento probabilístico aplica un mecanismo de encogimiento (*shrinkage*) que contrae los valores atípicos y ruidosos hacia la media general del país, aportando robustez y consistencia a la distribución subnacional de las elasticidades.
 
 ## Reproducibilidas
 
 Para garantizar la reproducibilidad computacional y manejar la alta dimensionalidad de los datos espaciales, la estrategia empírica se implementó mediante un ecosistema de programación dual. El procesamiento de microdatos geográficos y la estimación principal de Efectos Fijos Bidireccionales (TWFE) se ejecutaron en el entorno de R, utilizando la librería sf para las operaciones vectoriales espaciales \parencite{pebesma2018simple} y el algoritmo de estimación de máxima verosimilitud optimizado del paquete fixest \parencite{berge2018efficient}. Por su parte, la extensión de heterogeneidad espacial continua mediante modelos bayesianos jerárquicos se programó en Python (IDE Positron), empleando la interfaz de modelado probabilístico Bambi \parencite{capretto2022bambi} y ejecutando los diagnósticos de convergencia de las cadenas de Markov a través de ArviZ \parencite{kumar2019arviz}. Todas las variables continuas en el modelo bayesiano fueron estandarizadas previamente para asegurar la estabilidad algorítmica de los simuladores MCMC.
+
+# Validación del Proxy Satelital
+
+Antes de evaluar el impacto condicional de la infraestructura vial, se debe de comprobar si la radiancia capturada por el satélite funciona como un proxy confiable de la actividad económica en Nicaragua. Para esto, se estima la elasticidad de las luces nocturnas frente al Índice Mensual de Actividad Económica (IMAE) mediante dos especificaciones de Mínimos Cuadrados Ordinarios (OLS) con errores estándar clusterizados a nivel municipal. El primer modelo aplica una validación básica con efectos fijos de municipio. El segundo modelo añade efectos fijos de mes y una tendencia lineal continua para proteger las estimaciones de regresiones espurias causadas por la estacionalidad del consumo o desajustes técnicos en las celdas del satélite.
+
+Los resultados de estas estimaciones se consolidan en la Tabla \ref{tab:validacion_proxy}. El modelo básico (columna 1) reporta un coeficiente de 2.105, estadísticamente significativo al 1\%. Dado que ambas variables se evalúan en logaritmos, el estimador indica que por cada 1\% de incremento en el IMAE nacional, la radiancia promedio de los municipios aumenta un 2.105\%. 
+
+Al introducir los controles estrictos de estacionalidad mensual y la tendencia temporal (columna 2), la elasticidad ajustada aumenta a 6.141, manteniendo su significancia al 1\%. Esto demuestra que una vez limpio el ruido estacional de la serie, el brillo satelital responde con mayor fuerza a las fluctuaciones reales del ciclo macroeconómico. Por su parte, la variable de tendencia lineal muestra un coeficiente negativo sumamente pequeño pero significativo (-0.0005), lo que captura de forma matemática la pérdida paulatina de calibración en los sensores del satélite o ajustes técnicos de fondo a largo plazo.
+
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Resultados de validación del proxy satelital}
+\label{tab:validacion_proxy}
+\begin{tabular}{l >{\centering\arraybackslash}p{4.2cm} >{\centering\arraybackslash}p{4.2cm}}
+\toprule
+ & \multicolumn{2}{c}{\textbf{Variable dependiente: $\ln(Luces_{it})$}} \\
+\cmidrule(lr){2-3}
+\textbf{Variable explicativa} & \textbf{Validación básica (1)} & \textbf{Validación con tendencia (2)} \\
+\midrule
+\multirow{2}{*}{$\ln(IMAE_t)$} & 2.105*** & 6.141*** \\
+ & (0.1656) & (0.5809) \\
+\addlinespace
+\multirow{2}{*}{Tendencia lineal} & & -0.0005*** \\
+ & & (0.0001) \\
+\midrule
+Efectos fijos de municipio & Sí & Sí \\
+Efectos fijos de mes & No & Sí \\
+Observaciones & 10,997 & 10,997 \\
+$R^2$ Within & 0.0570 & 0.0643 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\small
+\item \textit{Nota:} *** Significativo al 1\%. Errores estándar entre paréntesis agrupados (clusterizados) a nivel municipal. El panel incluye los 153 municipios de Nicaragua con frecuencia mensual.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+Para complementar el análisis econométrico, la Figura \ref{fig:imae_luces_stl} muestra la evolución temporal del IMAE nacional frente a la tendencia de las luces nocturnas, una vez filtrada la estacionalidad mediante una descomposición Loess (STL). 
+
+Visualmente existe correlación en los movimientos de ambas series. Sin embargo, se observa un desfase temporal durante los años 2020 y 2021, periodo que coincide con las anomalías económicas globales causadas por la pandemia de COVID-19 y sus fases iniciales de recuperación. 
+
+El segundo desacople se registra a partir de mediados de 2025, donde el indicador macroeconómico mantiene una senda expansiva mientras la tendencia lumínica filtrada muestra una moderada contracción. Esta divergencia reciente podría deberse a una combinación de factores no controlados en esta fase agregada. Por un lado, es posible que existan fricciones técnicas, como la paulatina pérdida de calibración del sensor satelital o el efecto de borde (*edge effect*) inherente al suavizado del filtro STL al acercarse al final de la muestra. Por otro lado, desde una perspectiva económica, este comportamiento podría reflejar un crecimiento del IMAE impulsado por sectores macroeconómicos de baja intensidad lumínica (como actividades primarias o minería de exportación).
+
+A pesar de estas anomalías en los extremos de la serie, la elasticidad positiva y la correlación general validan a las luces nocturnas como un instrumento útil para rastrear el ciclo economico.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.85\textwidth}
+\caption{Co-movimiento macroeconómico: IMAE nacional frente a la tendencia de luces nocturnas}
+\label{fig:imae_luces_stl}
+\includegraphics[width=\textwidth]{../Graficos/imae_luces_filtro_stl.pdf}
+\vspace{2mm}
+\small
+\textbf{Nota:} La serie de luces nocturnas municipales agregadas fue filtrada mediante Descomposición Estacional por Loess (STL) para extraer la tendencia limpia de largo plazo y eliminar el ruido de calibración del sensor. El IMAE nacional corresponde al componente oficial de tendencia-ciclo mensual (Base 2006). \\
+\textbf{Fuente:} Elaboración propia basada en microdatos del producto Black Marble VNP46A3 de la NASA y series macroeconómicas del Banco Central de Nicaragua (BCN).
+\end{minipage}
+\end{figure}
+
+### Heterogeneidad Espacial y Temporal por Estratos
+
+Para aislar los efectos locales del ciclo económico, la muestra fue dividida simétricamente en tres terciles (Bajo, Medio y Alto) según el promedio histórico de emisión lumínica de cada municipio. La distribución geográfica de estos clústeres se ilustra en la Figura \ref{fig:mapa_estratos}, revelando una clara concentración del desarrollo (Estrato Alto) en la franja del Pacífico y cabeceras departamentales clave, frente a una vasta periferia rezagada (Estrato Bajo).
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.75\textwidth}
+\caption{Distribución espacial de los municipios según estratos de luminosidad histórica}
+\label{fig:mapa_estratos}
+\includegraphics[width=\textwidth]{../Graficos/mapa_estratos_terciles.pdf}
+\vspace{2mm}
+\small
+\textbf{Nota:} Delimitación geográfica de los 153 municipios de Nicaragua clasificados de manera simétrica por terciles de radiancia promedio de largo plazo. El estrato alto delimita los principales polos urbanos y comerciales del país. \\
+\textbf{Fuente:} Elaboración propia basada en microdatos cartográficos oficiales de geoBoundaries e imágenes del producto Black Marble de la NASA.
+\end{minipage}
+\end{figure}
+
+La asimetría estructural del país se confirma al observar la evolución temporal pura de las luces nocturnas dentro de cada grupo. Las Figuras \ref{fig:serie_estrato_alto}, \ref{fig:serie_estrato_medio} y \ref{fig:serie_estrato_bajo} exponen las trayectorias de luminosidad mensual. En el estrato alto, la radiancia exhibe niveles superiores y una marcada estabilidad en el tiempo, propia de aglomeraciones urbanas consolidadas con infraestructura eléctrica continua. A medida que se desciende hacia el estrato medio y bajo, los niveles lumínicos promedio caen drásticamente acercándose a cero y la volatilidad temporal aumenta. Esta dinámica descriptiva evidencia la profunda brecha en el consumo energético y anticipa que la respuesta local ante los shocks exógenos del IMAE estará fuertemente condicionada por estas características iniciales.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.85\textwidth}
+\caption{Evolución temporal de la luminosidad local: Estrato Alto}
+\label{fig:serie_estrato_alto}
+\includegraphics[width=\textwidth]{../Graficos/grafico_1_estrato_alto.pdf}
+\vspace{2mm}
+\small
+\textbf{Nota:} Las líneas tenues representan la trayectoria radiométrica mensual individual de cada municipio perteneciente al estrato alto (mayor desarrollo económico y densidad vial). La línea sólida oscura marca el promedio grupal del tercil. \\
+\textbf{Fuente:} Elaboración propia con registros de la NASA.
+\end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.85\textwidth}
+\caption{Evolución temporal de la luminosidad local: Estrato Medio}
+\label{fig:serie_estrato_medio}
+\includegraphics[width=\textwidth]{../Graficos/grafico_2_estrato_medio.pdf}
+\vspace{2mm}
+\small
+\textbf{Nota:} Las líneas tenues representan la trayectoria radiométrica mensual individual de cada municipio perteneciente al estrato medio (desarrollo económico intermedio). La línea sólida marca el promedio grupal del tercil. \\
+\textbf{Fuente:} Elaboración propia con registros de la NASA.
+\end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.85\textwidth}
+\caption{Evolución temporal de la luminosidad local: Estrato Bajo}
+\label{fig:serie_estrato_bajo}
+\includegraphics[width=\textwidth]{../Graficos/grafico_3_estrato_bajo.pdf}
+\vspace{2mm}
+\small
+\textbf{Nota:} Las líneas tenues representan la trayectoria radiométrica mensual individual de cada municipio perteneciente al estrato bajo (zonas periféricas y estructuralmente aisladas). La línea sólida marca el promedio grupal del tercil, evidenciando niveles de consumo eléctrico sumamente bajos. \\
+\textbf{Fuente:} Elaboración propia con registros de la NASA.
+\end{minipage}
+\end{figure}
