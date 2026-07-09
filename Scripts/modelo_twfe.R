@@ -690,13 +690,13 @@ coefs_estratos <- map_dfr(modelos_estrato_poi, function(mod) {
 df_forest <- coefs_estratos %>%
   mutate(
     categoria = case_when(
-      estrato == "Alto"  ~ "Estrato Alto",
+      estrato == "Alto" ~ "Estrato Alto",
       estrato == "Medio" ~ "Estrato Medio",
-      estrato == "Bajo"  ~ "Estrato Bajo"
+      estrato == "Bajo" ~ "Estrato Bajo"
     ),
     categoria = factor(categoria, levels = c("Estrato Bajo", "Estrato Medio", "Estrato Alto")),
     variable = case_when(
-      term == "interaccion_log"  ~ "Canal Vial",
+      term == "interaccion_log" ~ "Canal Vial",
       term == "interaccion_area" ~ "Canal Área"
     ),
     ci_lower = estimate - 1.96 * std.error,
@@ -704,7 +704,7 @@ df_forest <- coefs_estratos %>%
     significancia = case_when(
       p.value < 0.01 ~ "Significativo al 1%",
       p.value < 0.05 ~ "Significativo al 5%",
-      TRUE           ~ "No Significativo"
+      TRUE ~ "No Significativo"
     )
   )
 
@@ -714,7 +714,8 @@ nic_map_raw <- sf::st_read(ruta_mapa, quiet = TRUE) %>%
   dplyr::rename(municipio = shapeName)
 
 mapa_estratos_df <- nic_map_raw %>%
-  left_join(municipios_clasificados, by = "municipio")
+  dplyr::left_join(municipios_clasificados, by = "municipio") %>%
+  dplyr::mutate(categoria = factor(categoria, levels = c("Estrato Alto", "Estrato Medio", "Estrato Bajo")))
 
 colores_estratos <- c("Estrato Alto"  = "#2C3E50",
                       "Estrato Medio" = "#F39C12",
@@ -723,14 +724,15 @@ colores_estratos <- c("Estrato Alto"  = "#2C3E50",
 #mapa
 p1_mapa <- ggplot(mapa_estratos_df) +
   geom_sf(aes(fill = categoria), color = "white", size = 0.08) +
-  scale_fill_manual(values = colores_estratos, name = "Estrato Histórico") +
+  scale_fill_manual(values = colores_estratos, name = NULL, na.translate = FALSE) +
+  theme_void(base_size = 9) +
   labs(
     # title = "Distribución Espacial de Terciles",
     # subtitle = "Clasificación por promedio histórico de luces"
   ) +
-  theme_void(base_size = 9) +
   theme(
-    legend.position = "bottom"
+    legend.position = "bottom",
+    legend.text = element_text(size = 10)
   )
 
 ggplot2::ggsave(
