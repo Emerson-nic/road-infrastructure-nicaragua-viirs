@@ -73,7 +73,7 @@ municipios_clasificados <- panel_final %>%
     )
   )
 
-#lista de nombres
+l#lista de nombres
 for(cat in c("Estrato Alto", "Estrato Medio", "Estrato Bajo")) {
   nombres <- municipios_clasificados %>% dplyr::filter(categoria == cat) %>% dplyr::pull(municipio)
   cat(paste0("\n", cat, " Completo:\n", limpiar_nombres(nombres), "\n"))
@@ -94,21 +94,21 @@ ddf_imae <- panel_final %>%
   dplyr::group_by(fecha) %>%
   dplyr::summarise(`IMAE Nacional` = mean(imae, na.rm = TRUE), .groups = "drop")
 
-plot_imae <- ggplot(df_imae, aes(x = fecha, y = `IMAE Nacional`)) +
+plot_imae <- ggplot(ddf_imae, aes(x = fecha, y = `IMAE Nacional`)) +
   geom_line(linewidth = 1.2, color = "#B91C1C") + 
   labs(
-    title = "Evolución del Ciclo Macroeconómico Nacional (IMAE)",
-    subtitle = "Comportamiento del shock exógeno común, transversal a todos los municipios",
+    #title = "Evolución del Ciclo Macroeconómico Nacional (IMAE)",
+    #subtitle = "Comportamiento del shock exógeno común, transversal a todos los municipios",
     x = "Línea de Tiempo Mensual", 
     y = "Índice Mensual de Actividad Económica",
-    caption = "Fuente: Elaboración propia con datos del Banco Central de Nicaragua."
+    #caption = "Fuente: Elaboración propia con datos del Banco Central de Nicaragua."
   ) +
   theme_bw(base_size = 11) + 
   theme(panel.grid.minor = element_blank())
 
 ggsave("Graficos/grafico_0_imae_nacional.pdf", plot = plot_imae, width = 9, height = 4, dpi = 300)
 
-#estrato alto
+
 df_alto_municipios <- panel_graficos %>% dplyr::filter(categoria == "Estrato Alto")
 df_alto_promedios <- df_promedios_mensuales %>% dplyr::filter(categoria == "Estrato Alto")
 densidad_alto <- round(mean(df_alto_municipios$vial_historica, na.rm=TRUE), 3)
@@ -120,10 +120,10 @@ plot_alto <- ggplot() +
             color = "#94A3B8", alpha = 0.35, linewidth = 0.4) + 
   geom_line(data = df_alto_promedios, aes(x = fecha, y = `luces_grupo`), linewidth = 1.2, color = "#0F172A") + 
   labs(
-    title = "Estrato Alto (Mayor Desarrollo Económico)",
-    subtitle = paste0("Evolución temporal de la luminosidad local. Densidad Vial Promedio: ", densidad_alto),
+    #title = "Estrato Alto (Mayor Desarrollo Económico)",
+    #subtitle = paste0("Evolución temporal de la luminosidad local. Densidad Vial Promedio: ", densidad_alto),
     x = "Línea de Tiempo Mensual", y = "Luminosidad Promedio (NASA)",
-    caption = caption_alto
+    #caption = caption_alto
   ) +
   theme_bw(base_size = 11) + 
   theme(
@@ -145,10 +145,10 @@ plot_medio <- ggplot() +
             color = "#93C5FD", alpha = 0.4, linewidth = 0.4) +
   geom_line(data = df_medio_promedios, aes(x = fecha, y = `luces_grupo`), linewidth = 1.2, color = "#2563EB") + 
   labs(
-    title = "Estrato Medio (Desarrollo Económico Intermedio)",
-    subtitle = paste0("Evolución temporal de la luminosidad local. Densidad Vial Promedio: ", densidad_medio),
+    #title = "Estrato Medio (Desarrollo Económico Intermedio)",
+    #subtitle = paste0("Evolución temporal de la luminosidad local. Densidad Vial Promedio: ", densidad_medio),
     x = "Línea de Tiempo Mensual", y = "Luminosidad Promedio (NASA)",
-    caption = caption_medio
+    #caption = caption_medio
   ) +
   theme_bw(base_size = 11) + 
   theme(
@@ -170,10 +170,10 @@ plot_bajo <- ggplot() +
             color = "#CBD5E1", alpha = 0.4, linewidth = 0.4) +
   geom_line(data = df_bajo_promedios, aes(x = fecha, y = `luces_grupo`), linewidth = 1.2, color = "#475569") + 
   labs(
-    title = "Estrato Bajo (Zonas Estructuralmente Aisladas)",
-    subtitle = paste0("Evolución temporal de la luminosidad local. Densidad Vial Promedio: ", densidad_bajo),
+    #title = "Estrato Bajo (Zonas Estructuralmente Aisladas)",
+    #subtitle = paste0("Evolución temporal de la luminosidad local. Densidad Vial Promedio: ", densidad_bajo),
     x = "Línea de Tiempo Mensual", y = "Luminosidad Promedio (NASA)",
-    caption = paste0(caption_bajo, "\nFuente: Elaboración propia con microdatos de OSM y NASA.")
+    #caption = paste0(caption_bajo, "\nFuente: Elaboración propia con microdatos de OSM y NASA.")
   ) +
   theme_bw(base_size = 11) + 
   theme(
