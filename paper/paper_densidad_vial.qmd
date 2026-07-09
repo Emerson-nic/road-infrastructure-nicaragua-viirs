@@ -168,10 +168,10 @@ Para asegurar una inferencia estadística válida frente a problemas de heteroce
 
 Para evaluar si el impacto de la infraestructura vial se encuentra condicionado por el nivel de desarrollo inicial de las localidades, la muestra se segmenta en tres grupos (Bajo, Medio y Alto) utilizando terciles calculados a partir de la emisión lumínica histórica promedio de cada jurisdicción. Metodológicamente, se estiman tres especificaciones independientes de forma paralela siguiendo la estructura de la ecuación (\ref{eq:modelo_estratos}):
 
-\begin{multline}
-\mathbb{E}[L_{it} \mid X_{it}, \text{Estrato}=s] = \\
-\exp \bigl( \beta_{1}^s [\ln(D_i) \times \ln(IMAE_t)] + \beta_{2}^s [\ln(A_i) \times \ln(IMAE_t)] + \alpha_i + \tau_t \bigr)
-\end{multline}
+\begin{equation}
+\label{eq:modelo_estratos}
+\mathbb{E}[L_{it} | X_{it}] = \exp \left( \beta_{1}^s [\ln(D_i) \times \ln(IMAE_t)] + \beta_{2}^s [\ln(A_i) \times \ln(IMAE_t)] + \newline \alpha_i + \tau_t \right)
+\end{equation}
 
 Donde $s \in \{\text{Bajo}, \text{Medio}, \text{Alto}\}$ representa el estrato correspondiente. Esta estrategia permite testear de forma aislada si el parámetro $\beta_{1}^s$ difiere en magnitud, signo o significancia estadística entre grupos. Teóricamente, el diseño evalúa si la densidad vial opera como un mecanismo multiplicador de la actividad económica local en la periferia rural o si, por el contrario, actúa como un escudo o amortiguador cíclico que provee resiliencia en los nodos urbanos frente a las contracciones del mercado nacional.
 
@@ -253,7 +253,7 @@ Para complementar el análisis econométrico, la Figura \ref{fig:imae_luces_stl}
 
 Visualmente existe correlación en los movimientos de ambas series. Sin embargo, se observa un desfase temporal durante los años 2020 y 2021, periodo que coincide con las anomalías económicas globales causadas por la pandemia de COVID-19 y sus fases iniciales de recuperación. 
 
-El segundo desacople se registra a partir de mediados de 2025, donde el indicador macroeconómico mantiene una senda expansiva mientras la tendencia lumínica filtrada muestra una moderada contracción. Esta divergencia reciente podría deberse a una combinación de factores no controlados en esta fase agregada. Por un lado, es posible que existan fricciones técnicas, como la paulatina pérdida de calibración del sensor satelital o el efecto de borde (*edge effect*) inherente al suavizado del filtro STL al acercarse al final de la muestra. Por otro lado, desde una perspectiva económica, este comportamiento podría reflejar un crecimiento del IMAE impulsado por sectores macroeconómicos de baja intensidad lumínica (como actividades primarias o minería de exportación).
+El segundo desacople se registra a partir de mediados de 2025, donde el indicador macroeconómico mantiene su crecimiento mientras la tendencia lumínica filtrada muestra una contracción. Esta divergencia reciente podría deberse a una combinación de factores no controlados en esta fase agregada. Por un lado, es posible que existan fricciones técnicas, como la paulatina pérdida de calibración del sensor satelital o el efecto de borde (*edge effect*) inherente al suavizado del filtro STL al acercarse al final de la muestra. Por otro lado, desde una perspectiva económica, este comportamiento podría reflejar un crecimiento del IMAE impulsado por sectores macroeconómicos de baja intensidad lumínica (como actividades primarias o minería de exportación).
 
 A pesar de estas anomalías en los extremos de la serie, la elasticidad positiva y la correlación general validan a las luces nocturnas como un instrumento útil para rastrear el ciclo economico.
 
@@ -263,7 +263,6 @@ A pesar de estas anomalías en los extremos de la serie, la elasticidad positiva
 \caption{Co-movimiento macroeconómico: IMAE nacional frente a la tendencia de luces nocturnas}
 \label{fig:imae_luces_stl}
 \includegraphics[width=\textwidth]{../Graficos/imae_luces_filtro_stl.pdf}
-\vspace{2mm}
 \small
 \textbf{Nota:} La serie de luces nocturnas municipales agregadas fue filtrada mediante Descomposición Estacional por Loess (STL) para extraer la tendencia limpia de largo plazo y eliminar el ruido de calibración del sensor. El IMAE nacional corresponde al componente oficial de tendencia-ciclo mensual (Base 2006). \\
 \textbf{Fuente:} Elaboración propia basada en microdatos del producto Black Marble VNP46A3 de la NASA y series macroeconómicas del Banco Central de Nicaragua (BCN).
@@ -280,50 +279,45 @@ Para aislar los efectos locales del ciclo económico, la muestra fue dividida si
 \caption{Distribución espacial de los municipios según estratos de luminosidad histórica}
 \label{fig:mapa_estratos}
 \includegraphics[width=\textwidth]{../Graficos/mapa_estratos_terciles.pdf}
-\vspace{2mm}
 \small
 \textbf{Nota:} Delimitación geográfica de los 153 municipios de Nicaragua clasificados de manera simétrica por terciles de radiancia promedio de largo plazo. El estrato alto delimita los principales polos urbanos y comerciales del país. \\
 \textbf{Fuente:} Elaboración propia basada en microdatos cartográficos oficiales de geoBoundaries e imágenes del producto Black Marble de la NASA.
 \end{minipage}
 \end{figure}
 
-La asimetría estructural del país se confirma al observar la evolución temporal pura de las luces nocturnas dentro de cada grupo. Las Figuras \ref{fig:serie_estrato_alto}, \ref{fig:serie_estrato_medio} y \ref{fig:serie_estrato_bajo} exponen las trayectorias de luminosidad mensual. En el estrato alto, la radiancia exhibe niveles superiores y una marcada estabilidad en el tiempo, propia de aglomeraciones urbanas consolidadas con infraestructura eléctrica continua. A medida que se desciende hacia el estrato medio y bajo, los niveles lumínicos promedio caen drásticamente acercándose a cero y la volatilidad temporal aumenta. Esta dinámica descriptiva evidencia la profunda brecha en el consumo energético y anticipa que la respuesta local ante los shocks exógenos del IMAE estará fuertemente condicionada por estas características iniciales.
+La asimetría estructural del país se confirma de forma contundente al observar la magnitud de la evolución temporal de las luces nocturnas dentro de cada grupo. Las Figuras \ref{fig:serie_estrato_alto}, \ref{fig:serie_estrato_medio} y \ref{fig:serie_estrato_bajo} exponen las trayectorias de luminosidad mensual. En estos paneles, las líneas tenues de fondo representan la evolución radiométrica individual de cada municipio, mientras que la línea sólida oscura marca el promedio del estrato, evidenciando una brecha masiva en las escalas de emisión. 
+
+En el estrato alto, la radiancia exhibe niveles sistemáticamente superiores y un dinamismo sostenido, propio de aglomeraciones urbanas consolidadas con infraestructura eléctrica continua. A medida que se desciende hacia los estratos medio y bajo, los niveles lumínicos promedio sufren un colapso drástico, con la periferia rural registrando emisiones que apenas logran despegar del cero absoluto. Esta severa desigualdad estructural en el consumo energético y la ocupación territorial anticipa que la respuesta local ante los shocks exógenos del IMAE estará fuertemente condicionada por estas características de origen.
 
 \begin{figure}[H]
 \centering
-\begin{minipage}{0.85\textwidth}
+\begin{minipage}{0.65\textwidth}
 \caption{Evolución temporal de la luminosidad local: Estrato Alto}
 \label{fig:serie_estrato_alto}
 \includegraphics[width=\textwidth]{../Graficos/grafico_1_estrato_alto.pdf}
-\vspace{2mm}
 \small
-\textbf{Nota:} Las líneas tenues representan la trayectoria radiométrica mensual individual de cada municipio perteneciente al estrato alto (mayor desarrollo económico y densidad vial). La línea sólida oscura marca el promedio grupal del tercil. \\
 \textbf{Fuente:} Elaboración propia con registros de la NASA.
 \end{minipage}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\begin{minipage}{0.85\textwidth}
+\begin{minipage}{0.65\textwidth}
 \caption{Evolución temporal de la luminosidad local: Estrato Medio}
 \label{fig:serie_estrato_medio}
 \includegraphics[width=\textwidth]{../Graficos/grafico_2_estrato_medio.pdf}
-\vspace{2mm}
 \small
-\textbf{Nota:} Las líneas tenues representan la trayectoria radiométrica mensual individual de cada municipio perteneciente al estrato medio (desarrollo económico intermedio). La línea sólida marca el promedio grupal del tercil. \\
 \textbf{Fuente:} Elaboración propia con registros de la NASA.
 \end{minipage}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\begin{minipage}{0.85\textwidth}
+\begin{minipage}{0.65\textwidth}
 \caption{Evolución temporal de la luminosidad local: Estrato Bajo}
 \label{fig:serie_estrato_bajo}
 \includegraphics[width=\textwidth]{../Graficos/grafico_3_estrato_bajo.pdf}
-\vspace{2mm}
 \small
-\textbf{Nota:} Las líneas tenues representan la trayectoria radiométrica mensual individual de cada municipio perteneciente al estrato bajo (zonas periféricas y estructuralmente aisladas). La línea sólida marca el promedio grupal del tercil, evidenciando niveles de consumo eléctrico sumamente bajos. \\
 \textbf{Fuente:} Elaboración propia con registros de la NASA.
 \end{minipage}
 \end{figure}
