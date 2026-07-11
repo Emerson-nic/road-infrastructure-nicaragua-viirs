@@ -519,7 +519,13 @@ set.seed(42)
 n_perm <- 1000
 
 panel_placebo <- panel_final %>%
-  dplyr::mutate(log_imae = log(imae))
+  dplyr::mutate(log_imae = log(imae)) %>%
+  dplyr::filter(
+    is.finite(luces_nocturnas),
+    is.finite(log_densidad_vial),
+    is.finite(log_area),
+    is.finite(log_imae)
+  )
 
 #mapa de municipio
 mapa_densidad <- panel_placebo %>%
@@ -603,9 +609,9 @@ grafico_placebo <- ggplot(placebo_df, aes(x = coef_placebo)) +
            label = paste0("Coeficiente Real: ", round(coef_real, 4)), 
            color = "#DC2626", angle = 90, vjust = -0.5, fontface = "bold", size = 3.5) +
   labs(
-    title = "Distribución del Coeficiente de Placebo vs. Efecto Real",
-    subtitle = paste0("Simulación de Monte Carlo con ", n_perm, " permutaciones espaciales de la Red Vial (p-valor = ", 
-                      round(p_placebo_poisson, 4), ")"),
+    #title = "Distribución del Coeficiente de Placebo vs. Efecto Real",
+    #subtitle = paste0("Simulación de Monte Carlo con ", n_perm, " permutaciones espaciales de la Red Vial (p-valor = ", 
+                      #round(p_placebo_poisson, 4), ")"),
     x = "Estimación del Coeficiente de Interacción Simulado",
     y = "Densidad"
   ) +
@@ -930,9 +936,9 @@ p2 <- ggplot(nic_map_completo) +
 mapa_panel_1x2 <- p1 + p2 + 
   plot_layout(ncol = 2) +
   plot_annotation(
-    title = "Heterogeneidad Espacial Continua de la Resiliencia Macroeconómica",
-    subtitle = "Efectos marginales específicos (modelo bayesiano jerárquico Poisson). Municipios en gris claro: intervalo de credibilidad del 95% incluye el cero.",
-    caption = "Fuente: VIIRS-NASA, OpenStreetMap, Banco Central de Nicaragua. Procesamiento dual Python-R.",
+    #title = "Heterogeneidad Espacial Continua de la Resiliencia Macroeconómica",
+    #subtitle = "Efectos marginales específicos (modelo bayesiano jerárquico Poisson). Municipios en gris claro: intervalo de credibilidad del 95% incluye el cero.",
+    #caption = "Fuente: VIIRS-NASA, OpenStreetMap, Banco Central de Nicaragua. Procesamiento dual Python-R.",
     theme = theme(
       plot.title = element_text(hjust = 0.5, face = "bold", size = 11, color = "#17202A"),
       plot.subtitle = element_text(hjust = 0.5, size = 8, color = "#566573"),
@@ -953,6 +959,7 @@ ggsave(
 #aqui se ven las variables significativas desglosadas
 betas_municipales <- read.csv("csv/bayes_mejorado_total.csv")
 
+as_tibble(mapa_data_vial) %>% print(n = Inf)
 
 if(F){
   "
