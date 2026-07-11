@@ -321,3 +321,142 @@ En el estrato alto, la radiancia exhibe niveles sistemáticamente superiores y u
 \textbf{Fuente:} Elaboración propia con registros de la NASA.
 \end{minipage}
 \end{figure}
+
+# Resultados
+
+### Modelo causal y mecanismos de transmisión
+
+Para identificar cómo la infraestructura condiciona la transmisión de los shocks macroeconómicos hacia las localidades, se estimaron diversas especificaciones del modelo de Efectos Fijos Bidireccionales (TWFE). Los resultados formales se consolidan en la Tabla \ref{tab:resultados_principales}. Con el objetivo de garantizar la robustez metodológica frente a problemas de heterocedasticidad espacial y autocorrelación serial, los errores estándar se calcularon agrupados (clustered) a nivel municipal.
+
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{2pt} 
+\begin{threeparttable}
+\caption{Estimaciones del impacto causal logístico ante fluctuaciones macroeconómicas}
+\label{tab:resultados_principales}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l c c c c c}
+\toprule
+ & (1) & (2) & (3) & (4) & (5) \\
+Estimador: & OLS Lineal & TWFE Base & PPML & PPML & TWFE \\
+Muestra: & Completa & Completa & (Principal) & (Sin influyentes) & (Sin influyentes) \\
+\midrule
+\textit{Variable dependiente} & $\ln(Luces_{it})$ & $\ln(Luces_{it})$ & $Luces_{it}$ & $Luces_{it}$ & $\ln(Luces_{it})$ \\
+\midrule
+Canal Vial & -0.6350*** & -0.6350** & -0.8474*** & -0.9220*** & -0.6862*** \\
+($\ln(D_i) \times \ln(IMAE_t)$) & (0.1041) & (0.3033) & (0.1926) & (0.1731) & (0.1775) \\
+\addlinespace
+Canal Área & 0.4362*** & 0.4362*** & 0.0461 & 0.0490 & 0.3597*** \\
+($\ln(A_i) \times \ln(IMAE_t)$) & (0.0732) & (0.1484) & (0.0720) & (0.0719) & (0.1159) \\
+\midrule
+Efectos fijos (Mun. y Mes) & Sí & Sí & Sí & Sí & Sí \\
+Errores clusterizados & No & Sí & Sí & Sí & Sí \\
+Observaciones & 10,997 & 10,997 & 10,997 & 10,809 & 10,809 \\
+Pseudo $R^2$ & 0.574 & 0.574 & 0.587 & 0.591 & 0.670 \\
+BIC & 20,322.9 & 20,322.9 & 11,931.8 & 11,744.2 & 15,711.7 \\
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\small
+\item \textit{Nota:} *** Significativo al 1\%, ** al 5\%, * al 10\%. Errores estándar entre paréntesis agrupados a nivel municipal (excepto columna 1). La columna (3) representa la especificación causal preferida dada la superioridad del estimador PPML. Las columnas (4) y (5) evalúan la robustez al excluir observaciones altamente influyentes (residuos estandarizados absolutos $>3$).
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+### El efecto amortiguador de la infraestructura
+
+El hallazgo central de la investigación reside en el coeficiente de la interacción vial (Canal Vial). A través de todas las especificaciones, el parámetro resulta consistentemente negativo y estadísticamente significativo. Bajo la especificación preferida Poisson PPML (columna 3), el estimador alcanza un valor de -0.8474. Aún más revelador resulta el modelo de la columna (4), donde, al restringir la muestra para eliminar las observaciones más influyentes o extremas \footnote{En este contexto, las observaciones con alto apalancamiento no representan errores de medición satelital o anomalías espurias (outliers tradicionales), sino verdaderas asimetrías estructurales en la geografía económica de Nicaragua. Por tanto, se preserva la muestra completa (columna 3) como el modelo principal de inferencia, empleando esta exclusión temporal (columna 4) estrictamente como una prueba de sensibilidad matemática.}, el efecto se fortalece alcanzando un coeficiente de -0.9220 (significativo al 1 por ciento).
+
+En términos de econometría regional, este signo negativo demuestra que la red logística opera como un mecanismo amortiguador o de desacople cíclico estructural. El incremento de la magnitud en la muestra central (columna 4) comprueba que este fenómeno es la norma general en el país: una mayor densidad vial reduce matemáticamente la volatilidad económica de los municipios frente a los movimientos bruscos del ciclo nacional. Una dotación superior de infraestructura permite que los mercados locales alcancen un grado de autonomía y profundidad suficiente para protegerse de las crisis externas. 
+
+Como ilustración empírica, supóngase un escenario de recesión donde el IMAE nacional experimenta una contracción teórica del 10 por ciento. En municipios periféricos altamente desconectados, como Siuna o diversas zonas de la Costa Caribe, el aislamiento geográfico encarece los costos de transporte de forma prohibitiva, lo que provoca que la recesión se transfiera de forma íntegra o amplificada a la economía local. Por el contrario, en territorios urbanos altamente interconectados, como Managua o Estelí, la infraestructura densa protege el flujo comercial intrarregional y defiende el empleo, permitiendo que la caída local sea atenuada estructuralmente (diferencial de protección dictado por el coeficiente del -9.22%). 
+
+Este efecto de protección es simétrico. Durante las fases de expansión acelerada, las ciudades conectadas crecen a su propio ritmo estructural sin depender pasivamente del arrastre del ciclo agregado, lo cual comprueba que las carreteras dotan de resiliencia real al tejido productivo subnacional.
+
+### Evidencia continua y controles de escala
+
+La Figura \ref{fig:panel_efectos_controles} complementa el análisis al ilustrar, en su panel A, cómo evoluciona la elasticidad de manera continua a lo largo de toda la distribución empírica de conectividad. Se observa claramente que, en niveles de densidad vial cercanos a cero, el efecto marginal es positivo, dejando a los territorios periféricos altamente vulnerables ante los shocks agregados. A medida que la red logística mejora (desplazamiento a lo largo del eje X), la línea de tendencia cae sistemáticamente hacia la zona negativa de protección macroeconómica, con intervalos de confianza estrechos que respaldan la precisión de la estimación.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{1\textwidth}
+\caption{Análisis de efectos marginales espaciales y ortogonalidad estructural}
+\label{fig:panel_efectos_controles}
+\includegraphics[width=\textwidth]{../Graficos/panel_efectos_y_controles_1x2.pdf}
+\vspace{2mm}
+\small
+\textit{Nota:} El panel A ilustra la trayectoria continua de la elasticidad neta frente a la densidad vial empírica, calculada bajo el modelo Poisson PPML con intervalos de confianza al 95\%. El panel B demuestra la dispersión conjunta entre el área geográfica y la densidad vial, garantizando la ausencia de multicolinealidad perfecta entre ambos controles logísticos. \\
+\textit{Fuente:} Estimaciones propias en R.
+\end{minipage}
+\end{figure}
+
+Por otro lado, la inclusión de la interacción espacial por escala geográfica (Canal Área) resulta un control empírico fundamental. Como lo evidencia el panel B de la gráfica superior, aunque los municipios geográficamente más grandes tienden a poseer una menor densidad vial (una dispersión descendente natural), la relación no es determinística. Esto garantiza la independencia y ortogonalidad estadística en las estimaciones. De manera concluyente, en las estimaciones Poisson PPML (Tabla \ref{tab:resultados_principales}, columnas 3 y 4), el coeficiente asociado al área territorial pierde por completo su significancia estadística. Este resultado es revelador, ya que descarta que el mero tamaño geográfico de un municipio funcione como un escudo económico, confirmando que el verdadero mecanismo de resiliencia subnacional es única y exclusivamente la conectividad vial construida.
+\newpage
+
+\printbibliography
+
+\newpage
+
+\appendix
+\setcounter{table}{0}
+\renewcommand{\thetable}{A.\arabic{table}}
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{A.\arabic{figure}}
+
+\section{Anexo Metodológico: Pruebas de Robustez y Diagnóstico}
+\label{sec:anexo_metodologico}
+
+Las siguientes secciones presentan los análisis de sensibilidad de la inferencia econométrica y los diagnósticos correspondientes a la distribución de los errores del modelo principal Poisson TWFE, corroborando la consistencia y validez de los hallazgos causales discutidos en el cuerpo del documento.
+
+\subsection{Sensibilidad de la Inferencia a la Especificación del Error}
+
+En datos de panel de alta frecuencia temporal y granularidad espacial, los términos de error suelen presentar tanto heterocedasticidad como autocorrelación serial. Si no se corrigen, estos problemas subestiman los errores estándar, produciendo falsos positivos. Para confirmar que el efecto amortiguador de las carreteras es estadísticamente real, la Tabla \ref{tab:robustez_errores} compara las desviaciones estándar del modelo Poisson PPML bajo tres supuestos: errores IID clásicos, robustos de White (heterocedasticidad simple) y errores agrupados o \textit{clustered} de Arellano (heterocedasticidad y autocorrelación arbitraria dentro de cada municipio).
+
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Sensibilidad estadística del modelo Poisson PPML ante estructuras alternativas de error}
+\label{tab:robustez_errores}
+\begin{tabular}{l >{\centering\arraybackslash}p{3.3cm} >{\centering\arraybackslash}p{3.3cm} >{\centering\arraybackslash}p{3.3cm}}
+\toprule
+ & \multicolumn{3}{c}{\textbf{Variable dependiente: $Luces_{it}$ (Estimador PPML)}} \\
+\cmidrule(lr){2-4}
+\textbf{Variable explicativa} & \textbf{(1) IID Clásicos} & \textbf{(2) Robustos (White)} & \textbf{(3) Clustered (Arellano)} \\
+\midrule
+\multirow{2}{*}{Canal Vial} & -0.8474* & -0.8474*** & -0.8474*** \\
+ & (0.3424) & (0.1087) & (0.1926) \\
+\addlinespace
+\multirow{2}{*}{Canal Área} & 0.0461 & 0.0461 & 0.0461 \\
+ & (0.1267) & (0.0394) & (0.0720) \\
+\midrule
+Efectos fijos de municipio & Sí & Sí & Sí \\
+Efectos fijos de mes & Sí & Sí & Sí \\
+Observaciones & 10,997 & 10,997 & 10,997 \\
+Pseudo $R^2$ & 0.587 & 0.587 & 0.587 \\
+BIC & 11,931.8 & 11,931.8 & 11,931.8 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\small
+\item \textit{Nota:} *** Significativo al 1\%, ** al 5\%, * al 10\%. Los coeficientes puntuales son matemáticamente idénticos; la variación radica en el cálculo de los errores estándar (entre paréntesis). La columna (3) corresponde a la especificación restrictiva del texto principal.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+Como se observa, los estimadores puntuales no varían, pero su precisión sí. Al aplicar la corrección más estricta (columna 3), los errores estándar del Canal Vial se penalizan debido a la estructura del panel (pasando de 0.1087 en White a 0.1926 en Clustered). Sin embargo, el coeficiente se mantiene altamente significativo al nivel de confianza del 1\% ($p < 0.01$). Esto confirma que la infraestructura logística posee un impacto causal genuino, superando las exigencias de la inferencia estadística moderna.
+
+\subsection{Diagnóstico Post-Estimación: Distribución de Residuos}
+
+Para descartar problemas de especificación funcional en el modelo Poisson TWFE, se analizó el comportamiento de sus perturbaciones aleatorias. La Figura \ref{fig:residuos_twfe} despliega el gráfico de valores ajustados frente a los residuos del modelo. La nube de puntos evidencia que, una vez absorbida la heterogeneidad inobservable mediante los efectos fijos bidireccionales, la gran mayoría de los residuos orbitan de forma simétrica alrededor del cero poblacional sin mostrar patrones geométricos o no lineales continuos (como formas de embudo o parábolas). Esto certifica que el estimador PPML capturó exitosamente la esperanza condicional de los datos.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.85\textwidth}
+\caption{Distribución de residuos vs. Valores ajustados (Modelo Poisson PPML)}
+\label{fig:residuos_twfe}
+\includegraphics[width=\textwidth]{../Graficos/distribucion_residuos_twfe.pdf}
+\vspace{2mm}
+\small
+\textbf{Fuente:} Elaboración propia.
+\end{minipage}
+\end{figure}
