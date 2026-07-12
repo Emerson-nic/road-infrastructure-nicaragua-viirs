@@ -54,7 +54,7 @@ resultado = modelo.fit(
 summary = az.summary(resultado, var_names=[
     "interaccion_log_std", "interaccion_area_std",
     "1|municipio_sigma", "1|fecha_sigma"
-])
+], ci_prob=0.95)
 print(summary)
 print("Divergencias totales:", resultado.sample_stats.diverging.sum().values)
 
@@ -72,7 +72,7 @@ efecto_area_std = posterior['interaccion_area_std|municipio']
 municipios_ordenados = sorted(df['municipio'].unique())
 
 # Recuperar el scaler usado
-std_vial = scaler.scale_[0] #desviación estandar de interaccion_log original
+std_vial = scaler.scale_[0] 
 std_area = scaler.scale_[1]
 
 filas = []
