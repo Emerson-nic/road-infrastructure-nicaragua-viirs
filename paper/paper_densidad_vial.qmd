@@ -1,7 +1,7 @@
 ---
 title: "Infraestructura vial como amortiguador cíclico: evidencia causal con luces nocturnas en municipios de Nicaragua"
-author:
-  - Emerson López
+# author:
+#   - Emerson López
 date: today
 date-format: "D [de] MMMM [de] YYYY"
 lang: es
@@ -88,7 +88,7 @@ Este artículo evalúa empíricamente cómo la infraestructura vial condiciona l
 
 La resiliencia de las economías locales ante las fluctuaciones del ciclo macroeconómico nacional es un tema central en la agenda de desarrollo territorial. Aunque la literatura de geografía económica reconoce ampliamente que la infraestructura de transporte reduce las fricciones espaciales, fomenta el comercio y permite la integración de los mercados, existe una brecha en la comprensión empírica sobre cómo esta dotación física condiciona la absorción de los shocks agregados a nivel micro-local. En este contexto, la presente investigación plantea la siguiente pregunta central: ¿Cómo condiciona la dotación de infraestructura vial la transmisión de los shocks macroeconómicos a las economías locales en Nicaragua?
 
-Para superar la escasez estructural de datos oficiales del IMAE a nivel municipal y con alta frecuencia, se utiliza la luminosidad nocturna satelital como un proxy objetivo de la actividad económica, combinándola con datos geoespaciales precisos de la red vial. Mediante la construcción de un panel de datos multidimensional de frecuencia mensual que abarca los 153 municipios del país durante el período 2020-2025, se evalúa empíricamente si las carreteras actúan como canales de transmisión que amplifican los ciclos comerciales o, alternativamente, como escudos estructurales que protegen a las economías locales de las contracciones nacionales.
+Para superar la escasez estructural de datos oficiales de Producto Interno Bruto (PIB) y actividad económica a nivel municipal con alta frecuencia, se utiliza la luminosidad nocturna satelital como un proxy objetivo de la actividad económica, combinándola con datos geoespaciales precisos de la red vial. Mediante la construcción de un panel de datos multidimensional de frecuencia mensual que abarca los 153 municipios del país durante el período 2020-2025, se evalúa empíricamente si las carreteras actúan como canales de transmisión que amplifican los ciclos comerciales o, alternativamente, como escudos estructurales que protegen a las economías locales de las contracciones nacionales.
 
 Para aislar el efecto causal de la infraestructura, se implementa una estrategia empírica de Efectos Fijos Bidireccionales (TWFE) bajo una especificación Poisson por Pseudo-Máximo Verosímil, la cual interactúa la dotación estática de carreteras con el componente dinámico del Índice Mensual de Actividad Económica (IMAE). Esta metodología principal se somete a rigurosos controles estadísticos, incluyendo pruebas de placebo mediante permutación espacial aleatoria de las redes viales, remoción de observaciones atípicas y ajustes por saturación de los sensores satelitales (top-coding), garantizando que las elasticidades estimadas no respondan a correlaciones espurias o ruido geográfico.
 
@@ -119,10 +119,9 @@ La variable dependiente captura la actividad económica local mediante la radian
 \begin{figure}[H]
 \centering
 \begin{minipage}{0.65\textwidth}
-\caption{Nicaragua desde el espacio}
+\caption{Distribución espacial de la radiancia satelital nocturna en Nicaragua}
 \label{fig:mapa_satelital_nicaragua}
 \includegraphics[width=\textwidth]{../Graficos/mapa_satelital_nicaragua.pdf}
-\vspace{2mm}
 \small
 \textit{Nota:} Composición de radiancia promedio mensual (NASA VIIRS Black Marble, producto VNP46A3) para diciembre de 2025. La concentración de luminosidad en la franja del Pacífico y en las principales cabeceras departamentales frente al resto del territorio nacional ilustra la marcada asimetría espacial en la actividad económica que motiva el análisis de heterogeneidad de esta investigación. \\
 \textit{Fuente:} Elaboración propia con datos de NASA VIIRS VNP46A3 \parencite{elvidge2017viirs}.
@@ -520,7 +519,7 @@ Los sectores secundario y terciario presentan coeficientes similares entre sí (
 \caption{Coeficientes sectoriales del canal vial y control por área}
 \label{fig:coeficientes_sectores}
 \includegraphics[width=\textwidth]{../Graficos/coeficientes_vial_vs_area.pdf}
-\vspace{2mm}
+
 \small
 \textit{Nota:} Coeficientes estimados con intervalos de confianza al 95\%. El Canal Vial es significativo en todos los sectores; el Canal Área no lo es en ninguna especificación. \\
 \textit{Fuente:} Elaboración propia.
@@ -678,7 +677,7 @@ La Figura \ref{fig:residuos_twfe} presenta los residuos del modelo frente a los 
 \caption{Distribución de residuos vs. Valores ajustados (Modelo Poisson PPML)}
 \label{fig:residuos_twfe}
 \includegraphics[width=\textwidth]{../Graficos/distribucion_residuos_twfe.pdf}
-\vspace{2mm}
+
 \small
 \textbf{Fuente:} Elaboración propia con datos obtenidos de NASA VIIRS, OpenStreetMap y el Banco Central de Nicaragua.
 \end{minipage}
