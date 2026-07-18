@@ -40,3 +40,6 @@ paper/paper_densidad_vial.run.xml
 
 #cvs
 csv/*.csv
+
+#python
+__pycache__
