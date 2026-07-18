@@ -68,6 +68,14 @@ message("Universidad de Southampton (Reino Unido)")
 message("Link de descarga directa para el navegador:")
 message("https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/NIC/nic_ppp_2020_UNadj.tif")
 
+if (!file.exists(destino_raster)) {
+  message("Descargando raster de WorldPop (~58 MB)...")
+  download.file(
+    "https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/NIC/nic_ppp_2020_UNadj.tif",
+    destino_raster,
+    mode = "wb"
+  )
+}
 message("Cargando malla de poblacion de forma local...")
 poblacion_raster <- terra::rast(destino_raster)
 
@@ -208,57 +216,59 @@ message("Fuente de datos: OpenStreetMap (Formato GeoJSON)")
 
 #cargar mapas
 ruta_municipios <- "dataset/geoBoundaries-NIC-ADM2.geojson"
-ruta_raw_geojson <- "dataset/export.geojson"
-ruta_vial_optimizada <- "dataset/nicaragua_carreteras.rds"
+ruta_csv_vial <- here::here("csv", "densidad_vial_municipales.csv")
 
-#cargar municipios
-municipios_sf <- sf::st_read(ruta_municipios, quiet = TRUE)
-
-#optimizacion crear archivo .rds si no existe
-if (!file.exists(ruta_vial_optimizada)) {
-  message("de GeoJSON a formato binario .rds")
+if (!file.exists(ruta_csv_vial)) {
+  ruta_raw_geojson <- "dataset/export.geojson"
+  ruta_vial_optimizada <- "dataset/nicaragua_carreteras.rds"
   
-  carreteras_raw <- sf::st_read(ruta_raw_geojson, quiet = TRUE)
-  carreteras_sf <- carreteras_raw %>% 
-    sf::st_transform(crs = sf::st_crs(municipios_sf)) %>% 
-    sf::st_make_valid() 
+  #cargar municipios
+  municipios_sf <- sf::st_read(ruta_municipios, quiet = TRUE)
   
-  saveRDS(carreteras_sf, ruta_vial_optimizada)
-  rm(carreteras_raw) #borramos el pesado de la memoria RAM
+  #optimizacion crear archivo .rds si no existe
+  if (!file.exists(ruta_vial_optimizada)) {
+    message("de GeoJSON a formato binario .rds")
+    carreteras_raw <- sf::st_read(ruta_raw_geojson, quiet = TRUE)
+    carreteras_sf <- carreteras_raw %>% 
+      sf::st_transform(crs = sf::st_crs(municipios_sf)) %>% 
+      sf::st_make_valid() 
+    saveRDS(carreteras_sf, ruta_vial_optimizada)
+    rm(carreteras_raw)
+  }
+  
+  message("este comando de abajo tarda bastante")
+  carreteras_sf <- readRDS(ruta_vial_optimizada)
+  
+  #calcular densidad vial por municipio
+  carreteras_municipio <- sf::st_intersection(carreteras_sf, municipios_sf)
+  
+  #calcular longitud en km por segmento y luego sumar por municipio
+  message("igual este tarda mucho")
+  carreteras_resumen <- carreteras_municipio %>%
+    dplyr::mutate(longitud_km = sf::st_length(.) / 1000) %>%
+    sf::st_drop_geometry() %>%
+    dplyr::group_by(shapeName) %>%
+    dplyr::summarise(km_vial = sum(as.numeric(longitud_km)))
+  
+  #unir
+  municipios_sf <- municipios_sf %>%
+    dplyr::mutate(area_km2 = as.numeric(sf::st_area(.) / 1e6)) %>%
+    dplyr::left_join(carreteras_resumen, by = "shapeName") %>%
+    dplyr::mutate(densid_vial = km_vial / area_km2) %>%
+    tidyr::replace_na(list(densid_vial = 0, km_vial = 0))
+  
+  #guardar
+  densidad_vial_csv <- municipios_sf %>%
+    sf::st_drop_geometry() %>%
+    dplyr::select(municipio = shapeName, area_km2, km_vial, densid_vial) 
+  
+  head(municipios_sf %>% dplyr::select(shapeName, densid_vial), 15)
+  head(densidad_vial_csv, 15)
+  
+  readr::write_csv(densidad_vial_csv, ruta_csv_vial)
+} else {
+  message("csv/densidad_vial_municipales.csv ya existe, saltando OSM...")
 }
-
-
-message("este comando de abajo tarda bastante")
-carreteras_sf <- readRDS(ruta_vial_optimizada)
-
-#calcular densidad vial por municipio
-#interseccion espacial dog
-carreteras_municipio <- sf::st_intersection(carreteras_sf, municipios_sf)
-
-#calcular longitud en km por segmento y luego sumar por municipio
-message("igual este tarda mucho")
-carreteras_resumen <- carreteras_municipio %>%
-  dplyr::mutate(longitud_km = sf::st_length(.) / 1000) %>%
-  sf::st_drop_geometry() %>% #borrar la geografia para que sea un dataframe plano
-  dplyr::group_by(shapeName) %>%
-  dplyr::summarise(km_vial = sum(as.numeric(longitud_km)))
-
-#unir
-municipios_sf <- municipios_sf %>%
-  dplyr::mutate(area_km2 = as.numeric(sf::st_area(.) / 1e6)) %>%
-  dplyr::left_join(carreteras_resumen, by = "shapeName") %>%
-  dplyr::mutate(densid_vial = km_vial / area_km2) %>%
-  tidyr::replace_na(list(densid_vial = 0, km_vial = 0))
-
-#guardar
-densidad_vial_csv <- municipios_sf %>%
-  sf::st_drop_geometry() %>%
-  dplyr::select(municipio = shapeName, area_km2, km_vial, densid_vial) 
-
-head(municipios_sf %>% dplyr::select(shapeName, densid_vial), 15)
-head(densidad_vial_csv, 15)
-
-readr::write_csv(densidad_vial_csv, here::here("csv", "densidad_vial_municipales.csv"))
 
 #IMAE  ----
 message("Fuente: BCN como archivo xlsx")
