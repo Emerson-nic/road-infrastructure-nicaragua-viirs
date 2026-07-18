@@ -6,11 +6,17 @@
 
 ---
 
-### Dashboard Interactivo
+### Dashboard Interactivo en Vivo
 
 Explore los resultados del panel espacial, la elasticidad cíclica municipal y la clasificación por estratos de desarrollo a través de una aplicación interactiva desplegada en Streamlit Cloud:
 
-[https://resiliencia-vial-nicaragua.streamlit.app/](https://resiliencia-vial-nicaragua.streamlit.app/)
+🚀 [https://resiliencia-vial-nicaragua.streamlit.app/](https://resiliencia-vial-nicaragua.streamlit.app/)
+
+<div align="center">
+  <br>
+  <img src="Graficos/dashboard.png" alt="Vista previa del Dashboard Interactivo de Streamlit" width="75%">
+  <p><i>Interfaz web interactiva para la exploración de elasticidades e indicadores de radiancia nocturna a nivel municipal.</i></p>
+</div>
 
 ---
 
@@ -30,9 +36,13 @@ El estudio estima cómo la densidad de la red vial modula la transmisión de los
 
 ## Vista previa del análisis
 
-![Distribución espacial de la radiancia satelital nocturna en municipios de Nicaragua](Graficos/dashboard.png)
+<div align="center">
+  <img src="Graficos/mapa_satelital.png" alt="Distribución espacial de la radiancia satelital nocturna en Nicaragua" width="60%">
+  <p><b>Figura 1:</b> Distribución espacial de la radiancia satelital nocturna en Nicaragua.</p>
+</div>
 
-**Figura 1:** Distribución espacial de la radiancia satelital nocturna y elasticidad temporalizada en Nicaragua.
+> **Nota:** Composición de radiancia promedio mensual (NASA VIIRS Black Marble, producto VNP46A3) para diciembre de 2025. La concentración de luminosidad en la franja del Pacífico y en las principales cabeceras departamentales frente al resto del territorio nacional ilustra la marcada asimetría espacial en la actividad económica que motiva el análisis de heterogeneidad de esta investigación.  
+> **Fuente:** Elaboración propia con datos de NASA VIIRS VNP46A3 (Elvidge et al., 2017).
 
 ---
 
