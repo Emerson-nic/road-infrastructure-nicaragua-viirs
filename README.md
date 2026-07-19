@@ -129,9 +129,10 @@ Ambos flujos ejecutan de forma secuencial:
 ### OpenStreetMap — Red vial
 
 - **Proyecto:** OpenStreetMap (OSM), comunidad colaborativa global.
-- **Extracción:** Consulta *Overpass API* filtrando vías de categoría `motorway`, `trunk`, `primary`, `secondary`, `tertiary` y `unclassified` dentro del polígono de Nicaragua.
-- **Uso:** Cálculo de kilómetros lineales de carretera por municipio mediante intersección espacial (`sf::st_intersection`). Se normaliza por área municipal para obtener la **densidad vial** (variable `X` de interés).
-- **Archivo procesado:** `dataset/nicaragua_carreteras.rds` (formato binario optimizado).
+- **Extracción manual:** La red vial se descargó manualmente desde [Overpass Turbo](https://overpass-turbo.eu/) con una consulta que filtra vías etiquetadas como `motorway`, `trunk`, `primary`, `secondary`, `tertiary` y `unclassified` dentro del polígono de Nicaragua. El resultado se exportó como GeoJSON (`dataset/export.geojson`). El código no ejecuta la consulta Overpass; utiliza el archivo precargado.
+- **Procesamiento:** El GeoJSON crudo se transforma al sistema de referencia de coordenadas de los municipios, se optimiza a formato binario `.rds` para acelerar cargas futuras y se interseca espacialmente con los límites municipales (`sf::st_intersection`) para calcular los kilómetros lineales de carretera por municipio.
+- **Densidad vial:** Se normalizan los kilómetros de carretera por el área municipal (`km_vial / area_km2`) para obtener la variable de interés.
+- **Archivo procesado:** `csv/densidad_vial_municipales.csv` (resultado final). `dataset/nicaragua_carreteras.rds` es un intermediario binario que agiliza la re-ejecución del pipeline.
 
 ### IMAE — Índice Mensual de Actividad Económica
 
