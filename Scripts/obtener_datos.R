@@ -351,6 +351,7 @@ df_luces <- df_luces %>%
 
 #cruzar las luces con la densidad_vial 
 panel_acumulado <- df_luces %>%
+  dplyr::select(!dplyr::any_of("poblacion_estimada")) %>%
   dplyr::left_join(df_vial, by = c("NAME_2" = "municipio"))
 
 panel_acumulado <- panel_acumulado %>%
