@@ -1,8 +1,6 @@
 ---
 title: "Infraestructura vial como amortiguador cíclico: evidencia causal con luces nocturnas en municipios de Nicaragua"
-author: "Kuin"
-# date: 2026-07-14
-# date-format: "D [de] MMMM [de] YYYY"
+author: "Emerson Lopez"
 lang: es
 keywords: [luces nocturnas, densidad vial, shocks macroeconómicos, heterogeneidad espacial, datos de panel]
 jel: [C23, O18, R11, R12]
@@ -99,7 +97,7 @@ Esta evidencia aporta implicaciones directas para el diseño de políticas públ
 
 Para garantizar la reproducibilidad computacional, la estrategia empírica se implementó mediante un ecosistema de programación dual. El procesamiento de datos geográficos y la estimación principal de efectos fijos bidireccionales (TWFE) se ejecutaron en R, utilizando las librerías sf \parencite{pebesma2018simple} y fixest \parencite{berge2018efficient}. El modelo jerárquico bayesiano se programó en Python con Bambi \parencite{capretto2022bambi} y los diagnósticos de convergencia se realizaron con ArviZ \parencite{kumar2019arviz}.
 
-<!-- Los datos procesados, el código de estimación y las figuras están disponibles en: \url{https://github.com/Emerson-nic/road-infrastructure-nicaragua-viirs} \url{https://codeberg.org/Emerson-nic/road-infrastructure-nicaragua-viirs} -->
+Los datos procesados, el código de estimación y las figuras están disponibles en: \\url{https://github.com/Emerson-nic/road-infrastructure-nicaragua-viirs} \\url{https://codeberg.org/Emerson-nic/road-infrastructure-nicaragua-viirs}
 
 # Revisión de la Literatura
 
@@ -123,7 +121,7 @@ La variable dependiente captura la actividad económica local mediante la radian
 
 \begin{figure}[H]
 \centering
-\begin{minipage}{0.65\textwidth}
+\begin{minipage}{0.55\textwidth}
 \caption{Distribución espacial de la radiancia satelital nocturna en Nicaragua}
 \label{fig:mapa_satelital_nicaragua}
 \includegraphics[width=\textwidth]{../Graficos/mapa_satelital_nicaragua.pdf}
@@ -594,19 +592,6 @@ La causa principal de esta limitación es computacional antes que metodológica:
 Un diagnóstico formal del Factor de Inflación de Varianza (VIF) entre las interacciones vial y de área arroja valores considerablemente elevados (en el orden de 1,000). Esta magnitud, sin embargo, no debe interpretarse bajo los criterios convencionales de un modelo lineal clásico, sino como una consecuencia mecánica y esperada de la arquitectura shift-share del diseño empírico. Ambas interacciones —$\ln(D_i) \times \ln(IMAE_t)$ y $\ln(A_i) \times \ln(IMAE_t)$— comparten el mismo componente temporal agregado ($IMAE_t$) como factor multiplicativo común, difiriendo únicamente en el peso transversal municipal (densidad vial o área). Dado que ambas variables se mueven en conjunto con el mismo shock nacional mes a mes, una correlación elevada entre ellas es estructural al diseño y no evidencia de una especificación defectuosa \parencite{borusyak2022quasi, goldsmith2020bartik}.
 
 Por esta razón, la literatura de diseños shift-share recomienda evaluar la robustez de este tipo de interacciones no mediante los diagnósticos clásicos de colinealidad, sino a través de pruebas de inferencia específicas al diseño, como los ejercicios de aleatorización o permutación de las dotaciones transversales (*shares*). Esta es precisamente la lógica detrás de la prueba de placebo por permutación espacial presentada en la Sección \ref{sec:placebo_permutacion}: al redistribuir aleatoriamente la densidad vial entre municipios preservando intacta la estructura temporal del IMAE, dicho ejercicio evalúa directamente si la variación transversal (en un panel de 5 años) de la densidad vial aporta poder explicativo genuino más allá del que generaría una asignación espacial arbitraria, sorteando así las limitaciones interpretativas del VIF en este contexto particular. El resultado de dicha prueba ($p = 0.001$) constituye, en este sentido, una validación de la identificación más directamente relevante que un diagnóstico convencional de colinealidad.
-
-\medskip
-
-\noindent\textit{Verificación adicional sugerida.} Como prueba complementaria, se recomienda reestimar el modelo principal excluyendo el Canal Área. Si la colinealidad estuviera distorsionando la estimación del Canal Vial, su coeficiente cambiaría significativamente al omitir ese control. El código en R para esta verificación es:
-
-\begin{footnotesize}
-\begin{verbatim}
-library(fixest)
-m_completo <- fepois(Luces ~ log(D_i):log(IMAE_t) + log(A_i):log(IMAE_t) | municipio + mes, data = panel, cluster = ~municipio)
-m_solo_vial <- fepois(Luces ~ log(D_i):log(IMAE_t) | municipio + mes, data = panel, cluster = ~municipio)
-etable(m_completo, m_solo_vial)
-\end{verbatim}
-\end{footnotesize}
 
 ## Validación del proxy satelital: alcances y límites
 
