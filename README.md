@@ -18,7 +18,7 @@ Explore los resultados del panel espacial, la elasticidad cíclica municipal y l
   <p><i>Interfaz web interactiva para la exploración de elasticidades e indicadores de radiancia nocturna a nivel municipal.</i></p>
 </div>
 
----
+---   
 
 ## Resumen
 
@@ -51,9 +51,6 @@ El estudio estima cómo la densidad de la red vial modula la transmisión de los
 ```
 actividad_economica_via/
 │
-├── .github/workflows/
-│   └── r_python_qc.yml # Integración continua (GitHub Actions)
-│
 ├── .woodpecker.yml  # Integración continua (Woodpecker CI / Codeberg)
 │
 ├── Scripts/
@@ -76,27 +73,6 @@ actividad_economica_via/
 ├── .gitignore                  
 └── README.md
 ```
-
----
-
-## Flujo de trabajo (pipeline)
-
-El proceso completo de reproducible se ejecuta en dos entornos de integración continua que coexisten en la rama `main`:
-
-| Plataforma | Archivo de configuración | Visor de ejecuciones |
-|---|---|---|
-| GitHub Actions | `.github/workflows/r_python_qc.yml` | Pestaña *Actions* del repositorio |
-| Codeberg / Woodpecker | `.woodpecker.yml` | Pestaña *CI* del repositorio espejo |
-
-Ambos flujos ejecutan de forma secuencial:
-
-1. **Instalación de dependencias del sistema** — `libgdal-dev`, `libgeos-dev`, `libproj-dev`.
-2. **Restauración de paquetes de R** — `sf`, `terra`, `exactextractr`, `blackmarbler`, `fixest`, `dplyr`, `readxl`, `janitor` (vía `pacman`).
-3. **Ejecución de `Scripts/obtener_datos.R`** — genera `csv/panel_final.csv`.
-4. **Configuración de Python** — instalación de `pandas` y `numpy`.
-5. **Ejecución de `dashboard/limpieza.py`** — procesa y estratifica el panel, generando `csv/panel_final_limpio.csv`.
-
-> **Nota:** Se requiere configurar el secreto `NASA_EARTHDATA_TOKEN` en cada plataforma para la descarga de imágenes satelitales VIIRS vía `blackmarbler`.
 
 ---
 
@@ -173,13 +149,6 @@ quarto render paper/paper_densidad_vial.qmd --to pdf
 ```bash
 Rscript Scripts/obtener_datos.R && python dashboard/limpieza.py
 ```
-
----
-
-## Citación
-
-López, E. (2026). *Infraestructura vial como amortiguador cíclico: evidencia municipal para Nicaragua a partir de imágenes satelitales*. Concurso de Papers del Banco Central de Nicaragua.
-
 ---
 
 ## Licencia
