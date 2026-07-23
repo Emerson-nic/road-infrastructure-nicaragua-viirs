@@ -74,9 +74,9 @@ format:
 
 \begin{flushleft}
 \small
-\noindent{Palabras clave:} luces nocturnas, densidad vial, shocks macroeconómicos, heterogeneidad espacial, datos de panel.\\
+\noindent \textbf{Palabras clave:} luces nocturnas, densidad vial, shocks macroeconómicos, heterogeneidad espacial, datos de panel.\\
 \vspace{0.15cm}
-\noindent{Códigos JEL:} C23, O18, R11, R12.
+\noindent \textbf{Códigos JEL:} C23, O18, R11, R12.
 \end{flushleft}
 
 
