@@ -67,7 +67,7 @@ format:
 ---
 
 \begin{abstract}
-\noindent Este artículo evalúa empíricamente cómo la infraestructura vial condiciona la transmisión de los shocks macroeconómicos nacionales hacia las economías locales de Nicaragua. Para ello, se estructuró un panel mensual que abarca los 153 municipios del país durante el período 2020--2025. Se utiliza la luminosidad nocturna satelital (NASA VIIRS) como un proxy de alta frecuencia para la actividad económica, integrada con datos geoespaciales de OpenStreetMap para calcular la densidad de carreteras y el área territorial. La estrategia empírica emplea un enfoque dual: un modelo causal de Efectos Fijos Bidireccionales (TWFE) bajo una especificación Poisson con errores agrupados, y una exploración espacial continua mediante un modelo bayesiano jerárquico. Los resultados revelan una profunda asimetría espacial que depende del nivel de desarrollo histórico del territorio. En las cabeceras urbanas consolidadas, la red vial actúa como un escudo estructural que disipa los shocks y amortigua la volatilidad del ciclo nacional. Por el contrario, en los municipios rezagados de la periferia, las carreteras operan como un multiplicador cíclico de vulnerabilidad: potencian el crecimiento local durante los auges agregados, pero profundizan drásticamente las contracciones en tiempos de crisis. Estos hallazgos aportan evidencia empírica sobre el papel de la infraestructura vial como canal de transmisión de los shocks macroeconómicos, con implicaciones para el diseño de políticas de inversión en resiliencia regional.
+\noindent Este artículo evalúa empíricamente cómo la infraestructura vial condiciona la transmisión de los shocks macroeconómicos nacionales hacia las economías locales de Nicaragua. Para ello, se estructuró un panel mensual que abarca los 153 municipios del país durante el período 2020--2025. Se utiliza la luminosidad nocturna satelital (NASA VIIRS) como un proxy de alta frecuencia para la actividad económica, integrada con datos geoespaciales de OpenStreetMap para calcular la densidad de carreteras y el área territorial. La estrategia empírica emplea un enfoque dual: un modelo causal de Efectos Fijos Bidireccionales (TWFE) bajo una especificación Poisson con errores agrupados, y una exploración espacial continua mediante un modelo bayesiano jerárquico. Los resultados revelan una asimetría espacial que depende del nivel de desarrollo histórico del territorio. En las cabeceras urbanas consolidadas, la red vial actúa como un escudo estructural que disipa los shocks y amortigua la volatilidad del ciclo nacional. Por el contrario, en los municipios rezagados de la periferia, las carreteras operan como un multiplicador cíclico de vulnerabilidad: potencian el crecimiento local durante los auges agregados, pero profundizan las contracciones en tiempos de crisis. Estos hallazgos aportan evidencia empírica sobre el papel de la infraestructura vial como canal de transmisión de los shocks macroeconómicos, con implicaciones para el diseño de políticas de inversión en resiliencia regional.
 \end{abstract}
 
 \vspace{0.25cm}
@@ -82,23 +82,23 @@ format:
 
 \newpage
 
-# Introducción
+# Introducción {#sec-introduccion}
 
 La resiliencia de las economías locales ante las fluctuaciones del ciclo macroeconómico nacional es un tema central en la agenda de desarrollo territorial. Aunque la literatura de geografía económica reconoce ampliamente que la infraestructura de transporte reduce las fricciones espaciales, fomenta el comercio y permite la integración de los mercados, existe una brecha en la comprensión empírica sobre cómo esta dotación física condiciona la absorción de los shocks agregados a nivel micro-local. En este contexto, la presente investigación plantea la siguiente pregunta central: ¿Cómo condiciona la dotación de infraestructura vial la transmisión de los shocks macroeconómicos a las economías locales en Nicaragua?
 
 Se utiliza la luminosidad nocturna satelital como un proxy de alta frecuencia de la actividad económica para superar la escasez de datos oficiales de Producto Interno Bruto (PIB) a nivel municipal, combinándola con datos geoespaciales precisos de la red vial. Mediante la construcción de un panel de datos multidimensional de frecuencia mensual que abarca los 153 municipios del país durante el período 2020-2025, se evalúa empíricamente si las carreteras actúan como canales de transmisión que amplifican los ciclos comerciales o, alternativamente, como escudos estructurales que protegen a las economías locales de las contracciones nacionales.
 
-Se implementa una estrategia empírica de Efectos Fijos Bidireccionales (TWFE) bajo una especificación Poisson por Pseudo-Máximo Verosímil para aislar el efecto causal de la infraestructura, interactuando la dotación estática de carreteras con el componente dinámico del IMAE. Esta metodología principal se somete a rigurosos controles estadísticos, incluyendo pruebas de placebo mediante permutación espacial aleatoria de las redes viales, remoción de observaciones atípicas y ajustes por saturación de los sensores satelitales (top-coding), garantizando que las elasticidades estimadas no respondan a correlaciones espurias o ruido geográfico.
+Se implementa una estrategia empírica de Efectos Fijos Bidireccionales (TWFE) bajo una especificación Poisson por Pseudo-Máximo Verosímil para aislar el efecto causal de la infraestructura, interactuando la dotación estática de carreteras con el componente dinámico del IMAE. Esta metodología principal se somete a controles estadísticos, incluyendo pruebas de placebo mediante permutación espacial aleatoria de las redes viales, remoción de observaciones atípicas y ajustes por saturación de los sensores satelitales (top-coding), garantizando que las elasticidades estimadas no respondan a correlaciones espurias o ruido geográfico.
 
 Los hallazgos de esta investigación revelan que el rol de la infraestructura de transporte no es homogéneo, sino que exhibe una marcada dualidad espacial condicionada por el desarrollo histórico de cada territorio. En el promedio nacional, impulsado por los principales centros urbanos y cabeceras departamentales, la densidad vial opera como un amortiguador eficaz, reduciendo la vulnerabilidad local frente a las caídas de la demanda agregada. Sin embargo, al segmentar el país por estratos, se descubre que en las zonas rurales periféricas e históricamente aisladas, la conectividad invierte su función y opera como un mecanismo de integración cíclica pura: amplifica el crecimiento durante las expansiones nacionales, pero agudiza severamente las crisis productivas durante las contracciones. Adicionalmente, el análisis sectorial demuestra que este efecto es transversal a toda la economía, pero adquiere su mayor profundidad e intensidad de transmisión a través del sector primario.
 
-Esta evidencia aporta implicaciones directas para el diseño de políticas públicas, demostrando que la inversión en conectividad vial en economías en desarrollo no solo genera retornos en eficiencia comercial, sino que altera la vulnerabilidad cíclica de los territorios. El resto del documento se estructura de la siguiente manera: la Sección 2 revisa la literatura previa; la Sección 3 describe la construcción del panel de datos y las variables; la Sección 4 detalla la estrategia metodológica; la Sección 5 valida el uso de luces nocturnas como proxy económico; la Sección 6 discute los resultados causales empíricos, los mecanismos sectoriales y los diagnósticos de robustez; la Sección 7 explora la heterogeneidad municipal mediante estimación bayesiana; la Sección 8 presenta la discusión de los resultados; y la Sección 9 expone las conclusiones de la investigación.
+Esta evidencia aporta implicaciones directas para el diseño de políticas públicas, demostrando que la inversión en conectividad vial en economías en desarrollo no solo genera retornos en eficiencia comercial, sino que altera la vulnerabilidad cíclica de los territorios. El resto del documento se estructura de la siguiente manera: la @sec-literatura revisa la literatura previa; la @sec-datos describe la construcción del panel de datos y las variables; la @sec-metodologia detalla la estrategia metodológica; la @sec-validacion_proxy valida el uso de luces nocturnas como proxy económico; la @sec-resultados discute los resultados causales empíricos, los mecanismos sectoriales y los diagnósticos de robustez; la @sec-heterogeneidad explora la heterogeneidad municipal mediante estimación bayesiana; la @sec-discusion presenta la discusión de los resultados; y la @sec-conclusiones expone las conclusiones de la investigación.
 
 La estrategia empírica se implementó mediante un ecosistema de programación dual para garantizar la reproducibilidad computacional. El procesamiento de datos geográficos y la estimación principal de efectos fijos bidireccionales (TWFE) se ejecutaron en R, utilizando las librerías sf \parencite{pebesma2018simple} y fixest \parencite{berge2018efficient}. El modelo jerárquico bayesiano se programó en Python con Bambi \parencite{capretto2022bambi} y los diagnósticos de convergencia se realizaron con ArviZ \parencite{kumar2019arviz}.
 
 Los datos procesados, el código de estimación y las figuras están disponibles en: \url{https://github.com/Emerson-nic/road-infrastructure-nicaragua-viirs} y \url{https://codeberg.org/Emerson-nic/road-infrastructure-nicaragua-viirs}
 
-# Revisión de la Literatura
+# Revisión de la Literatura {#sec-literatura}
 
 La escasez y la baja frecuencia de estadísticas macroeconómicas desagregadas a nivel subnacional constituyen uno de los principales desafíos empíricos para el estudio del desarrollo regional en economías en desarrollo. Ante esta restricción, la incorporación de datos de teledetección ha transformado la econometría espacial al ofrecer indicadores objetivos que mitigan los sesgos de reporte institucionales \parencite{donaldson2016view}. Durante la última década, una sólida línea de investigación ha consolidado el uso de la luminosidad nocturna como un proxy confiable de la actividad económica local, demostrando su capacidad para capturar variaciones en el consumo privado, la inversión pública y la producción física \parencite{henderson2012measuring, chen2011using, mellander2015night}. Este enfoque es particularmente valioso en entornos con alta informalidad económica o debilidades en sus sistemas estadísticos tradicionales \parencite{michalopoulos2014national, bruederle2018nighttime}. Los avances metodológicos recientes confirman que los registros radiométricos de la suite VIIRS superan las limitaciones de saturación de los sensores antiguos y aportan una resolución espacial superior \parencite{elvidge2017viirs, gibson2021which}, abriendo la puerta a la estimación precisa de dinámicas económicas a escalas micro-locales e infra-municipales.
 
@@ -112,7 +112,7 @@ En los últimos años, la literatura especializada ha comenzado a aprovechar las
 
 A pesar de estos consensos metodológicos sobre los impactos heterogéneos a largo plazo y el uso de proxies de alta frecuencia, persiste un vacío empírico importante en el contexto centroamericano. El antecedente más cercano a la pregunta de investigación planteada proviene de \textcite{storeygard2016farther}, quien demuestra para el África subsahariana que los costos de transporte median la transmisión del crecimiento urbano hacia el interior de los países, empleando luces nocturnas como variable de resultado. En América Latina, los estudios recientes de \textcite{millan2024luces} para los municipios de México y de \textcite{mccord2022nightlights} para los departamentos de Paraguay han validado el uso de la luminosidad satelital como estimador del crecimiento subnacional, aunque sin incorporar un análisis de infraestructura vial como moderador de dicha relación. Ningún estudio, hasta donde se tiene evidencia, ha combinado ambos enfoques —densidad vial como condicionante de la transmisión de shocks macroeconómicos, medida a través de luces nocturnas— para el caso de Nicaragua ni de Centroamérica continental. Para abordar esta brecha, esta investigación implementa un diseño de efectos fijos bidireccionales explotando la variación temporal del Índice Mensual de Actividad Económica (IMAE) y la heterogeneidad espacial de los municipios de Nicaragua.
 
-# Datos y Variables
+# Datos y Variables {#sec-datos}
 
 Se estructuró un panel de datos multidimensional que integra microdatos satelitales, información geoespacial de infraestructura y series macroeconómicas oficiales para someter a prueba la dinámica espacial planteada. Esta aproximación empírica se construye a partir de cuatro variables fundamentales.
 
@@ -337,7 +337,7 @@ En el estrato alto, la radiancia exhibe niveles sistemáticamente superiores y u
 \end{minipage}
 \end{figure}
 
-# Resultados
+# Resultados {#sec-resultados}
 
 ## Modelo causal y mecanismos de transmisión
 
@@ -523,7 +523,7 @@ Los sectores secundario y terciario presentan coeficientes similares entre sí (
 \end{minipage}
 \end{figure}
 
-# Heterogeneidad Espacial Continua
+# Heterogeneidad Espacial Continua {#sec-heterogeneidad}
 
 ## Análisis individual de los municipios
 
@@ -574,7 +574,7 @@ $\sigma_{\text{fecha}}$ & 0.09 & 0.033 & 0.015 & 0.15 & 1.00 & 728 \\
 \end{threeparttable}
 \end{table}
 
-# Discusión
+# Discusión {#sec-discusion}
 
 Los resultados presentados sugieren que la infraestructura vial condiciona de forma heterogénea la transmisión de los shocks macroeconómicos hacia las economías locales de Nicaragua, operando como un escudo estructural en los municipios más desarrollados y como un canal de integración —simétricamente expuesto a los auges y a las crisis— en la periferia rezagada. Como se explicó en la sección anterior, esta diferencia de signo entre ambos modelos responde a la ponderación implícita de cada estimador, no a una contradicción sustantiva. Sin embargo, es necesario situar estos hallazgos dentro de un conjunto de limitaciones metodológicas y de datos que abren una agenda clara para investigaciones futuras.
 
@@ -596,7 +596,7 @@ La validación de las luces nocturnas como proxy de la actividad económica loca
 
 Adicionalmente, debe señalarse que la población municipal estimada (WorldPop, 2020), aunque disponible, no pudo incluirse como control interactuado en las especificaciones principales. La interacción de la población con el IMAE genera colinealidad con el canal de densidad vial en el diseño shift-share, dado que ambas variables comparten la misma fuente de variación temporal. Se optó por mantener la densidad vial como canal central y relegar la exploración del canal poblacional a investigaciones futuras con datos de mayor frecuencia demográfica.
 
-# Conclusiones
+# Conclusiones {#sec-conclusiones}
 
 Esta investigación examinó cómo la dotación de infraestructura vial condiciona la transmisión de los shocks macroeconómicos hacia las economías locales de Nicaragua, empleando un panel mensual de 153 municipios entre 2020 y 2025 y utilizando la luminosidad nocturna satelital como proxy de alta frecuencia de la actividad económica subnacional.
 
