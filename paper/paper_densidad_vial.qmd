@@ -1,6 +1,4 @@
 ---
-title: "Infraestructura vial como amortiguador cíclico: evidencia causal con luces nocturnas en municipios de Nicaragua"
-author: 'Emerson Lopez\thanks{Universidad Nacional de Ingeniería (UNI). Correo electrónico: \href{mailto:emerson.zeledon.ni@gmail.com}{emerson.zeledon.ni@gmail.com}}'
 lang: es
 format:
   pdf:
@@ -41,6 +39,12 @@ format:
         \usetikzlibrary{arrows.meta, positioning}
         \usepackage{adjustbox}
 
+        % Definicion nativa del icono de ORCID con TikZ (Sin paquetes externos)
+        \definecolor{orcidlogocol}{HTML}{A6CE39}
+        \newcommand{\orcid}[1]{\href{https://orcid.org/#1}{\hspace{2pt}\begin{tikzpicture}[baseline=-0.2em]
+          \node[fill=orcidlogocol, circle, inner sep=0.8pt] (c) {\textcolor{white}{\sffamily\bfseries\tiny iD}};
+        \end{tikzpicture}\hspace{1pt}}}
+
         % tablas
         \usepackage{booktabs}
         \usepackage{tabularx}
@@ -65,6 +69,14 @@ format:
         \renewcommand{\headrulewidth}{0pt}
         \pagestyle{fancy}
 ---
+
+\title{\textbf{Infraestructura vial como amortiguador cíclico: evidencia causal con luces nocturnas en municipios de Nicaragua}}
+
+\author{Emerson Lopez \orcid{0009-0009-6423-2883}\thanks{Universidad Nacional de Ingeniería (UNI). Correo electrónico: \href{mailto:emerson.zeledon.ni@gmail.com}{emerson.zeledon.ni@gmail.com}}}
+
+\date{}
+
+\maketitle
 
 \begin{abstract}
 \noindent Este artículo evalúa empíricamente cómo la infraestructura vial condiciona la transmisión de los shocks macroeconómicos nacionales hacia las economías locales de Nicaragua. Para ello, se estructuró un panel mensual que abarca los 153 municipios del país durante el período 2020--2025. Se utiliza la luminosidad nocturna satelital (NASA VIIRS) como un proxy de alta frecuencia para la actividad económica, integrada con datos geoespaciales de OpenStreetMap para calcular la densidad de carreteras y el área territorial. La estrategia empírica emplea un enfoque dual: un modelo causal de Efectos Fijos Bidireccionales (TWFE) bajo una especificación Poisson con errores agrupados, y una exploración espacial continua mediante un modelo bayesiano jerárquico. Los resultados revelan una asimetría espacial que depende del nivel de desarrollo histórico del territorio. En las cabeceras urbanas consolidadas, la red vial actúa como un escudo estructural que disipa los shocks y amortigua la volatilidad del ciclo nacional. Por el contrario, en los municipios rezagados de la periferia, las carreteras operan como un multiplicador cíclico de vulnerabilidad: potencian el crecimiento local durante los auges agregados, pero profundizan las contracciones en tiempos de crisis. Estos hallazgos aportan evidencia empírica sobre el papel de la infraestructura vial como canal de transmisión de los shocks macroeconómicos, con implicaciones para el diseño de políticas de inversión en resiliencia regional.
