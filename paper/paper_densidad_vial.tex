@@ -1,0 +1,1612 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  spanish,
+  12pt,
+  letterpaper]{article}
+\usepackage{xcolor}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{setspace}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+\ifLuaTeX
+\usepackage[bidi=basic,shorthands=off]{babel}
+\else
+\usepackage[bidi=default,shorthands=off]{babel}
+\fi
+\ifLuaTeX
+  \usepackage{selnolig} % disable illegal ligatures
+\fi
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+\usepackage[style=apa,]{biblatex}
+\addbibresource{referencias.bib}
+
+
+% idioma
+\usepackage{csquotes}
+
+% matematicas y simbolos
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{siunitx}
+\sisetup{detect-all, table-number-alignment=center}
+\usepackage{newunicodechar}
+\newunicodechar{−}{\ensuremath{-}}
+
+% graficos y colores
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+\usepackage{adjustbox}
+
+% Definicion nativa del icono de ORCID con TikZ (Sin paquetes externos)
+\definecolor{orcidlogocol}{HTML}{A6CE39}
+\newcommand{\orcid}[1]{\href{https://orcid.org/#1}{\hspace{2pt}\begin{tikzpicture}[baseline=-0.2em]
+  \node[fill=orcidlogocol, circle, inner sep=0.8pt] (c) {\textcolor{white}{\sffamily\bfseries\tiny iD}};
+\end{tikzpicture}\hspace{1pt}}}
+
+% tablas
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{makecell}
+\usepackage{threeparttable}
+\usepackage{float}
+
+% captions
+\usepackage{caption}
+\captionsetup{skip=0.33\baselineskip}
+\captionsetup[figure]{justification=centering, singlelinecheck=off}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\setlength{\tabcolsep}{3pt}
+
+% encabezado
+\usepackage{fancyhdr}
+\fancyhf{}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\pagestyle{fancy}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Tabla de contenidos}
+\else
+  \newcommand\contentsname{Tabla de contenidos}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{Listado de Figuras}
+\else
+  \newcommand\listfigurename{Listado de Figuras}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{Listado de Tablas}
+\else
+  \newcommand\listtablename{Listado de Tablas}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figura}
+\else
+  \newcommand\figurename{Figura}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Tabla}
+\else
+  \newcommand\tablename{Tabla}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listado}
+\newcommand*\listoflistings{\listof{codelisting}{Listado de Listados}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdflang={es},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={blue},
+  urlcolor={blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\author{}
+\date{}
+\begin{document}
+
+
+\setstretch{1}
+\title{\textbf{Infraestructura vial como amortiguador cíclico: evidencia causal con luces nocturnas en municipios de Nicaragua}}
+
+\author{Emerson Lopez \orcid{0009-0009-6423-2883}\thanks{Universidad Nacional de Ingeniería (UNI). Correo electrónico: \href{mailto:emerson.zeledon.ni@gmail.com}{emerson.zeledon.ni@gmail.com}}}
+
+\date{}
+
+\maketitle
+
+\begin{abstract}
+\noindent Este artículo evalúa empíricamente cómo la infraestructura vial condiciona la transmisión de los shocks macroeconómicos nacionales hacia las economías locales de Nicaragua. Para ello, se estructuró un panel mensual que abarca los 153 municipios del país durante el período 2020--2025. Se utiliza la luminosidad nocturna satelital (NASA VIIRS) como un proxy de alta frecuencia para la actividad económica, integrada con datos geoespaciales de OpenStreetMap para calcular la densidad de carreteras y el área territorial. La estrategia empírica emplea un enfoque dual: un modelo causal de Efectos Fijos Bidireccionales (TWFE) bajo una especificación Poisson con errores agrupados, y una exploración espacial continua mediante un modelo bayesiano jerárquico. Los resultados revelan una asimetría espacial que depende del nivel de desarrollo histórico del territorio. En las cabeceras urbanas consolidadas, la red vial actúa como un escudo estructural que disipa los shocks y amortigua la volatilidad del ciclo nacional. Por el contrario, en los municipios rezagados de la periferia, las carreteras operan como un multiplicador cíclico de vulnerabilidad: potencian el crecimiento local durante los auges agregados, pero profundizan las contracciones en tiempos de crisis. Estos hallazgos aportan evidencia empírica sobre el papel de la infraestructura vial como canal de transmisión de los shocks macroeconómicos, con implicaciones para el diseño de políticas de inversión en resiliencia regional.
+\end{abstract}
+
+\vspace{0.25cm}
+
+\begin{flushleft}
+\small
+\noindent \textbf{Palabras clave:} luces nocturnas, densidad vial, shocks macroeconómicos, heterogeneidad espacial, datos de panel.\\
+\vspace{0.15cm}
+\noindent \textbf{Códigos JEL:} C23, O18, R11, R12.
+\end{flushleft}
+
+\newpage
+
+\section{Introducción}\label{sec-introduccion}
+
+La resiliencia de las economías locales ante las fluctuaciones del ciclo
+macroeconómico nacional es un tema central en la agenda de desarrollo
+territorial. Aunque la literatura de geografía económica reconoce
+ampliamente que la infraestructura de transporte reduce las fricciones
+espaciales, fomenta el comercio y permite la integración de los
+mercados, existe una brecha en la comprensión empírica sobre cómo esta
+dotación física condiciona la absorción de los shocks agregados a nivel
+micro-local. En este contexto, la presente investigación plantea la
+siguiente pregunta central: ¿Cómo condiciona la dotación de
+infraestructura vial la transmisión de los shocks macroeconómicos a las
+economías locales en Nicaragua?
+
+Se utiliza la luminosidad nocturna satelital como un proxy de alta
+frecuencia de la actividad económica para superar la escasez de datos
+oficiales de Producto Interno Bruto (PIB) a nivel municipal,
+combinándola con datos geoespaciales precisos de la red vial. Mediante
+la construcción de un panel de datos multidimensional de frecuencia
+mensual que abarca los 153 municipios del país durante el período
+2020-2025, se evalúa empíricamente si las carreteras actúan como canales
+de transmisión que amplifican los ciclos comerciales o,
+alternativamente, como escudos estructurales que protegen a las
+economías locales de las contracciones nacionales.
+
+Se implementa una estrategia empírica de Efectos Fijos Bidireccionales
+(TWFE) bajo una especificación Poisson por Pseudo-Máximo Verosímil para
+aislar el efecto causal de la infraestructura, interactuando la dotación
+estática de carreteras con el componente dinámico del IMAE. Esta
+metodología principal se somete a controles estadísticos, incluyendo
+pruebas de placebo mediante permutación espacial aleatoria de las redes
+viales, remoción de observaciones atípicas y ajustes por saturación de
+los sensores satelitales (top-coding), garantizando que las
+elasticidades estimadas no respondan a correlaciones espurias o ruido
+geográfico.
+
+Los hallazgos de esta investigación revelan que el rol de la
+infraestructura de transporte no es homogéneo, sino que exhibe una
+marcada dualidad espacial condicionada por el desarrollo histórico de
+cada territorio. En el promedio nacional, impulsado por los principales
+centros urbanos y cabeceras departamentales, la densidad vial opera como
+un amortiguador eficaz, reduciendo la vulnerabilidad local frente a las
+caídas de la demanda agregada. Sin embargo, al segmentar el país por
+estratos, se descubre que en las zonas rurales periféricas e
+históricamente aisladas, la conectividad invierte su función y opera
+como un mecanismo de integración cíclica pura: amplifica el crecimiento
+durante las expansiones nacionales, pero agudiza severamente las crisis
+productivas durante las contracciones. Adicionalmente, el análisis
+sectorial demuestra que este efecto es transversal a toda la economía,
+pero adquiere su mayor profundidad e intensidad de transmisión a través
+del sector primario.
+
+Esta evidencia aporta implicaciones directas para el diseño de políticas
+públicas, demostrando que la inversión en conectividad vial en economías
+en desarrollo no solo genera retornos en eficiencia comercial, sino que
+altera la vulnerabilidad cíclica de los territorios. El resto del
+documento se estructura de la siguiente manera: la
+Sección~\ref{sec-literatura} revisa la literatura previa; la
+Sección~\ref{sec-datos} describe la construcción del panel de datos y
+las variables; la Sección~\ref{sec-metodologia} detalla la estrategia
+metodológica; la Sección~\ref{sec-validacion_proxy} valida el uso de
+luces nocturnas como proxy económico; la Sección~\ref{sec-resultados}
+discute los resultados causales empíricos, los mecanismos sectoriales y
+los diagnósticos de robustez; la Sección~\ref{sec-heterogeneidad}
+explora la heterogeneidad municipal mediante estimación bayesiana; la
+Sección~\ref{sec-discusion} presenta la discusión de los resultados; y
+la Sección~\ref{sec-conclusiones} expone las conclusiones de la
+investigación.
+
+La estrategia empírica se implementó mediante un ecosistema de
+programación dual para garantizar la reproducibilidad computacional. El
+procesamiento de datos geográficos y la estimación principal de efectos
+fijos bidireccionales (TWFE) se ejecutaron en R, utilizando las
+librerías sf \parencite{pebesma2018simple} y fixest
+\parencite{berge2018efficient}. El modelo jerárquico bayesiano se
+programó en Python con Bambi \parencite{capretto2022bambi} y los
+diagnósticos de convergencia se realizaron con ArviZ
+\parencite{kumar2019arviz}.
+
+Los datos procesados, el código de estimación y las figuras están
+disponibles en:
+\url{https://github.com/Emerson-nic/road-infrastructure-nicaragua-viirs}
+y
+\url{https://codeberg.org/Emerson-nic/road-infrastructure-nicaragua-viirs}
+
+\section{Revisión de la Literatura}\label{sec-literatura}
+
+La escasez y la baja frecuencia de estadísticas macroeconómicas
+desagregadas a nivel subnacional constituyen uno de los principales
+desafíos empíricos para el estudio del desarrollo regional en economías
+en desarrollo. Ante esta restricción, la incorporación de datos de
+teledetección ha transformado la econometría espacial al ofrecer
+indicadores objetivos que mitigan los sesgos de reporte institucionales
+\parencite{donaldson2016view}. Durante la última década, una sólida
+línea de investigación ha consolidado el uso de la luminosidad nocturna
+como un proxy confiable de la actividad económica local, demostrando su
+capacidad para capturar variaciones en el consumo privado, la inversión
+pública y la producción física
+\parencite{henderson2012measuring, chen2011using, mellander2015night}.
+Este enfoque es particularmente valioso en entornos con alta
+informalidad económica o debilidades en sus sistemas estadísticos
+tradicionales
+\parencite{michalopoulos2014national, bruederle2018nighttime}. Los
+avances metodológicos recientes confirman que los registros
+radiométricos de la suite VIIRS superan las limitaciones de saturación
+de los sensores antiguos y aportan una resolución espacial superior
+\parencite{elvidge2017viirs, gibson2021which}, abriendo la puerta a la
+estimación precisa de dinámicas económicas a escalas micro-locales e
+infra-municipales.
+
+Más allá del reto de medición, la literatura se ha centrado en
+identificar los determinantes estructurales que condicionan la
+distribución de la actividad económica en el espacio. Desde la
+perspectiva de la Nueva Geografía Económica, la infraestructura de
+transporte destaca como el factor primario que altera los costos de
+comercio y moldea la organización territorial de los mercados
+\parencite{krugman1991increasing, redding2015transportation}. La
+expansión de las redes viales reduce los tiempos de viaje de manera
+asimétrica, lo que fomenta la integración comercial, estimula economías
+de aglomeración y permite a las jurisdicciones locales especializarse
+según sus ventajas comparativas \parencite{donaldson2018railroads}.
+
+Sin embargo, la evidencia empírica en economías emergentes sugiere que
+estas intervenciones viales no generan beneficios espaciales homogéneos.
+Las carreteras suelen operar como un arma de doble filo: aunque integran
+mercados aislados, también reducen las barreras para la fuga de
+capitales y mano de obra hacia los polos urbanos preexistentes
+\parencite{faber2014trade, baum2020does, banerjee2020road}. Esta
+dinámica centro-periferia implica que la conectividad puede agudizar la
+vulnerabilidad de las regiones estructuralmente rezagadas mediante un
+efecto de extracción \parencite{kline2014local}. No obstante, la
+evidencia también documenta que los caminos rurales pueden ser
+transformacionales al integrar comunidades aisladas a los mercados
+\parencite{asher2020rural}, lo que anticipa que el efecto final de la
+infraestructura sobre el desarrollo local depende del horizonte temporal
+y de la fase del ciclo económico en que se evalúe. En América Latina,
+esta dualidad es particularmente visible, ya que la provisión
+históricamente desigual de obras públicas ha condicionado tanto los
+patrones de crecimiento como la persistente disparidad en la
+distribución del ingreso territorial
+\parencite{calderon2004effects, cepal2015desarrollo}.
+
+Bajo este escenario de heterogeneidad espacial, la infraestructura
+también modula la transmisión y absorción de fluctuaciones
+macroeconómicas. La resiliencia regional, entendida como la capacidad de
+una economía local para resistir y recuperarse de un choque exógeno
+agregado, se encuentra estrechamente vinculada a la densidad de su red
+de conexiones logísticas e industriales \parencite{martin2012regional}.
+Los modelos de evolución regional advierten que la inmovilidad de
+factores en el corto plazo tiende a profundizar el impacto de las
+recesiones a nivel local \parencite{blanchard1992regional}. En
+consecuencia, una red vial densa puede dotar a los centros urbanos y
+diversificados de la flexibilidad operativa necesaria para amortiguar
+las contracciones del mercado. Por el contrario, en las periferias
+aisladas, la infraestructura vial constituye el canal principal de
+transmisión del ciclo nacional, amplificando tanto las expansiones como
+las contracciones macroeconómicas sobre el tejido productivo local.
+
+En los últimos años, la literatura especializada ha comenzado a
+aprovechar las calibraciones mensuales de la suite VIIRS para evaluar
+este tipo de dinámicas macroeconómicas de alta frecuencia frente a
+choques exógenos. Evaluaciones respaldadas por organismos multilaterales
+demuestran que las variaciones de corto plazo en la luminosidad
+satelital reflejan con alta precisión el impacto inmediato y las
+trayectorias de recuperación de las economías ante eventos disruptivos o
+paralizaciones de la actividad \parencite{idb2024shining}. Asimismo,
+investigaciones emergentes en economías en desarrollo emplean este marco
+de análisis espacio-temporal para probar que el stock de infraestructura
+de transporte determina la velocidad de recuperación de los municipios,
+evidenciando asimetrías de amortiguación muy marcadas entre las
+cabeceras urbanas y las zonas rurales dependientes
+\parencite{sun2024measurement}.
+
+A pesar de estos consensos metodológicos sobre los impactos heterogéneos
+a largo plazo y el uso de proxies de alta frecuencia, persiste un vacío
+empírico importante en el contexto centroamericano. El antecedente más
+cercano a la pregunta de investigación planteada proviene de
+\textcite{storeygard2016farther}, quien demuestra para el África
+subsahariana que los costos de transporte median la transmisión del
+crecimiento urbano hacia el interior de los países, empleando luces
+nocturnas como variable de resultado. En América Latina, los estudios
+recientes de \textcite{millan2024luces} para los municipios de México y
+de \textcite{mccord2022nightlights} para los departamentos de Paraguay
+han validado el uso de la luminosidad satelital como estimador del
+crecimiento subnacional, aunque sin incorporar un análisis de
+infraestructura vial como moderador de dicha relación. Ningún estudio,
+hasta donde se tiene evidencia, ha combinado ambos enfoques ---densidad
+vial como condicionante de la transmisión de shocks macroeconómicos,
+medida a través de luces nocturnas--- para el caso de Nicaragua ni de
+Centroamérica continental. Para abordar esta brecha, esta investigación
+implementa un diseño de efectos fijos bidireccionales explotando la
+variación temporal del Índice Mensual de Actividad Económica (IMAE) y la
+heterogeneidad espacial de los municipios de Nicaragua.
+
+\section{Datos y Variables}\label{sec-datos}
+
+Se estructuró un panel de datos multidimensional que integra microdatos
+satelitales, información geoespacial de infraestructura y series
+macroeconómicas oficiales para someter a prueba la dinámica espacial
+planteada. Esta aproximación empírica se construye a partir de cuatro
+variables fundamentales.
+
+La variable dependiente captura la actividad económica local mediante la
+radiancia promedio mensual de las luces nocturnas. A diferencia de los
+agregados monetarios tradicionales, esta métrica se fundamenta en
+unidades físicas de emisión lumínica, lo que permite observar las
+fluctuaciones reales en el consumo energético y la ocupación del
+territorio a nivel municipal. Operativamente, constituye el indicador de
+respuesta local frente a los choques económicos agregados.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.55\textwidth}
+\caption{Distribución espacial de la radiancia satelital nocturna en Nicaragua}
+\label{fig:mapa_satelital_nicaragua}
+\includegraphics[width=\textwidth]{../Graficos/mapa_satelital_nicaragua.pdf}
+\small
+\textit{Nota:} Composición de radiancia promedio mensual (NASA VIIRS Black Marble, producto VNP46A3) para diciembre de 2025. La concentración de luminosidad en la franja del Pacífico y en las principales cabeceras departamentales frente al resto del territorio nacional ilustra la marcada asimetría espacial en la actividad económica que motiva el análisis de heterogeneidad de esta investigación. \\
+\textit{Fuente:} Elaboración propia con datos de NASA VIIRS VNP46A3 \parencite{elvidge2017viirs}.
+\end{minipage}
+\end{figure}
+
+Por su parte, la variable macro-temporal o de choque exógeno está
+representada por el Índice Mensual de Actividad Económica (IMAE) en su
+componente de tendencia-ciclo, tanto en su medición agregada como en sus
+tres componentes sectoriales (primario, secundario y terciario). Esta
+división tiene el propósito de evaluar si la transmisión del choque
+difiere según la vocación productiva subyacente del territorio.
+
+La exposición estructural de cada municipio a dichos choques se mide a
+través de la densidad vial. Esta variable espacial se define formalmente
+como la longitud lineal total de las carreteras transitables dividida
+por la superficie territorial del municipio. Al normalizar la red de
+infraestructura por el tamaño de la jurisdicción, se obtiene un
+indicador puro de conectividad vial. Para los fines de la estimación
+econométrica, esta dotación estática se interactúa bajo transformación
+de logaritmo natural con el logaritmo del IMAE mensual, dado su carácter
+invariante en el tiempo (véase la Sección~\ref{sec-metodologia}).
+
+Se consideró también la población municipal \parencite{worldpop2020}
+como control adicional, aunque finalmente se excluyó por motivos de
+colinealidad que se explican en la Sección~\ref{sec-discusion}.
+Finalmente, se incorpora el área municipal como una variable de control
+geométrico indispensable en econometría espacial. Dado que los
+territorios de mayor extensión tienden mecánicamente a poseer redes
+viales absolutas más largas y mayor luminosidad agregada por pura
+acumulación física, el control por el logaritmo del área territorial
+aísla matemáticamente el efecto de escala. Esto garantiza que las
+estimaciones econométricas reflejen el impacto de la conectividad
+intrínseca de los municipios y no simplemente variaciones derivadas de
+diferencias en su tamaño geográfico.
+
+La descripción operativa, las unidades de medida y las fuentes
+institucionales de las variables que conforman el panel de datos
+analizado se detallan en la Tabla \ref{tab:variables}.
+
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Definición de variables y fuentes de información}
+\label{tab:variables}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l p{8cm} l }
+\toprule
+\textbf{Variable} & \textbf{Descripción y Unidad de Medida} & \textbf{Fuente} \\
+\midrule
+Luces nocturnas & Radiancia promedio mensual por municipio ($nW \cdot cm^{-2} \cdot sr^{-1}$). & NASA \\
+\addlinespace
+IMAE & Índice Mensual de Actividad Económica (Tendencia-Ciclo, base 2006), agregado y sectorial. & BCN \\
+\addlinespace
+Densidad vial & Kilómetros de carreteras transitables por kilómetro cuadrado ($km/km^2$). & OSM \\
+\addlinespace
+Área municipal & Superficie territorial del municipio medida en kilómetros cuadrados ($km^2$). & geoBoundaries \\
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\small
+\item \textit{Nota:} El panel abarca los 153 municipios de Nicaragua con frecuencia mensual para el período 2020--2025. Los datos satelitales de radiancia corresponden al producto Black Marble VNP46A3 \parencite{elvidge2017viirs}. La serie macroeconómica agregada y sectorial proviene del Banco Central de Nicaragua. La red vial de OpenStreetMap (OSM) integra las categorías de autopistas, troncales, carreteras primarias, secundarias y terciarias. Las variables de densidad vial y área territorial no se incluyen de forma individual en las especificaciones econométricas, sino interactuadas con el logaritmo del IMAE, por tratarse de variables estáticas en el tiempo.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\section{Metodología}\label{sec-metodologia}
+
+La densidad vial y el área territorial son variables geográficas que no
+cambian en el corto plazo. Si se incluyeran solas en un modelo de datos
+de panel, los efectos fijos municipales las borrarían del análisis
+debido a la falta de variación temporal. Para solucionar esta
+restricción, se adopta un diseño empírico similar a los enfoques de
+descomposición estructural (\emph{shift-share} en la literatura inglesa)
+\parencite{borusyak2022quasi}. Las variables de interés se construyen
+multiplicando la dotación estática e inobservable de cada municipio con
+el shock dinámico mensual derivado del ciclo económico nacional.
+
+\subsection{Modelo Principal}\label{modelo-principal}
+
+Siguiendo la solución metodológica de \textcite{silva2006log}, se estima
+un Modelo de Poisson por Pseudo-Máximo Verosímil con Efectos Fijos
+Bidireccionales mediante el algoritmo iterativo de
+\textcite{correia2020fast}. La especificación matemática se presenta en
+la ecuación (\ref{eq:modelo_poisson}):
+
+\begin{equation}
+\label{eq:modelo_poisson}
+\mathbb{E}[L_{it} | X_{it}] = \exp \left( \beta_1 [\ln(D_i) \times \ln(IMAE_t)] + \beta_2 [\ln(A_i) \times \ln(IMAE_t)] + \alpha_i + \tau_t \right)
+\end{equation}
+
+En la ecuación (\ref{eq:modelo_poisson}), la expresión del lado
+izquierdo \(\mathbb{E}[L_{it} | X_{it}]\) representa el promedio
+condicional de la luminosidad en el municipio \(i\) durante el mes
+\(t\), dado el conjunto de variables explicativas. La función
+exponencial (\(\exp\)) es el núcleo del estimador de Poisson y garantiza
+que los valores esperados de la variable dependiente sean estrictamente
+positivos, permitiendo procesar correctamente los valores en cero de las
+zonas rurales sin recurrir a transformaciones de la muestra que sesguen
+los datos.
+
+Los símbolos representan las variables del panel de la siguiente manera:
+\(L_{it}\) corresponde a la radiancia mensual de las luces nocturnas;
+\(D_i\) es la densidad vial estructural de la localidad; \(A_i\) es el
+área territorial en kilómetros cuadrados; e \(IMAE_t\) representa el
+Índice Mensual de Actividad Económica nacional en su componente de
+tendencia-ciclo.
+
+El parámetro \(\beta_1\) es el coeficiente causal clave de la
+investigación y mide el grado en que la infraestructura vial condiciona
+la sensibilidad de la economía local ante el shock macroeconómico del
+IMAE. Dado que el modelo utiliza una función de enlace exponencial y las
+variables independientes entran en logaritmos dentro de la interacción,
+este parámetro determina cómo cambia la elasticidad de la actividad
+local respecto al ciclo nacional ante variaciones en la densidad vial.
+Por su parte, el parámetro \(\beta_2\) captura el efecto de la escala
+geométrica mediante la interacción del logaritmo del área; su función es
+controlar si los territorios responden con mayor intensidad al ciclo
+agregado debido a su tamaño físico, aislando este factor del impacto
+puro de las carreteras. Finalmente, el modelo incluye efectos fijos de
+municipio (\(\alpha_i\)) para absorber la heterogeneidad estructural
+inobservable de cada jurisdicción, y efectos fijos de tiempo
+(\(\tau_t\)) para neutralizar los choques mensuales comunes que afectan
+a todo el país simultáneamente.
+
+Para asegurar una inferencia estadística válida frente a problemas de
+heterocedasticidad y autocorrelación serial entre los meses de un mismo
+territorio, los errores estándar se calculan clusterizados (agrupados
+por municipio)
+\parencite{arellano1987computing, cameron2005microeconometrics}. Esta
+técnica es consistente con los desarrollos recientes sobre modelos de
+diferencias en diferencias en paneles de períodos múltiples
+\parencite{callaway2021difference, wooldridge2021two}.
+
+Bajo el supuesto de que la densidad vial ---determinada por decisiones
+históricas de inversión pública, en su mayoría anteriores al período de
+análisis--- no está correlacionada con la sensibilidad municipal al
+ciclo por otros canales no observados, el parámetro \(\beta_1\) admite
+una interpretación causal. Este supuesto se evalúa indirectamente
+mediante la prueba de permutación espacial presentada en la
+Sección~\ref{sec-placebo_permutacion}
+\parencite{borusyak2022quasi, goldsmith2020bartik}.
+
+\subsubsection{Estimación por
+Estratos}\label{estimaciuxf3n-por-estratos}
+
+La muestra se segmenta en tres grupos (Bajo, Medio y Alto) utilizando
+terciles calculados a partir de la emisión lumínica histórica promedio
+de cada jurisdicción para evaluar si el impacto de la infraestructura
+vial se encuentra condicionado por el nivel de desarrollo inicial de las
+localidades. Metodológicamente, se estiman tres especificaciones
+independientes de forma paralela siguiendo la estructura de la ecuación
+(\ref{eq:modelo_estratos}):
+
+\begin{equation}
+\label{eq:modelo_estratos}
+\mathbb{E}[L_{it} | X_{it}] = \exp \left( \beta_{1}^s [\ln(D_i) \times \ln(IMAE_t)] + \beta_{2}^s [\ln(A_i) \times \ln(IMAE_t)] + \alpha_i + \tau_t \right)
+\end{equation}
+
+Donde \(s \in \{\text{Bajo}, \text{Medio}, \text{Alto}\}\) representa el
+estrato correspondiente. Esta estrategia permite testear de forma
+aislada si el parámetro \(\beta_{1}^s\) difiere en magnitud, signo o
+significancia estadística entre grupos. Teóricamente, el diseño evalúa
+si la densidad vial opera como un mecanismo multiplicador de la
+actividad económica local en la periferia rural o si, por el contrario,
+actúa como un escudo o amortiguador cíclico que provee resiliencia en
+los nodos urbanos frente a las contracciones del mercado nacional.
+
+\subsubsection{Análisis de Heterogeneidad
+Sectorial}\label{anuxe1lisis-de-heterogeneidad-sectorial}
+
+El ciclo macroeconómico nacional puede transmitir sus impulsos de manera
+diferenciada según la vocación productiva subyacente de cada territorio.
+Para aislar estos canales de transmisión específicos, el choque del IMAE
+total se sustituye por sus componentes sectoriales oficiales. Siguiendo
+este enfoque, se estiman tres especificaciones independientes, una para
+cada gran rama de la producción
+\(k \in \{\text{Primario}, \text{Secundario}, \text{Terciario}\}\),
+estructuradas bajo la ecuación (\ref{eq:modelo_sectores}):
+
+\begin{equation}
+\label{eq:modelo_sectores}
+\mathbb{E}[L_{it} | X_{it}] = \exp \left( \beta_{1}^k [\ln(D_i) \times \ln(IMAE_{kt})] + \beta_{2}^k [\ln(A_i) \times \ln(IMAE_{kt})] + \alpha_i + \tau_t \right)
+\end{equation}
+
+Donde \(IMAE_{kt}\) representa el índice de tendencia-ciclo
+correspondiente al sector primario (actividades agrícolas, ganaderas y
+extractivas), secundario (industria manufacturera y construcción) o
+terciario (comercio, transporte y servicios).
+
+Metodológicamente, las estimaciones de los parámetros \(\beta_{1}^k\) se
+consolidan en una única matriz comparativa junto al modelo general de la
+ecuación (\ref{eq:modelo_poisson}). Este diseño permite testear
+formalmente si la densidad vial opera como un canal de irrigación
+homogéneo para toda la economía nacional, o si la capacidad de absorción
+y respuesta local ante las fluctuaciones del ciclo se encuentra
+concentrada en sectores productivos específicos. Al igual que en las
+especificaciones previas, los modelos controlan por el efecto de escala
+del área geográfica e incluyen efectos fijos bidireccionales por
+municipio (\(\alpha_i\)) y tiempo (\(\tau_t\)) con errores estándar
+clusterizados a nivel municipal.
+
+\subsection{Modelo Jerárquico de Coeficientes Municipales
+(exploratorio)}\label{modelo-jeruxe1rquico-de-coeficientes-municipales-exploratorio}
+
+Finalmente, con el objetivo de capturar el comportamiento particular de
+cada uno de los 153 municipios sin necesidad de fragmentar la muestra ni
+perder grados de libertad, la metodología se complementa con un Modelo
+Poisson Jerárquico multivariado estimado bajo inferencia bayesiana
+completa \parencite{gelman2006data}. A diferencia de las regresiones
+previas, esta aproximación no busca establecer relaciones de causalidad
+general, sino realizar una exploración descriptiva y exploratoria de la
+variación espacial continua de las elasticidades.
+
+Para garantizar la convergencia del algoritmo de muestreo MCMC y evitar
+problemas de inestabilidad computacional, se introduce un ajuste clave
+en la construcción de las variables. A diferencia de las
+especificaciones de efectos fijos globales, en este modelo jerárquico la
+densidad vial se incluye en niveles (no en logaritmo) dentro de la
+interacción (\(D_i \times \ln(IMAE_t)\)). Esta decisión metodológica
+responde estrictamente a criterios de estabilidad numérica.
+
+Para facilitar el muestreo, ambas interacciones se estandarizan mediante
+la remoción de su media y división por su desviación estándar. La
+especificación formal en escala log-lineal sigue la estructura de la
+ecuación (\ref{eq:modelo_bayes}):
+
+\begin{equation}
+\label{eq:modelo_bayes}
+\ln(\mu_{it}) = \alpha_0 + \beta_{1} V_{it}^{\text{std}} + \beta_{2} A_{it}^{\text{std}} + u_{0t} + b_{0i} + b_{1i} V_{it}^{\text{std}} + b_{2i} A_{it}^{\text{std}}
+\end{equation}
+
+En la ecuación (\ref{eq:modelo_bayes}), \(\mu_{it}\) representa el valor
+esperado de las luces nocturnas condicionada a los regresores. El
+término \(\alpha_0\) es la intercepción global, mientras que \(\beta_1\)
+y \(\beta_2\) son los efectos fijos poblacionales promedio. Las
+variables explicativas corresponden a las interacciones estandarizadas
+de la densidad vial (\(V_{it}^{\text{std}}\)) y del logaritmo del área
+territorial (\(A_{it}^{\text{std}}\)), ambas cruzadas con el logaritmo
+natural del IMAE nacional.
+
+El modelo incorpora una intercepción aleatoria temporal
+(\(u_{0t} \sim N(0, \sigma^2_{\text{fecha}})\)) para neutralizar los
+shocks agregados comunes de cada mes. La estructura central del diseño
+radica en el vector de efectos aleatorios municipales
+\([b_{0i}, b_{1i}, b_{2i}]^T\), el cual sigue una distribución normal
+tridimensional con media cero y una matriz de covarianza estructural
+\(\Sigma\). Este bloque permite que cada municipio posea su propia
+intercepción específica (\(b_{0i}\)), su propia sensibilidad vial
+(\(b_{1i}\)) y su propia sensibilidad de escala geográfica (\(b_{2i}\)).
+
+Los coeficientes municipales finales en su escala original se recuperan
+de manera exacta post-estimación. Para ello, se extraen las
+distribuciones de los parámetros estandarizados sumando el efecto fijo
+con la desviación aleatoria de cada localidad (\({\beta_1 + b_{1i}}\)) y
+se dividen matemáticamente por la desviación estándar del regresor
+original obtenido antes de la regresión. Este procedimiento
+probabilístico aplica un mecanismo de encogimiento (\emph{shrinkage})
+que contrae los valores atípicos y ruidosos hacia la media general del
+país.
+
+\section{Validación del Proxy Satelital}\label{sec-validacion_proxy}
+
+Antes de evaluar el impacto condicional de la infraestructura vial, es
+necesario verificar que la radiancia satelital constituye un proxy
+confiable de la actividad económica en Nicaragua. Para ello, se estima
+la elasticidad de las luces nocturnas respecto al IMAE mediante dos
+especificaciones de mínimos cuadrados ordinarios con errores estándar
+agrupados por municipio. El primer modelo incluye efectos fijos
+municipales. El segundo añade efectos fijos de mes y una tendencia
+lineal, con el propósito de aislar el efecto de la estacionalidad y
+posibles desajustes en la calibración del sensor.
+
+Los resultados se presentan en la Tabla \ref{tab:validacion_proxy}. En
+el modelo básico (columna 1), el coeficiente del IMAE es 2.105,
+significativo al 1\%. Dado que ambas variables están en logaritmos, un
+incremento del 1\% en el IMAE se asocia con un aumento del 2.105\% en la
+radiancia municipal promedio.
+
+Al incorporar los controles de estacionalidad y tendencia (columna 2),
+la elasticidad estimada asciende a 6.141, manteniendo su significancia
+al 1\%. Este incremento indica que, una vez removido el componente
+estacional, la respuesta de la luminosidad al ciclo macroeconómico se
+intensifica. La tendencia lineal presenta un coeficiente negativo de
+magnitud reducida (-0.0005), consistente con una pérdida paulatina de
+calibración del sensor satelital a lo largo del período de estudio.
+
+\begin{table}[H]
+\centering
+\begin{threeparttable}
+\caption{Resultados de validación del proxy satelital}
+\label{tab:validacion_proxy}
+\begin{tabular}{l >{\centering\arraybackslash}p{4.2cm} >{\centering\arraybackslash}p{4.2cm}}
+\toprule
+ & \multicolumn{2}{c}{\textbf{Variable dependiente: $\ln(Luces_{it})$}} \\
+\cmidrule(lr){2-3}
+\textbf{Variable explicativa} & \textbf{Validación básica (1)} & \textbf{Validación con tendencia (2)} \\
+\midrule
+\multirow{2}{*}{$\ln(IMAE_t)$} & 2.105*** & 6.141*** \\
+ & (0.1656) & (0.5809) \\
+\addlinespace
+\multirow{2}{*}{Tendencia lineal} & & -0.0005*** \\
+ & & (0.0001) \\
+\midrule
+Efectos fijos de municipio & Sí & Sí \\
+Efectos fijos de mes & No & Sí \\
+Observaciones & 10,997 & 10,997 \\
+$R^2$ Within & 0.0570 & 0.0643 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\small
+\item \textit{Nota:} *** Significativo al 1\%. Errores estándar entre paréntesis agrupados (clusterizados) a nivel municipal. El panel incluye los 153 municipios de Nicaragua con frecuencia mensual.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+Para complementar el análisis, la Figura \ref{fig:imae_luces_stl}
+presenta la evolución del IMAE nacional junto con la tendencia de las
+luces nocturnas, obtenida mediante una descomposición Loess (STL). Ambas
+series muestran una correlación general en sus movimientos. No obstante,
+se observan dos desfases relevantes. El primero ocurre entre 2020 y
+2021, período que coincide con las perturbaciones económicas derivadas
+de la pandemia de COVID-19. El segundo se manifiesta a partir de
+mediados de 2025, donde el IMAE continúa su crecimiento mientras la
+tendencia lumínica filtrada se contrae. Esta divergencia podría deberse
+a factores técnicos, como la pérdida de calibración del sensor satelital
+o el efecto de borde del filtro STL, así como a un posible crecimiento
+del IMAE impulsado por sectores de baja intensidad lumínica.
+
+Pese a estas anomalías en los extremos de la serie, la elasticidad
+positiva y la correlación observada respaldan la validez de las luces
+nocturnas como un instrumento para aproximar el ciclo económico a nivel
+municipal.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.85\textwidth}
+\caption{Evolución del IMAE nacional y la tendencia de luces nocturnas}
+\label{fig:imae_luces_stl}
+\includegraphics[width=\textwidth]{../Graficos/imae_luces_filtro_stl.pdf}
+\small
+\textit{Nota:} La serie de luces nocturnas fue filtrada mediante descomposición STL para extraer su tendencia de largo plazo. El IMAE corresponde al componente de tendencia-ciclo mensual (base 2006). \\
+\textit{Fuente:} Elaboración propia.
+\end{minipage}
+\end{figure}
+
+\subsection{Heterogeneidad Espacial y Temporal por
+Estratos}\label{heterogeneidad-espacial-y-temporal-por-estratos}
+
+La muestra fue dividida simétricamente en tres terciles (Bajo, Medio y
+Alto) según el promedio histórico de emisión lumínica de cada municipio
+para aislar los efectos locales del ciclo económico. La distribución
+geográfica de estos clústeres se ilustra en la Figura
+\ref{fig:mapa_estratos}, revelando una clara concentración del
+desarrollo (Estrato Alto) en la franja del Pacífico y cabeceras
+departamentales clave, frente a una vasta periferia rezagada (Estrato
+Bajo).
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.75\textwidth}
+\caption{Distribución espacial de los municipios según estratos de luminosidad histórica}
+\label{fig:mapa_estratos}
+\includegraphics[width=\textwidth]{../Graficos/mapa_estratos_terciles.pdf}
+\small
+\textit{Nota:} Delimitación geográfica de los 153 municipios de Nicaragua clasificados por terciles de radiancia promedio de largo plazo. \\
+\textit{Fuente:} Elaboración propia con datos obtenidos de NASA VIIRS, OpenStreetMap, geoBoundaries y el Banco Central de Nicaragua.
+\end{minipage}
+\end{figure}
+
+La asimetría estructural del país se confirma de forma contundente al
+observar la magnitud de la evolución temporal de las luces nocturnas
+dentro de cada grupo. Las Figuras \ref{fig:serie_estrato_alto},
+\ref{fig:serie_estrato_medio} y \ref{fig:serie_estrato_bajo} exponen las
+trayectorias de luminosidad mensual. En estos paneles, las líneas tenues
+de fondo representan la evolución radiométrica individual de cada
+municipio, mientras que la línea sólida oscura marca el promedio del
+estrato, evidenciando una brecha masiva en las escalas de emisión.
+
+En el estrato alto, la radiancia exhibe niveles sistemáticamente
+superiores y un dinamismo sostenido, propio de aglomeraciones urbanas
+consolidadas con infraestructura eléctrica continua. A medida que se
+desciende hacia los estratos medio y bajo, los niveles lumínicos
+promedio sufren un colapso drástico, con la periferia rural registrando
+emisiones que apenas logran despegar del cero absoluto. Esta severa
+desigualdad estructural en el consumo energético y la ocupación
+territorial anticipa que la respuesta local ante los shocks exógenos del
+IMAE estará fuertemente condicionada por estas características de
+origen.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.65\textwidth}
+\caption{Evolución temporal de la luminosidad local: Estrato Alto}
+\label{fig:serie_estrato_alto}
+\includegraphics[width=\textwidth]{../Graficos/grafico_1_estrato_alto.pdf}
+\small
+\textit{Nota:} Evolución mensual de la radiancia municipal. La línea gruesa representa el promedio del estrato. \\
+\textit{Fuente:} Elaboración propia con datos de NASA VIIRS.
+\end{minipage}
+\end{figure}
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.65\textwidth}
+\caption{Evolución temporal de la luminosidad local: Estrato Medio}
+\label{fig:serie_estrato_medio}
+\includegraphics[width=\textwidth]{../Graficos/grafico_2_estrato_medio.pdf}
+\small
+\textit{Nota:} Evolución mensual de la radiancia municipal. La línea gruesa representa el promedio del estrato. \\
+\textit{Fuente:} Elaboración propia con datos de NASA VIIRS.
+\end{minipage}
+\end{figure}
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.65\textwidth}
+\caption{Evolución temporal de la luminosidad local: Estrato Bajo}
+\label{fig:serie_estrato_bajo}
+\includegraphics[width=\textwidth]{../Graficos/grafico_3_estrato_bajo.pdf}
+\small
+\textit{Nota:} Evolución mensual de la radiancia municipal. La línea gruesa representa el promedio del estrato. \\
+\textit{Fuente:} Elaboración propia con datos de NASA VIIRS.
+\end{minipage}
+\end{figure}
+
+\section{Resultados}\label{sec-resultados}
+
+\subsection{Modelo causal y mecanismos de
+transmisión}\label{modelo-causal-y-mecanismos-de-transmisiuxf3n}
+
+La Tabla \ref{tab:resultados_principales} presenta los resultados de las
+distintas especificaciones econométricas. Para garantizar la validez de
+las inferencias, se emplean errores estándar agrupados a nivel
+municipal, corrigiendo así la posible correlación serial y espacial de
+los residuos. El modelo de referencia es el estimador Poisson PPML de la
+columna 3, que evita el sesgo de retransformación de la estimación
+log-lineal bajo heterocedasticidad y permite incluir las observaciones
+con valor cero, frecuentes en los municipios rurales
+\parencite{silva2006log}.
+
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{2pt} 
+\begin{threeparttable}
+\caption{Resultados del impacto vial ante choques macroeconómicos}
+\label{tab:resultados_principales}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l c c c c c}
+\toprule
+ & (1) & (2) & (3) & (4) & (5) \\
+Estimador: & OLS Lineal & TWFE Base & PPML & PPML & TWFE \\
+Muestra: & Completa & Completa & (Principal) & (Sin influyentes) & (Sin influyentes) \\
+\midrule
+\textit{Variable dependiente} & $\ln(Luces_{it})$ & $\ln(Luces_{it})$ & $Luces_{it}$ & $Luces_{it}$ & $\ln(Luces_{it})$ \\
+\midrule
+Canal Vial & -0.6350*** & -0.6350** & -0.8474*** & -0.9220*** & -0.6862*** \\
+($\ln(D_i) \times \ln(IMAE_t)$) & (0.1041) & (0.3033) & (0.1926) & (0.1731) & (0.1775) \\
+\addlinespace
+Canal Área & 0.4362*** & 0.4362*** & 0.0461 & 0.0490 & 0.3597*** \\
+($\ln(A_i) \times \ln(IMAE_t)$) & (0.0732) & (0.1484) & (0.0720) & (0.0719) & (0.1159) \\
+\midrule
+Efectos fijos (Mun. y Mes) & Sí & Sí & Sí & Sí & Sí \\
+Errores clusterizados & No & Sí & Sí & Sí & Sí \\
+Observaciones & 10,997$^a$ & 10,997$^a$ & 11,015 & 10,809$^a$ & 10,809$^a$ \\
+Ajuste ($R^2$ within / Pseudo-$R^2$) & 0.574$^b$ & 0.574$^b$ & 0.587$^c$ & 0.591$^c$ & 0.670$^b$ \\
+BIC & 20,322.9 & 20,322.9 & 11,935.2 & 11,744.2 & 15,711.7 \\
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\small
+\item \textit{Nota:} *** Significativo al 1\%, ** al 5\%, * al 10\%. Errores estándar entre paréntesis agrupados a nivel municipal (excepto columna 1). Las columnas (4) y (5) excluyen observaciones influyentes identificadas mediante residuos studentizados. El BIC no es directamente comparable entre especificaciones con distinta transformación de la variable dependiente (columnas 1--2 frente a 3--4 frente a 5). $^a$ Las columnas (1), (2) y (5) usan $\ln(Luces)$ como dependiente y excluyen 18 observaciones con $Luces=0$ donde $\ln(0)$ no está definido. $^b$ $R^2$ within. $^c$ Pseudo-$R^2$ de McFadden.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{El efecto amortiguador de la
+infraestructura}\label{el-efecto-amortiguador-de-la-infraestructura}
+
+El coeficiente del Canal Vial es negativo y estadísticamente
+significativo en todas las especificaciones. Este resultado se mantiene
+al excluir las observaciones influyentes (columna 4), lo que descarta
+que el hallazgo esté determinado por casos atípicos. En términos
+sustantivos, el signo negativo indica que, en el promedio ponderado del
+país, la red de carreteras modifica la transmisión del ciclo económico
+nacional hacia las economías municipales: a mayor densidad vial, menor
+es la sensibilidad de la actividad local frente a las fluctuaciones del
+IMAE. Dado que el modelo usa un enlace logarítmico y las variables
+independientes entran en logaritmos, el coeficiente
+\(\beta_1 = -0.8474\) implica que la elasticidad de la luminosidad
+municipal respecto al IMAE es función de la densidad vial: un aumento de
+\(1\%\) en la densidad vial reduce la elasticidad en \(0.0085\) puntos.
+Un municipio con baja densidad vial (\(\log(D) \approx -1.3\)) presenta
+una elasticidad positiva; uno con alta densidad
+(\(\log(D) \approx 0.8\)) presenta una elasticidad negativa, reflejando
+el rol amortiguador de la infraestructura consolidada. Este efecto
+promedio está impulsado por el peso económico de las aglomeraciones
+urbanas, como se descompone en el análisis por estratos.
+
+\subsection{Evidencia continua y controles de
+escala}\label{evidencia-continua-y-controles-de-escala}
+
+La Figura \ref{fig:panel_efectos_controles} (Panel A) despliega la
+trayectoria de la elasticidad neta a lo largo de la distribución de
+densidad vial. Cuando la dotación de carreteras es reducida, la economía
+local exhibe una vulnerabilidad elevada. A medida que la red se
+densifica, la elasticidad disminuye progresivamente hasta cruzar el
+umbral de cero, punto a partir del cual la infraestructura opera como un
+estabilizador macroeconómico. Los municipios del Pacífico, con mayor
+densidad vial, presentan una resiliencia significativamente mayor que
+los territorios aislados de la Costa Caribe.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{1\textwidth}
+\caption{Análisis de efectos marginales y relación entre variables geográficas}
+\label{fig:panel_efectos_controles}
+\includegraphics[width=\textwidth]{../Graficos/panel_efectos_y_controles_1x2.pdf}
+\small
+\textit{Nota:} Panel A: efecto marginal continuo del IMAE sobre la luminosidad según la densidad vial, con intervalos de confianza al 95\%. Panel B: relación entre el área municipal y la densidad de carreteras. \\
+\textit{Fuente:} Elaboración propia.
+\end{minipage}
+\end{figure}
+
+El Panel B de la misma figura muestra la relación entre el área
+territorial y la densidad vial. Aunque los municipios de mayor extensión
+tienden a presentar una densidad de carreteras menor, la asociación no
+es determinista, lo que permite la identificación separada de ambos
+canales. En las estimaciones principales, el coeficiente del Canal Área
+no resulta estadísticamente significativo (Tabla
+\ref{tab:resultados_principales}, columnas 3 y 4). Esto sugiere que el
+mecanismo de resiliencia local reside en la conectividad vial y no en la
+escala geográfica del
+municipio.\footnote{Esta tendencia captura el comportamiento promedio del país. En la @sec-estratos se documenta una inversión de signo en los municipios de menor desarrollo histórico.}
+
+\subsection{Prueba de validación por permutación espacial
+(Placebo)}\label{sec-placebo_permutacion}
+
+Para descartar que el coeficiente estimado responda a correlaciones
+espurias, se implementó una prueba de placebo mediante permutación
+espacial de la densidad vial entre municipios, repitiendo el proceso en
+1,000 iteraciones. Esta estrategia preserva la estructura temporal del
+panel y los efectos fijos, pero destruye el vínculo geográfico real
+entre la infraestructura y la actividad económica local.
+
+La distribución de los coeficientes obtenidos por azar se concentra
+simétricamente en torno a cero, con una media de −0.0147. El coeficiente
+verdadero (−0.8474) se ubica en el extremo inferior de esta
+distribución. El valor p de permutación es 0.001 (prueba de dos colas):
+solo una de cada mil asignaciones aleatorias produce una magnitud igual
+o más extrema que la estimada en el modelo principal, consistente con
+una interpretación causal, aunque la prueba por sí sola no descarta
+todas las fuentes potenciales de endogeneidad.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.55\textwidth}
+\caption{Distribución de los coeficientes placebo frente al valor estimado}
+\label{fig:placebo_histograma}
+\includegraphics[width=\textwidth]{../Graficos/placebo_permutacion_histograma.pdf}
+\small
+\textit{Nota:} El histograma muestra la distribución de 1,000 coeficientes obtenidos mediante permutación aleatoria de la densidad vial. La línea vertical roja indica el coeficiente del modelo principal (-0.8474). \\
+\textit{Fuente:} Elaboración propia.
+\end{minipage}
+\end{figure}
+
+\subsection{Heterogeneidad estructural por estratos
+históricos}\label{sec-estratos}
+
+Con el propósito de evaluar si el efecto de la infraestructura vial es
+homogéneo entre territorios, la muestra se dividió en tres estratos
+según el nivel de luminosidad histórica. Los resultados de las
+estimaciones por estrato se presentan en la Tabla
+\ref{tab:resultados_estratos}.
+
+El comportamiento del Canal Vial difiere marcadamente entre grupos. En
+el estrato alto, que agrupa a los principales centros urbanos y
+comerciales, el coeficiente es negativo (−0.6666) y significativo al
+5\%, consistente con un rol amortiguador de la infraestructura. En el
+estrato medio, el coeficiente no es estadísticamente significativo, lo
+que sugiere una fase de transición en la que los efectos se compensan.
+En el estrato bajo, compuesto por los municipios más aislados, el signo
+se invierte: el coeficiente es positivo (0.7268) y estadísticamente
+significativo. Adicionalmente, el Canal Área cobra relevancia en este
+grupo (0.7851, significativo al 1\%).
+
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{2pt}
+\begin{threeparttable}
+\caption{Resultados por estratos históricos de luminosidad (Poisson PPML)}
+\label{tab:resultados_estratos}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l c c c}
+\toprule
+ & (1) & (2) & (3) \\
+Estrato: & Alto & Medio & Bajo \\
+\midrule
+\textit{Variable dependiente} & $Luces_{it}$ & $Luces_{it}$ & $Luces_{it}$ \\
+\midrule
+Canal Vial & -0.6666** & 0.1928 & 0.7268** \\
+($\ln(D_i) \times \ln(IMAE_t)$) & (0.2950) & (0.3060) & (0.2959) \\
+\addlinespace
+Canal Área & 0.0018 & -0.0962 & 0.7851*** \\
+($\ln(A_i) \times \ln(IMAE_t)$) & (0.0827) & (0.3148) & (0.2759) \\
+\midrule
+Efectos fijos (Municipio y Mes) & Sí & Sí & Sí \\
+Errores clusterizados & Sí & Sí & Sí \\
+Observaciones & 3,672 & 3,671 & 3,672 \\
+Ajuste (Pseudo-$R^2$ de McFadden) & 0.495 & 0.041 & 0.064 \\
+BIC & 7,661.1 & 3,152.4 & 1,987.7 \\
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\small
+\item \textit{Nota:} *** Significativo al 1\%, ** al 5\%. Errores estándar entre paréntesis agrupados a nivel municipal. Los estratos se definieron a partir de los terciles de luminosidad promedio de cada municipio calculados sobre el total de observaciones del período, incluyendo los ceros de las zonas rurales.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsubsection{Integración física versus
+dependencia}\label{integraciuxf3n-fuxedsica-versus-dependencia}
+
+La inversión del signo en el estrato bajo indica que, en territorios
+históricamente rezagados, la infraestructura vial no funciona como un
+escudo, sino como un mecanismo de integración de mercados. La apertura
+de carreteras en zonas de frontera agrícola y minera conecta a los
+productores locales con los canales de distribución nacional, lo que
+amplifica la transmisión del ciclo económico. Este fenómeno implica que,
+durante las expansiones, estos municipios se benefician de la nueva
+conectividad, pero durante las contracciones sufren una transmisión más
+intensa de la crisis.
+
+Este patrón también reduce la probabilidad de que el resultado esté
+explicado exclusivamente por flujos de remesas. Si el efecto estuviera
+concentrado en los estratos alto y medio, donde la recepción de remesas
+es más alta, el canal vial sería un reflejo de ese flujo. El hecho de
+que el impacto sea fuerte en el estrato bajo sugiere un mecanismo
+estructural vinculado a la geografía física del país.
+
+Cabe notar que el Canal Área, que no es significativo en el promedio
+nacional ni en el estrato alto, resulta positivo y significativo en el
+estrato bajo (0.7851, p \textless{} 0.01). Esto indica que, en la
+periferia rural, los municipios de mayor extensión territorial
+amplifican la transmisión del shock económico, probablemente porque
+albergan una base productiva (agrícola o extractiva) más dispersa y
+dependiente de la red de transporte para acceder a los mercados.
+
+\subsection{Análisis sectorial de la transmisión del
+shock}\label{anuxe1lisis-sectorial-de-la-transmisiuxf3n-del-shock}
+
+\subsubsection{Descomposición por componentes del ciclo
+productivo}\label{descomposiciuxf3n-por-componentes-del-ciclo-productivo}
+
+Para determinar si el efecto amortiguador de la infraestructura se
+distribuye de manera uniforme entre las ramas productivas, se desagregó
+el IMAE en sus componentes sectoriales. Los resultados se presentan en
+la Tabla \ref{tab:resultados_sectoriales}.
+
+\begin{table}[H]
+\centering
+\small
+\begin{threeparttable}
+\caption{Resultados por sectores económicos (Poisson PPML)}
+\label{tab:resultados_sectoriales}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l c c c c}
+\toprule
+ & (1) & (2) & (3) & (4) \\
+Sector del IMAE: & Total & Primario & Secundario & Terciario \\
+\midrule
+\textit{Variable dependiente} & $Luces_{it}$ & $Luces_{it}$ & $Luces_{it}$ & $Luces_{it}$ \\
+\midrule
+Canal Vial Sectorial & -0.8474*** & -1.0602*** & -0.7542*** & -0.7440*** \\
+ & (0.1926) & (0.1514) & (0.1436) & (0.1734) \\
+\addlinespace
+Canal Área Sectorial & 0.0459 & 0.0408 & 0.0421 & 0.0332 \\
+ & (0.0721) & (0.0493) & (0.0585) & (0.0660) \\
+\midrule
+Efectos fijos (Mun. y Mes) & Sí & Sí & Sí & Sí \\
+Errores estándar clusterizados & Sí & Sí & Sí & Sí \\
+Observaciones & 11,015 & 11,015 & 11,015 & 11,015 \\
+Ajuste (Pseudo-$R^2$ de McFadden) & 0.587 & 0.555 & 0.571 & 0.579 \\
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\small
+\item \textit{Nota:} *** Significativo al 1\%, ** al 5\%. Cada columna representa una regresión independiente utilizando el logaritmo del componente sectorial del IMAE.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsubsection{Mecanismos de protección según la
+actividad}\label{mecanismos-de-protecciuxf3n-seguxfan-la-actividad}
+
+En todos los sectores, el coeficiente del Canal Vial es negativo y
+estadísticamente significativo al 1\%, mientras que el Canal Área no
+alcanza significancia. El efecto más pronunciado se registra en el
+sector primario (−1.06), consistente con la hipótesis de que la red de
+transporte rural facilita el acceso de los productores agropecuarios a
+mercados más amplios, aislando parcialmente la economía local de las
+fluctuaciones del ciclo agregado.
+
+Los sectores secundario y terciario presentan coeficientes similares
+entre sí (−0.75 y −0.74, respectivamente). Esta convergencia refleja que
+las actividades manufactureras, de construcción y de servicios, al estar
+concentradas en entornos urbanos con infraestructura consolidada,
+experimentan un beneficio de estabilidad logística homogéneo. En
+conjunto, los resultados indican que la red vial opera como un mecanismo
+transversal de estabilización económica.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.85\textwidth}
+\caption{Coeficientes sectoriales del canal vial y control por área}
+\label{fig:coeficientes_sectores}
+\includegraphics[width=\textwidth]{../Graficos/coeficientes_vial_vs_area.pdf}
+
+\small
+\textit{Nota:} Coeficientes estimados con intervalos de confianza al 95\%. El Canal Vial es significativo en todos los sectores; el Canal Área no lo es en ninguna especificación. \\
+\textit{Fuente:} Elaboración propia.
+\end{minipage}
+\end{figure}
+
+\section{Heterogeneidad Espacial Continua}\label{sec-heterogeneidad}
+
+\subsection{Análisis individual de los
+municipios}\label{anuxe1lisis-individual-de-los-municipios}
+
+Para complementar el análisis de efectos fijos, se estimó un modelo
+bayesiano jerárquico que permite obtener coeficientes específicos para
+cada uno de los 153 municipios. A diferencia de las especificaciones
+previas, que aíslan la variación temporal dentro de cada municipio, este
+modelo incorpora tanto la variación transversal como la longitudinal,
+ofreciendo una perspectiva descriptiva y exploratoria de la
+heterogeneidad espacial.
+
+\subsection{Diferencias entre la conectividad y el
+territorio}\label{diferencias-entre-la-conectividad-y-el-territorio}
+
+Los coeficientes municipales de la interacción vial resultaron positivos
+y significativos en la mayoría del territorio, con excepción de cuatro
+municipios ---Corinto, San Juan de Cinco Pinos, San Dionisio y San
+Rafael del Norte---, cuyos intervalos de credibilidad al 95\% incluyen
+el cero (véase Figura \ref{fig:mapa_bayesiano_heterogeneidad}). La
+positividad generalizada de este canal en el modelo bayesiano contrasta
+aparentemente con el signo negativo del modelo principal. Esta
+discrepancia es consistente con la ponderación implícita del estimador
+PPML, que otorga mayor peso relativo a las observaciones con mayor media
+condicional predicha ---típicamente los municipios de mayor luminosidad
+histórica (estrato alto)--- dado que la varianza de la distribución
+Poisson es proporcional a su media
+\parencite{silva2006log, correia2020fast}. El modelo bayesiano, en
+cambio, pondera igualitariamente a cada municipio en la estimación de
+sus pendientes aleatorias, reflejando el comportamiento del municipio
+promedio, para el cual la red vial actúa predominantemente como un
+mecanismo de integración física a los mercados.
+
+En cuanto al Canal Área, los coeficientes municipales resultaron
+sistemáticamente negativos en todo el país. Esto indica que, en términos
+transversales, los municipios de mayor extensión territorial tienden a
+presentar una menor transmisión económica, consistente con la hipótesis
+de que la dispersión geográfica sin conectividad constituye una fricción
+para el desarrollo económico local.
+
+Estos resultados ofrecen un insumo de diagnóstico para la política
+pública. La identificación de los municipios con mayor sensibilidad al
+ciclo nacional a través de su red vial permite priorizar la inversión en
+caminos rurales y carreteras secundarias en aquellas zonas donde el
+potencial de integración económica es más alto.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{1\textwidth}
+\caption{Coeficientes municipales del modelo bayesiano jerárquico}
+\label{fig:mapa_bayesiano_heterogeneidad}
+\includegraphics[width=\textwidth]{../Graficos/mapa_panel_heterogeneidad_bayesiana_1x2.pdf}
+\small
+\textit{Nota:} Panel A: coeficientes municipales del Canal Vial. Panel B: coeficientes municipales del Canal Área. Los municipios en gris presentan intervalos de credibilidad al 95\% que contienen el cero. \\
+\textit{Fuente:} Elaboración propia con datos obtenidos de NASA VIIRS, OpenStreetMap, geoBoundaries y el Banco Central de Nicaragua.
+\end{minipage}
+\end{figure}
+
+La Tabla \ref{tab:diagnostico_bayes} reporta los parámetros
+poblacionales promedio del modelo jerárquico en su escala estandarizada,
+empleada exclusivamente para garantizar la estabilidad numérica del
+algoritmo MCMC. Estos coeficientes no deben interpretarse en su magnitud
+absoluta ni compararse directamente con los del modelo TWFE principal,
+dado que corresponden a unidades de desviación estándar y no a las
+unidades originales de las variables. Los coeficientes municipales
+específicos presentados en el mapa de la Figura
+\ref{fig:mapa_bayesiano_heterogeneidad} se obtienen revirtiendo la
+estandarización para cada municipio de forma individual, recuperando así
+la escala original interpretable de la densidad vial y del área
+territorial. El valor mostrado en el mapa corresponde a la mediana de la
+distribución posterior de cada municipio.
+
+\begin{table}[H]
+\centering
+\small
+\begin{threeparttable}
+\caption{Diagnóstico de convergencia del modelo Poisson jerárquico bayesiano}
+\label{tab:diagnostico_bayes}
+\begin{tabular}{l c c c c c c}
+\toprule
+\textbf{Parámetro} & \textbf{Media} & \textbf{DE} & \textbf{IC 95\% inf.} & \textbf{IC 95\% sup.} & $\hat{R}$ & \textbf{ESS bulk} \\
+\midrule
+Canal Vial (estandarizado) & 1.82 & 0.33 & 1.20 & 2.50 & 1.01 & 1{,}868 \\
+Canal Área (estandarizado) & -1.65 & 0.34 & -2.40 & -1.00 & 1.00 & 1{,}294 \\
+$\sigma_{\text{municipio}}$ & 2.95 & 0.39 & 2.30 & 3.80 & 1.01 & 1{,}231 \\
+$\sigma_{\text{fecha}}$ & 0.09 & 0.033 & 0.015 & 0.15 & 1.00 & 728 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\small
+\item \textit{Nota:} Estimaciones a nivel poblacional (efectos fijos promedio) del modelo Poisson jerárquico. IC 95\% corresponde al intervalo de mayor densidad posterior (\textit{highest density interval}) \parencite{kumar2019arviz}. $\hat{R}$ valores cercanos a 1.00 indican convergencia adecuada entre cadenas \parencite{gelman2006data}. Las variables de interacción se estandarizaron (media cero, desviación estándar uno) previo a la estimación para garantizar la estabilidad numérica del muestreador MCMC; por esta razón, los coeficientes aquí reportados no son directamente comparables en magnitud con los coeficientes en escala original de la Figura \ref{fig:mapa_bayesiano_heterogeneidad}, los cuales se obtienen revirtiendo la estandarización para cada municipio de forma individual.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\section{Discusión}\label{sec-discusion}
+
+Los resultados presentados sugieren que la infraestructura vial
+condiciona de forma heterogénea la transmisión de los shocks
+macroeconómicos hacia las economías locales de Nicaragua, operando como
+un escudo estructural en los municipios más desarrollados y como un
+canal de integración ---simétricamente expuesto a los auges y a las
+crisis--- en la periferia rezagada. Como se explicó en la sección
+anterior, esta diferencia de signo entre ambos modelos responde a la
+ponderación implícita de cada estimador, no a una contradicción
+sustantiva. Sin embargo, es necesario situar estos hallazgos dentro de
+un conjunto de limitaciones metodológicas y de datos que abren una
+agenda clara para investigaciones futuras.
+
+\subsection{Carácter exploratorio del modelo bayesiano
+jerárquico}\label{caruxe1cter-exploratorio-del-modelo-bayesiano-jeruxe1rquico}
+
+El Modelo Poisson Jerárquico presentado en la sección de Heterogeneidad
+Espacial Continua debe interpretarse estrictamente como un ejercicio
+descriptivo y complementario, no como una fuente adicional de inferencia
+causal. Esta limitación no es meramente conceptual, sino que responde a
+restricciones computacionales concretas. La estimación se ejecutó con
+cuatro cadenas de Markov de 1,000 iteraciones de calentamiento y 1,000
+iteraciones de muestreo cada una. El estadístico \(\hat{R}\) alcanzó
+valores entre 1.00 y 1.01, dentro del rango aceptable para inferencia
+exploratoria, aunque por debajo del umbral más estricto
+(\(\hat{R} < 1.01\)) que algunos autores recomiendan para inferencia
+confirmatoria \parencite{gelman2006data}. Se registraron 14 divergencias
+sobre un total de 4,000 iteraciones post-calentamiento, y el tamaño de
+muestra efectivo (ESS) para el parámetro \(\sigma_{\text{fecha}}\) fue
+de 728, lo que indica una eficiencia de muestreo limitada para los
+efectos temporales.
+
+La causa principal de esta limitación es computacional antes que
+metodológica: la capacidad de procesamiento disponible restringió la
+posibilidad de aumentar el número de iteraciones, cadenas, o la
+complejidad de la estructura de covarianza entre los efectos aleatorios
+municipales sin incurrir en tiempos de cómputo prohibitivos.
+Adicionalmente, la decisión de mantener la densidad vial en niveles
+---en lugar de su transformación logarítmica usada en el modelo causal
+principal--- respondió también a un criterio de estabilidad numérica del
+muestreador, y no a una preferencia teórica sobre la forma funcional. En
+consecuencia, los mapas de heterogeneidad municipal derivados de este
+modelo deben leerse como una herramienta de focalización preliminar para
+la discusión de política pública, y no como una validación estadística
+independiente del mecanismo causal estimado mediante el estimador
+Poisson PPML de efectos fijos bidireccionales. Futuras extensiones de
+esta línea de investigación podrían beneficiarse de mayor capacidad de
+cómputo para extender el número de iteraciones y evaluar estructuras de
+covarianza más flexibles entre los efectos aleatorios.
+
+\subsection{Colinealidad mecánica del diseño
+shift-share}\label{colinealidad-mecuxe1nica-del-diseuxf1o-shift-share}
+
+Un diagnóstico formal del Factor de Inflación de Varianza (VIF) entre
+las interacciones vial y de área arroja valores considerablemente
+elevados (en el orden de 1,000). Esta magnitud, sin embargo, no debe
+interpretarse bajo los criterios convencionales de un modelo lineal
+clásico, sino como una consecuencia mecánica y esperada de la
+arquitectura shift-share del diseño empírico. Ambas interacciones
+---\(\ln(D_i) \times \ln(IMAE_t)\) y \(\ln(A_i) \times \ln(IMAE_t)\)---
+comparten el mismo componente temporal agregado (\(IMAE_t\)) como factor
+multiplicativo común, difiriendo únicamente en el peso transversal
+municipal (densidad vial o área). Dado que ambas variables se mueven en
+conjunto con el mismo shock nacional mes a mes, una correlación elevada
+entre ellas es estructural al diseño y no evidencia de una
+especificación defectuosa
+\parencite{borusyak2022quasi, goldsmith2020bartik}.
+
+Por esta razón, la literatura de diseños shift-share recomienda evaluar
+la robustez de este tipo de interacciones no mediante los diagnósticos
+clásicos de colinealidad, sino a través de pruebas de inferencia
+específicas al diseño, como los ejercicios de aleatorización o
+permutación de las dotaciones transversales (\emph{shares}). Esta es
+precisamente la lógica detrás de la prueba de placebo por permutación
+espacial presentada en la Sección~\ref{sec-placebo_permutacion}: al
+redistribuir aleatoriamente la densidad vial entre municipios
+preservando intacta la estructura temporal del IMAE, dicho ejercicio
+evalúa directamente si la variación transversal (en un panel de 5 años)
+de la densidad vial aporta poder explicativo genuino más allá del que
+generaría una asignación espacial arbitraria, sorteando así las
+limitaciones interpretativas del VIF en este contexto particular. El
+resultado de dicha prueba (\(p = 0.001\)) constituye, en este sentido,
+una validación de la identificación más directamente relevante que un
+diagnóstico convencional de colinealidad.
+
+\subsection{Validación del proxy satelital: alcances y
+límites}\label{validaciuxf3n-del-proxy-satelital-alcances-y-luxedmites}
+
+La validación de las luces nocturnas como proxy de la actividad
+económica local, presentada mediante los modelos de elasticidad simple y
+con controles de tendencia y estacionalidad, ofrece evidencia
+consistente con la literatura internacional sobre la materia. No
+obstante, esta validación se limita a establecer una correlación
+positiva y significativa entre ambas series, con una elasticidad
+estimada que aumenta de 2.1 a 6.1 al incorporar efectos fijos de mes y
+tendencia. Este incremento, aunque esperado al remover el componente
+estacional de las luces, sugiere que la relación es sensible a la
+especificación y requiere mayor exploración antes de afirmar una
+correspondencia exacta entre ambas series. Una investigación futura
+podría explorar con mayor rigor si los desacoples observados durante
+2020-2021 y mediados de 2025 responden a fricciones técnicas del sensor
+satelital, a cambios en la composición sectorial del crecimiento
+económico nacional, o a otros factores estructurales no capturados en la
+presente especificación. La validación aquí presentada debe entenderse,
+por tanto, como una condición necesaria pero no suficiente para
+establecer la idoneidad plena del proxy en el contexto nicaragüense.
+
+Adicionalmente, debe señalarse que la población municipal estimada
+\parencite{worldpop2020}, aunque disponible, no pudo incluirse como
+control interactuado en las especificaciones principales. La interacción
+de la población con el IMAE genera colinealidad con el canal de densidad
+vial en el diseño shift-share, dado que ambas variables comparten la
+misma fuente de variación temporal. Se optó por mantener la densidad
+vial como canal central y relegar la exploración del canal poblacional a
+investigaciones futuras con datos de mayor frecuencia demográfica, como
+se anticipó en la Sección~\ref{sec-datos}.
+
+\subsection{No-linealidad y umbrales de la densidad
+vial}\label{no-linealidad-y-umbrales-de-la-densidad-vial}
+
+Los resultados del modelo nacional y por estratos sugieren que la
+relación entre la densidad vial y la transmisión cíclica podría no ser
+lineal. En el modelo PPML general, el coeficiente negativo del Canal
+Vial (−0.8474) implica que aumentar la densidad vial reduce la
+elasticidad municipal al IMAE, existiendo un umbral a partir del cual el
+efecto neto pasa de amplificador a amortiguador. Sin embargo, la
+estimación por estratos revela que el coeficiente mismo difiere entre
+regímenes económicos: positivo en el estrato bajo (0.7268) y negativo en
+el alto (−0.6666). Esto sugiere que la estructura productiva del
+territorio ---y no solo el stock de carreteras--- determina el signo del
+efecto. En consecuencia, replicar el patrón urbano de resiliencia en la
+periferia rural no depende únicamente de densificar la red vial, sino de
+transformar la base económica que se conecta a través de ella. Esta
+no-linealidad abre una agenda de investigación orientada a identificar
+umbrales críticos de densidad y composición sectorial que maximicen el
+efecto amortiguador de la inversión vial.
+
+\section{Conclusiones}\label{sec-conclusiones}
+
+Esta investigación examinó cómo la dotación de infraestructura vial
+condiciona la transmisión de los shocks macroeconómicos hacia las
+economías locales de Nicaragua, empleando un panel mensual de 153
+municipios entre 2020 y 2025 y utilizando la luminosidad nocturna
+satelital como proxy de alta frecuencia de la actividad económica
+subnacional.
+
+Los resultados, obtenidos mediante un diseño de efectos fijos
+bidireccionales bajo una especificación Poisson por Pseudo-Máximo
+Verosímil, muestran que la densidad vial modera de forma sistemática y
+significativa la sensibilidad de las economías municipales frente a las
+fluctuaciones del Índice Mensual de Actividad Económica. Esta
+moderación, sin embargo, no es homogénea: en los municipios de mayor
+desarrollo histórico, la infraestructura vial actúa como un escudo
+estructural que atenúa el impacto de los ciclos agregados; en los
+municipios históricamente aislados, por el contrario, la conectividad
+opera como un canal de integración que amplifica simétricamente tanto
+las expansiones como las contracciones económicas nacionales. Esta
+asimetría se confirmó de manera robusta mediante pruebas de placebo por
+permutación espacial, análisis de sensibilidad ante observaciones
+influyentes, y una desagregación sectorial del ciclo económico.
+
+Desde la perspectiva de política pública, estos hallazgos sugieren que
+la inversión en infraestructura vial no debe evaluarse únicamente bajo
+criterios de eficiencia agregada o reducción de costos de transporte,
+sino también considerando su rol diferenciado como mecanismo de
+estabilización o de exposición cíclica según el contexto territorial de
+cada municipio. Por ejemplo, el coeficiente de −0.8474 en el canal vial
+implica que duplicar la densidad vial reduce la elasticidad municipal al
+IMAE en aproximadamente 0.6 puntos, lo que se traduce en una protección
+significativa para los municipios urbanos, pero en una exposición
+adicional para los rurales recién conectados.
+
+En primer lugar, la evidencia de que los municipios del estrato bajo
+experimentan una mayor volatilidad ante los ciclos nacionales una vez
+conectados plantea la necesidad de secuenciar la expansión de caminos
+rurales y carreteras secundarias junto con políticas complementarias de
+diversificación productiva local. La infraestructura de transporte
+genera beneficios transformacionales sostenibles únicamente cuando
+conecta capacidad productiva real a los mercados, y no como una
+intervención aislada \parencite{asher2020rural, kline2014local}.
+
+En segundo lugar, dado que la integración vial demostró operar de forma
+simétrica ---amplificando tanto expansiones como contracciones---, se
+recomienda el diseño de mecanismos de estabilización financiera, tales
+como fondos contracíclicos municipales o líneas de crédito de
+emergencia. Estos instrumentos deben dirigirse específicamente a los
+territorios recientemente conectados, anticipando su mayor exposición a
+las recesiones del ciclo nacional una vez integrados al comercio
+nacional \parencite{blanchard1992regional, martin2012regional}.
+
+Finalmente, dada la escasez de estadísticas municipales oficiales de
+alta frecuencia en Nicaragua, se recomienda explorar sistemáticamente la
+viabilidad del monitoreo satelital de luminosidad nocturna como
+complemento a las estadísticas oficiales. Para ello se requiere una
+validación más profunda que aborde los desfases temporales documentados
+en la Sección~\ref{sec-validacion_proxy} y examine la relación entre
+luces nocturnas y actividad económica a escala mensual con mayor
+profundidad econométrica \parencite{donaldson2016view}.
+
+Las limitaciones discutidas ---el carácter exploratorio del modelo
+bayesiano jerárquico, la colinealidad estructural del diseño
+shift-share, y los alcances parciales de la validación del proxy
+satelital--- acotan el alcance de las conclusiones. No obstante, el
+patrón central ---la dualidad espacial del efecto vial, negativo en
+zonas urbanas y positivo en la periferia--- se mantiene bajo las
+distintas especificaciones y pruebas de robustez presentadas. La agenda
+futura incluye la extensión temporal del panel conforme se disponga de
+series más largas, la incorporación de datos poblacionales de alta
+frecuencia, la validación más profunda del proxy satelital frente a los
+desfases documentados en la Sección~\ref{sec-validacion_proxy}, y la
+exploración de mecanismos causales complementarios ---como el acceso
+micro a mercados o la disponibilidad de remesas familiares--- que
+permitan aislar con mayor precisión el rol específico de la
+infraestructura vial dentro de la geografía económica nicaragüense.
+
+\newpage
+
+\section*{Referencias}\label{referencias}
+\addcontentsline{toc}{section}{Referencias}
+
+\printbibliography[heading=none]
+
+\newpage
+
+\appendix
+\setcounter{table}{0}
+\renewcommand{\thetable}{A.\arabic{table}}
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{A.\arabic{figure}}
+\section{Anexo Metodológico: Pruebas de Robustez y Diagnóstico}\label{sec:anexo_metodologico}
+
+\subsection{Sensibilidad a la especificación del error}
+
+La Tabla \ref{tab:robustez_errores} compara el modelo PPML bajo tres
+supuestos de error. Los coeficientes no varían, pero los errores
+estándar aumentan con la corrección más restrictiva. El Canal Vial se
+mantiene significativo al 1\%.
+
+\begin{table}[H]
+\centering\small
+\begin{threeparttable}
+\caption{Sensibilidad del modelo PPML ante estructuras alternativas de error}
+\label{tab:robustez_errores}
+\begin{tabular}{l ccc}
+\toprule
+ & \multicolumn{3}{c}{$Luces_{it}$ (PPML)} \\
+\cmidrule(lr){2-4}
+ & (1) IID & (2) White & (3) Arellano \\
+\midrule
+Canal Vial & -0.8474* & -0.8474*** & -0.8474*** \\
+ & (0.3424) & (0.1087) & (0.1926) \\
+Canal Área & 0.0461 & 0.0461 & 0.0461 \\
+ & (0.1267) & (0.0394) & (0.0720) \\
+\midrule
+EF municipio y mes & Sí & Sí & Sí \\
+Observaciones & 11,015 & 11,015 & 11,015 \\
+Pseudo $R^2$ & 0.587 & 0.587 & 0.587 \\
+BIC & 11,935.2 & 11,935.2 & 11,935.2 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\small
+\item *** p<0.01, ** p<0.05, * p<0.10. Errores estándar entre paréntesis. Col. (3) es la especificación del texto principal.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Diagnóstico de residuos}
+
+La Figura \ref{fig:residuos_twfe} presenta los residuos del modelo
+frente a los valores ajustados. La mayoría de las observaciones se
+concentra en cero, con una cola positiva correspondiente a los
+municipios de mayor luminosidad, lo cual es esperable dada la
+distribución sesgada de la variable dependiente.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.85\textwidth}
+\caption{Residuos vs. valores ajustados (PPML)}
+\label{fig:residuos_twfe}
+\includegraphics[width=\textwidth]{../Graficos/distribucion_residuos_twfe.pdf}
+\small
+\textbf{Fuente:} Elaboración propia.
+\end{minipage}
+\end{figure}
+
+\subsection{Robustez ante saturación del sensor (Top-coding)}
+
+Para evaluar el sesgo por saturación del sensor, se excluyó el 5\% de
+las observaciones más brillantes y se reestimó el modelo (Tabla
+\ref{tab:robustez_saturacion}). El coeficiente del Canal Vial se
+mantiene en -0.8585 y significativo al 1\%, indicando que la saturación
+no afecta la consistencia de las estimaciones.
+
+\begin{table}[H]
+\centering\small
+\begin{threeparttable}
+\caption{Robustez ante saturación del sensor (top-coding)}
+\label{tab:robustez_saturacion}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l cc}
+\toprule
+ & (1) Completa & (2) Sin saturación \\
+\midrule
+Canal Vial & -0.8474*** & -0.8585*** \\
+ & (0.1926) & (0.2599) \\
+Canal Área & 0.0461 & 0.2019. \\
+ & (0.0720) & (0.1160) \\
+\midrule
+EF municipio y mes & Sí & Sí \\
+Observaciones & 11,015 & 10,464 \\
+Pseudo $R^2$ & 0.587 & 0.322 \\
+BIC & 11,935.2 & 9,948.2 \\
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\small
+\item *** p<0.01, ** p<0.05, * p<0.10, . p<0.10 marginal. Errores estándar clusterizados por municipio. Col. (2) censura el percentil 95 de radiancia. Canal Área se vuelve marginal al 10\% posiblemente porque la censura elimina municipios urbanos densos de área reducida.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+
+
+
+\end{document}
